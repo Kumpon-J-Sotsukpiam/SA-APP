@@ -3,12 +3,15 @@ import { createAppContainer, createSwitchNavigator, createStackNavigator } from 
 
 import MainTabNavigator from './MainTabNavigator';
 import CheckNavigator from './CheckNavigator';
+import AddSemesterNavigator from './AddSemesterNavigator';
 
 // Loading Screens
 import AuthLoading from "../screens/AuthLoadingScreen";
 // Auth Screens
 import Register from "../screens/Register";
 import Login from "../screens/Login";
+
+
 
 const AuthStackNavigator = createStackNavigator({
   SignIn: {
@@ -31,7 +34,8 @@ const AppContainer = createAppContainer(createSwitchNavigator({
     AuthLoading:AuthLoading,
     Auth:AuthStackNavigator,
     App: MainTabNavigator,
-    CheckNavigator
+    CheckNavigator,
+    AddSemesterNavigator,
   })
 );
 

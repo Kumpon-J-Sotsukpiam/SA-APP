@@ -1,34 +1,34 @@
 import React from 'react';
-import { IconButton } from 'react-native-paper';
+import { Ionicons } from '@expo/vector-icons';
 import {
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Platform
 } from 'react-native';
 
-const ContainerClass = props => {
+const ContainerSemester = props => {
   
   return (
 
     <View style={styles.container}>
 
-    <TouchableOpacity style={styles.containerClass} onPress={props.NavigateClassDetails}>
+    <TouchableOpacity style={styles.containerSemester} onPress={props.NavigateCourseList}>
+
     <View style={styles.section1}>
-    <Text style={styles.header}>{props.Course}</Text>
-    <Text style={styles.classDetails}>{props.Group}</Text>
-    <Text style={styles.classDetails}>{props.Location}</Text>
-    <Text style={styles.classDetails}>{props.StartEndTime}</Text>
-    <Text style={styles.classDetails}>{props.Students}</Text>
+    <Text style={styles.header}>{props.Semester}</Text>
     </View>
-    
+
     <View style={styles.section2}>
-    <IconButton
-      icon='camera'
+    <Text style={styles.semesterDetails}>{props.Students}</Text>
+    </View>
+
+    <View style={styles.section3}>
+      <Ionicons
+      name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
+      size={35}
       color='#979797'
-      size={60}
-      onPress={props.NavigateCamera}
-      animated='true'
     />
     </View>
     
@@ -45,18 +45,25 @@ const styles = StyleSheet.create({
     borderRadius:10,
     
   },
-  containerClass: {
+  containerSemester: {
     backgroundColor: '#fff',
     flexDirection: 'row',
     margin: 10,
   },
   section1: {
-    flex: 8,
+    flex: 4,
     backgroundColor: '#fff',
+    justifyContent: 'center',
     
   },
   section2: {
-    flex: 2,
+    flex: 5,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  section3: {
+    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -71,4 +78,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default ContainerClass;
+export default ContainerSemester;
