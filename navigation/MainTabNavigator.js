@@ -66,7 +66,7 @@ CheckStack.navigationOptions = {
     name={Platform.OS === 'ios' ? 'ios-camera' : 'md-camera'}
     size={77}
     style={{ marginTop: -3,position:'absolute'}}
-    color={focused ? '#fd4176' : '#000'}
+    color={focused ? '#fd4176' : Colors.tabIconDefault}
     
   />
   ),

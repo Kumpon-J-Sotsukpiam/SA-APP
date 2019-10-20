@@ -16,7 +16,7 @@ export default class CheckScreen extends React.Component {
   return (
     <View style = {styles.container}>
       <Header
-        centerComponent={({ text: 'Today', style:{color: '#fff', fontSize:36, fontWeight:'bold'} })}
+        centerComponent={({ text: 'Check-in', style:{color: '#fff', fontSize:36, fontWeight:'bold'} })}
         containerStyle={{
           backgroundColor: '#fd4176',
           height:120,
