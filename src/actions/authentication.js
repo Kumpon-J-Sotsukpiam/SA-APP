@@ -48,7 +48,7 @@ export const loginUser = async (user, props) => {
         })
 }
 export const logoutUser = (props) => {
-    const { navigation, dispatch } = props
+    const { navigation } = props
     SecureStore.deleteItemAsync('tokenAuth').then(res => {
         navigation.navigate('AuthLoading')
     }).catch(err => {
