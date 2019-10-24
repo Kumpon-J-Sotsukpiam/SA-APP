@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, TextInput, DatePickerIOS, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { Header } from 'react-native-elements';
 
+//Date
+import { format, addDays } from 'date-fns'
+
 var getDate = new Date();
-var date = getDate.getDate();
-var month = getDate.getMonth();
-var year = getDate.getFullYear();
 
 export default class Add_SemesterScreen extends React.Component {
    constructor(props) {
@@ -14,7 +14,7 @@ export default class Add_SemesterScreen extends React.Component {
     this.state = {
       test:'Semester id / SemestersScreen',
       dateStarts:getDate,
-      dateEnds:getDate,
+      dateEnds:addDays(getDate, 120),
       datepickerStarts:false,
       datepickerEnds:false,
     }
@@ -25,17 +25,15 @@ export default class Add_SemesterScreen extends React.Component {
 
    setDateStarts(newDate) {
     this.setState({ dateStarts: newDate });
-    alert(this.state.dateStarts)
     
   }
    setDateEnds(newDate) {
     this.setState({ dateEnds: newDate });
-    alert(this.state.dateEnds)
+    
     
   }
 
   showDatePickerStarts(){
-
     this.setState({
       datepickerStarts:!this.state.datepickerStarts
     })
@@ -50,7 +48,7 @@ export default class Add_SemesterScreen extends React.Component {
   showDatePickerEnds(){
 
     this.setState({
-      datepickerEnds:!this.state.datepickerEnds,
+      datepickerEnds:!this.state.datepickerEnds
     })
 
     if(this.state.datepickerStarts===true){
@@ -109,37 +107,40 @@ export default class Add_SemesterScreen extends React.Component {
       
       </View>
 
+      <TouchableOpacity onPress={()=>this.showDatePickerStarts()}>
       <View style={styles.containerDate}>
-        <View style={styles.containerInputDate}> 
-          <TouchableOpacity onPress={()=>this.showDatePickerStarts()}> 
+          <View style={styles.containerTextDate}>
           <Text style={styles.dateInput}>Starts</Text>
-          
-          </TouchableOpacity>
+          </View>
+          <View style={styles.containerShowDate}>
+          <Text style={styles.showDate}>{format(this.state.dateStarts,'dd MMM yyyy')}</Text>
         </View>
       </View>
+      </TouchableOpacity>
 
-      <View style={{flexWrap: 'wrap',backgroundColor:'#fff'}}>
+      <View style={styles.containerInputDate}>
         {this.state.datepickerStarts &&
         (
         <DatePickerIOS
           date={this.state.dateStarts}
           onDateChange={this.setDateStarts}
           mode='date'
-          format='YYYY/MM/DD'
         />
         )}
       </View>
 
+      <TouchableOpacity onPress={()=>this.showDatePickerEnds()}>
       <View style={styles.containerDate}>
-        <View style={styles.containerInputDate}> 
-          <TouchableOpacity onPress={()=>this.showDatePickerEnds()}> 
+          <View style={styles.containerTextDate}>
           <Text style={styles.dateInput}>Ends</Text>
-          
-          </TouchableOpacity>
+          </View>
+          <View style={styles.containerShowDate}>
+          <Text style={styles.showDate}>{format(this.state.dateEnds,'dd MMM yyyy')}</Text>
         </View>
       </View>
+      </TouchableOpacity>
 
-      <View style={{flexWrap: 'wrap',backgroundColor:'#fff'}}>
+      <View style={styles.containerInputDate}>
         {this.state.datepickerEnds &&
         (
         <DatePickerIOS
@@ -147,6 +148,7 @@ export default class Add_SemesterScreen extends React.Component {
           onDateChange={this.setDateEnds}
           mode='date'
           format='YYYY/MM/DD'
+          minimumDate={this.state.dateStarts}
         />
         )}
       </View>
@@ -180,7 +182,8 @@ const styles = StyleSheet.create({
     height:50,
     marginTop: 15,
     padding:10,
-    flexDirection: 'row',
+    flexDirection:'row',
+    justifyContent:'center'
   },
   textInput: {
     backgroundColor:'#fff',
@@ -193,11 +196,24 @@ const styles = StyleSheet.create({
   },
   dateInput: {
     fontSize:18,
-    alignItems: 'flex-start',
+   
   },
   containerInputDate:{
-    flex:1,
-    justifyContent:'center'
+    flexWrap:'wrap',
+    backgroundColor: '#fff',
+   
+  },
+    showDate: {
+    fontSize:18,
+    color:'gray',
+  },
+  containerTextDate: {
+    flex:2,justifyContent:'center'
+    
+  },
+  containerShowDate: {
+    flex:1,justifyContent:'center'
+    
   },
 
 });
