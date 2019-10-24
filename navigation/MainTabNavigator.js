@@ -65,7 +65,7 @@ CheckStack.navigationOptions = {
     <Ionicons
     name={Platform.OS === 'ios' ? 'ios-camera' : 'md-camera'}
     size={77}
-    style={{ marginTop: -3,position:'absolute'}}
+    style={{ marginTop: -5,position:'absolute'}}
     color={focused ? '#fd4176' : 'gray'}
     
   />

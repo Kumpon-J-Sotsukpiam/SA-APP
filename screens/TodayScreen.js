@@ -83,7 +83,7 @@ export default class TodayScreen extends React.Component {
       />
       <ScrollView>
       <View style={styles.containerClass}>
-      <Text style={styles.header}>Now</Text>
+      <Text style={styles.header}>NOW</Text>
       </View>
 
         <ContainerClass
@@ -97,7 +97,7 @@ export default class TodayScreen extends React.Component {
         />
     
     <View style={styles.containerClass}>
-        <Text style={styles.header}>Next</Text>
+        <Text style={styles.header}>NEXT</Text>
     </View>
     </ScrollView>
 
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     marginBottom:5,
-    fontSize: 22
+    fontSize: 20
   },
     containerHeader: {
     flexDirection: 'column',

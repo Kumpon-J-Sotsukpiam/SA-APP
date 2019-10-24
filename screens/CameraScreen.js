@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, Button, Platform, TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Header } from 'react-native-elements';
 
 export default class CameraScreen extends React.Component {
   constructor(props) {
@@ -14,6 +15,30 @@ export default class CameraScreen extends React.Component {
 
   return (
     <View style = {styles.container}>
+
+    <Header
+        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('Check')}}>
+                        <Text style={styles.textCancel}>Camera</Text>
+                        </TouchableOpacity>
+                      )}
+        centerComponent={({ text: 'Camera', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
+        rightComponent={(<View style={styles.containerRightHeader}>
+                         <Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
+                          size={60}
+                          color={'#fff'}
+                          onPress={()=>{this.props.navigation.navigate('CheckScreen')}}
+                        />
+                        </View>
+                        )}
+        containerStyle={{
+          backgroundColor: '#fd4176',
+          height:80,
+          justifyContent: 'space-around',
+          borderBottomColor: '#be5f7a',
+          borderBottomWidth: 1,
+        }}
+    />
+
         <View style = {styles.containerCamera}>
         </View>
 
@@ -25,20 +50,8 @@ export default class CameraScreen extends React.Component {
 }
 }
 
- CameraScreen.navigationOptions = ({ navigation }) => {
-  return {
-  title: 'Camera',
-  headerLeft: (<TouchableOpacity style={styles.tabBar}  onPress={()=>{navigation.navigate('Check')}}>
-                <Ionicons name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
-                size={30}
-                style={styles.tabBarIcon} 
-               />
-                <Text style={styles.tabBarText}>Check</Text>
-               </TouchableOpacity>),
-  headerRight: (<Button  onPress={()=>{navigation.navigate('Add_Checkin',{testAdd:navigation.state.params.test});}} title="Add" color="#000000"/>),
-  headerTintColor: '#000000',
-  headerTitleStyle: {fontWeight: 'bold'},
-   };
+CameraScreen.navigationOptions = {
+  header:null
 };
 
 const styles = StyleSheet.create({
@@ -57,20 +70,11 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#fff',
   },
-  tabBar: {
+  containerRightHeader: {
     flex:1,
-    flexDirection:'row',
-    justifyContent:'center',
-    alignItems:'center'
-    
   },
-  tabBarText: {
+  textCancel: {
     fontSize:18,
-    flex:1,
-    marginLeft:6
-  },
-  tabBarIcon: {
-    marginLeft: 10 ,
-    flex:1
+    color:'#fff'
   },
 });

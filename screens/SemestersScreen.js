@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     marginBottom:5,
-    fontSize: 22,
+    fontSize: 20,
   },
   containerRightHeader: {
     flex:1,
