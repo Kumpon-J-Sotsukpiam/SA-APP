@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, Button, Platform, TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
+import { connect } from "react-redux"
 import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
 import * as FaceDetector from 'expo-face-detector'
@@ -9,12 +10,13 @@ import * as ImageManipulator from 'expo-image-manipulator'
 import * as FileSystem from 'expo-file-system'
 import {ip_server,port,server_url} from '../src/config'
 import {faceDetectorSetting} from '../src/config'
+
 const io = require('socket.io-client')
-export default class CameraScreen extends React.Component {
+class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      test:this.props.navigation.state.params.test,
+      classId:this.props.navigation.state.params.test,
       hasCameraPermission: null,
       type: Camera.Constants.Type.front,
       isConnect: false,
@@ -77,6 +79,8 @@ export default class CameraScreen extends React.Component {
         Base64: v,
         name: uri.split("/").pop(),
         type: 'data:image/jpg;base64',
+        classId:this.state.classId,
+        authId:this.props.auth.user.id
       })
     }).then(() => {
       FileSystem.deleteAsync(uri).then(e => {
@@ -158,3 +162,8 @@ const styles = StyleSheet.create({
     color:'#fff'
   },
 });
+
+const mapStatetoProps = state => ({
+  auth:state.auth
+})
+export default connect(mapStatetoProps)(CameraScreen)
