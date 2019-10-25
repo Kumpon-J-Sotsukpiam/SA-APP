@@ -2,18 +2,22 @@ import React from "react";
 import { Platform } from "react-native";
 import { createStackNavigator, createBottomTabNavigator} from "react-navigation";
 
-import Colors from '../constants/Colors';
 import TabBarIcon from '../components/TabBarIcon';
 import { Ionicons } from '@expo/vector-icons';
 
 // App
 import TodayScreen from '../screens/TodayScreen'
+
+// Semester Stack
+import CourseListScreen from "../screens/CourseListScreen";
 import SemestersScreen from '../screens/SemestersScreen';
+
 // Check Stack
 import CheckScreen from '../screens/CheckScreen';
 
 import StudentsScreen from '../screens/StudentsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+
 
 
 
@@ -39,6 +43,7 @@ TodayStack.path = '';
 const SemestersStack = createStackNavigator(
   {
     Semesters: SemestersScreen,
+    CourseList: CourseListScreen
   },
 );
 

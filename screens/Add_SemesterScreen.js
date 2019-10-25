@@ -12,7 +12,7 @@ export default class Add_SemesterScreen extends React.Component {
     super(props);
 
     this.state = {
-      test:'Semester id / SemestersScreen',
+      semesterID:'Semester id',
       dateStarts:getDate,
       dateEnds:addDays(getDate, 120),
       datepickerStarts:false,
@@ -85,7 +85,7 @@ export default class Add_SemesterScreen extends React.Component {
                         </TouchableOpacity>
                         )}
         centerComponent={({ text: 'New Semester', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('Semesters')}}>
+        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})}}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}
