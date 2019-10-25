@@ -11,7 +11,7 @@ export default class SemestersScreen extends React.Component {
     super(props);
 
     this.state = {
-      test:'Semester id / SemestersScreen',
+      semesterID:'Semester id',
 
     }
   }
@@ -46,8 +46,8 @@ export default class SemestersScreen extends React.Component {
 
        <ContainerSemester
         Semester={'Semester'}
-        Students={'The total number of course'}
-        NavigateCourseList={() => this.props.navigation.navigate('Camera',{test:this.state.test})}
+        Students={'Total course'}
+        NavigateCourseList={() => this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})}
         />
 
       <View style={styles.containerSemester}>
