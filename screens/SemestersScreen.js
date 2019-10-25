@@ -12,6 +12,11 @@ export default class SemestersScreen extends React.Component {
 
     this.state = {
       semesterID:'Semester id',
+      data:[
+        {semester:'semester'},
+        {course:'course'},
+        {class:'class'}
+      ]
 
     }
   }

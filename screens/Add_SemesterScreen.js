@@ -25,12 +25,9 @@ export default class Add_SemesterScreen extends React.Component {
 
    setDateStarts(newDate) {
     this.setState({ dateStarts: newDate });
-    
   }
    setDateEnds(newDate) {
     this.setState({ dateEnds: newDate });
-    
-    
   }
 
   showDatePickerStarts(){
@@ -85,7 +82,7 @@ export default class Add_SemesterScreen extends React.Component {
                         </TouchableOpacity>
                         )}
         centerComponent={({ text: 'New Semester', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})}}>
+        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('Semesters')}}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}
@@ -147,7 +144,6 @@ export default class Add_SemesterScreen extends React.Component {
           date={this.state.dateEnds}
           onDateChange={this.setDateEnds}
           mode='date'
-          format='YYYY/MM/DD'
           minimumDate={this.state.dateStarts}
         />
         )}
@@ -181,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff',
     height:50,
     marginTop: 15,
-    padding:10,
+    padding:8,
     flexDirection:'row',
     justifyContent:'center'
   },
@@ -196,23 +192,23 @@ const styles = StyleSheet.create({
   },
   dateInput: {
     fontSize:18,
-   
   },
   containerInputDate:{
     flexWrap:'wrap',
     backgroundColor: '#fff',
-   
   },
     showDate: {
     fontSize:18,
     color:'gray',
   },
   containerTextDate: {
-    flex:2,justifyContent:'center'
+    flex:2,
+    justifyContent:'center'
     
   },
   containerShowDate: {
-    flex:1,justifyContent:'center'
+    flex:1,
+    justifyContent:'center'
     
   },
 

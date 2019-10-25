@@ -11,6 +11,7 @@ import TodayScreen from '../screens/TodayScreen'
 // Semester Stack
 import CourseListScreen from "../screens/CourseListScreen";
 import SemestersScreen from '../screens/SemestersScreen';
+import ClassListScreen from '../screens/ClassListScreen';
 
 // Check Stack
 import CheckScreen from '../screens/CheckScreen';
@@ -43,7 +44,8 @@ TodayStack.path = '';
 const SemestersStack = createStackNavigator(
   {
     Semesters: SemestersScreen,
-    CourseList: CourseListScreen
+    CourseList: CourseListScreen,
+    ClassList: ClassListScreen,
   },
 );
 

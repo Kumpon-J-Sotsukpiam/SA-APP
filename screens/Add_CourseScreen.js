@@ -13,6 +13,7 @@ export default class Add_CourseScreen extends React.Component {
 
     this.state = {
       semesterID:this.props.navigation.state.params.semesterID,
+      courseID:'Course ID',
     }
 }
  

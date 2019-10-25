@@ -2,20 +2,14 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
-import ContainerSemester from '../components/ContainerSemester';
-import { calDurations } from "../src/actions/durations"
+import ContainerClass from '../components/ContainerClass';
 
-var dateStarts = '2562/10/1';
-var dateEnds = '2562/10/1';
-
-export default class CourseListScreen extends React.Component {
+export default class ClassListScreen extends React.Component {
   constructor(props) {
     super(props);
 
       this.state = {
-      semesterID:this.props.navigation.state.params.semesterID,
-      courseID:'Course ID',
-      
+      courseID:this.props.navigation.state.params.courseID,
     };
   }
 
@@ -27,7 +21,7 @@ export default class CourseListScreen extends React.Component {
       <Header
         
         leftComponent={(
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Semesters',{semesterID:this.state.semesterID})}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList',{semesterID:'SemesterID'})}>
         <Ionicons
           name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
           size={35}
@@ -39,16 +33,13 @@ export default class CourseListScreen extends React.Component {
         rightComponent={(<Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
         size={60}
         color={'#fff'}
-        onPress={()=>{this.props.navigation.navigate('AddCourse',{semesterID:this.state.semesterID})}}
+        onPress={()=>{this.props.navigation.navigate('AddClass',{courseID:this.state.courseID})}}
       />)}
         rightContainerStyle={{flex:1}}
         centerComponent={(
         <View style={styles.containerHeader}>
           <View style={styles.containerTextHeader}>
-            <Text style={styles.textHeader}>{this.state.semesterID}</Text>
-          </View>
-          <View style={styles.containerDurationsHeader}>
-            <Text style={styles.durationsHeader}>Durations : {calDurations(dateStarts,dateEnds)}</Text>
+            <Text style={styles.textHeader}>{this.state.courseID}</Text>
           </View>
         </View>
         )}
@@ -62,17 +53,25 @@ export default class CourseListScreen extends React.Component {
         }}
       />
 
-        <ContainerSemester
-        Semester={'Course'}
-        Students={'Total student'}
-        NavigateCourseList={() => this.props.navigation.navigate('ClassList',{courseID:this.state.courseID})}
+        <ContainerClass
+        Course={'Course'}
+        Group={'Group'}
+        Location={'Location'}
+        StartEndTime={'Start - End Time'}
+        Students={'The Number Of Student'}
+        NavigateCamera={() => this.props.navigation.navigate('Camera',{classID:this.state.classID})}
+        NavigateClassDetails={() => this.props.navigation.navigate('Camera',{classID:this.state.classID})}
         />
+
+      
+
+        
     </View>
   );
 }
 }
 
-CourseListScreen.navigationOptions = {
+ClassListScreen.navigationOptions = {
   header:null
 };
 
