@@ -1,8 +1,7 @@
 import axios from 'axios'
-
-const ip = '192.168.1.39' // server ip -v4
-const port = 3001 // server port
+import * as SecureStore from 'expo-secure-store';
+import {ip_server,port} from '../config'
 
 export default axios.create({
-  baseURL: `http://${ip}:${port}/`
+  baseURL: `http://${ip_server}:${port}/`
 });

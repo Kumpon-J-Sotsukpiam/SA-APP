@@ -2,17 +2,89 @@ import React from 'react';
 import { StyleSheet, View, Text, Button, Platform, TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
-
+import { Camera } from 'expo-camera'
+import * as Permissions from 'expo-permissions'
+import * as FaceDetector from 'expo-face-detector'
+import * as ImageManipulator from 'expo-image-manipulator'
+import * as FileSystem from 'expo-file-system'
+import {ip_server,port,server_url} from '../src/config'
+import {faceDetectorSetting} from '../src/config'
+const io = require('socket.io-client')
 export default class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       test:this.props.navigation.state.params.test,
+      hasCameraPermission: null,
+      type: Camera.Constants.Type.front,
+      isConnect: false,
+      ping:null
     };
   }
-
+  async componentDidMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === 'granted' });
+    this.socket = io(server_url,{
+      transportOptions:['websocket'],
+      autoConnect:true
+    })
+    this.socket.on('connect',() => {
+      this.setState({isConnect:true})
+    })
+  }
+  setCamera = (ref) => {
+    this.camera = ref
+  }
+  handleFaceDetected = async ({ faces }) => {
+    if (faces.length > 0) this.taskPicture()
+  }
+  taskPicture = async () => {
+    option = {
+      captureAudio: false
+    }
+    if (this.camera)
+      this.camera.takePictureAsync(option).then(picture => {
+        this.faceDetection(picture)
+      })
+  }
+  faceDetection = async ({ uri }) => {
+    FaceDetector.detectFacesAsync(uri, faceDetectorSetting).then(faceArray => {
+      const { faces, image } = faceArray
+      if (faces.length > 0) {
+        faces.map((value, i) => {
+          const { origin, size } = value.bounds
+          actions = [{
+            crop: {
+              originX: origin.x,
+              originY: origin.y,
+              width: size.width,
+              height: size.height
+            }
+          }]
+          ImageManipulator.manipulateAsync(image.uri, actions, { format: ImageManipulator.SaveFormat.JPEG }).then(v => {
+            this.onUploadPicture(v.uri)
+          })
+        })
+      }
+    })
+  }
+  onUploadPicture = async (uri) => {
+    options = {
+      encoding: FileSystem.EncodingType.Base64
+    }
+    FileSystem.readAsStringAsync(uri, options).then(v => {
+      this.socket.emit('sendphoto', {
+        Base64: v,
+        name: uri.split("/").pop(),
+        type: 'data:image/jpg;base64',
+      })
+    }).then(() => {
+      FileSystem.deleteAsync(uri).then(e => {
+        console.log('delete Success...');
+      })
+    })
+  }
   render() {
-
   return (
     <View style = {styles.container}>
 
@@ -40,6 +112,14 @@ export default class CameraScreen extends React.Component {
     />
 
         <View style = {styles.containerCamera}>
+          <Camera
+          ref={this.setCamera}
+          style={{ flex: 1 }}
+          type={this.state.type}
+          onFacesDetected={this.handleFaceDetected}
+          faceDetectorSetting={faceDetectorSetting}
+        >
+          </Camera>
         </View>
 
         <View style = {styles.containerMessage}>
