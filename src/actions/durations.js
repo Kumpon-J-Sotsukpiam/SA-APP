@@ -1,4 +1,4 @@
-export const calDurations = (x,y) => {
+export const calDurationsDate = (x,y) => {
     var DateStarts = new Date(x);
     var DateEnds = new Date(y);
     var durations = (Math.floor((DateEnds-DateStarts)/(1000*60*60*24)))+1;
@@ -54,3 +54,36 @@ export const calDurations = (x,y) => {
     return monthCal+' '+weekCal+' '+dayCal;
 
     };
+
+    export const calDurationsTime = (x,y) => {
+      var TimeStarts = new Date(x);
+      var TimeEnds = new Date(y);
+      var minsCal ='';
+      var hoursCal ='';
+  
+      var diff =(TimeEnds.getTime() - TimeStarts.getTime()) ;
+      var hours = Math.floor(diff / (1000 * 60 * 60));
+      diff -= hours * (1000 * 60 * 60);
+      var mins = Math.floor(diff / (1000 * 60));
+      diff -= mins * (1000 * 60);
+  
+      if(hours > 1){
+        hoursCal = hours + ' hours';
+      } else if(hours === 1){
+        hoursCal = hours + ' hour';
+      }
+
+      if(mins > 1){
+        minsCal = mins + ' minutes';
+      } else if(mins === 1){
+        minsCal = mins + ' minute';
+      } 
+  
+
+
+  return hoursCal+' '+minsCal;
+      
+  
+
+  
+      };

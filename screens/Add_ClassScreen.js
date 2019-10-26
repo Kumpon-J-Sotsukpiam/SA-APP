@@ -1,11 +1,15 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, TextInput, TouchableWithoutFeedback, Keyboard, DatePickerIOS} from 'react-native';
 import { Header, ButtonGroup} from 'react-native-elements';
+import { calDurationsTime } from "../src/actions/durations"
 
 //Date
 import { format } from 'date-fns'
 
+
 var getDate = new Date();
+var getTimeStarts = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 8, 0, 0);
+var getTimeEnds = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 11, 0, 0);
 
 
 export default class Add_ClassScreen extends React.Component {
@@ -17,8 +21,8 @@ export default class Add_ClassScreen extends React.Component {
       selectedWeek: '',
       timepickerStarts:false,
       timepickerEnds:false,
-      setTimeStarts:getDate,
-      setTimeEnds:getDate,
+      setTimeStarts:getTimeStarts,
+      setTimeEnds:getTimeEnds,
     };
     this.updateIndex = this.updateIndex.bind(this)
     this.setTimeStarts = this.setTimeStarts.bind(this);
@@ -37,7 +41,6 @@ setTimeEnds(newTime) {
 }
  
 showTimePickerStarts(){
-  alert(testTime)
   this.setState({
     timepickerStarts:!this.state.timepickerStarts
   })
@@ -61,6 +64,22 @@ showTimePickerEnds(){
   })
   }
 }
+
+hideTimePicker(){
+  if(this.state.timepickerStarts===true){
+     this.setState({
+    timepickerStarts:false
+  })
+  }
+  if(this.state.timepickerEnds===true){
+     this.setState({
+    timepickerEnds:false
+  })
+  }
+
+  
+}
+
 
 render() {
   const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']
@@ -90,12 +109,14 @@ render() {
         <TextInput
         placeholder='Group'
         style={styles.textInput}
+        onFocus={()=>this.hideTimePicker()}
         />
       </View>
       <View style={styles.containerTextInput}>
         <TextInput
         placeholder='Location'
         style={styles.textInput}
+        onFocus={()=>this.hideTimePicker()}
         />
       </View>
 
@@ -156,7 +177,9 @@ render() {
         />
     )}
     </View>
-
+    <View style={styles.containerDurations}>
+    <Text>Durations : {calDurationsTime(this.state.setTimeStarts,this.state.setTimeEnds)}</Text>
+    </View>
     
 
     </View>
@@ -227,5 +250,8 @@ const styles = StyleSheet.create({
     padding:10,
     flexDirection:'row',
     justifyContent:'center'
+  },
+  containerDurations: {
+    margin:5
   },
 });

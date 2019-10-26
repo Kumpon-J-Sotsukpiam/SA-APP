@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, TextInput, DatePickerIOS, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { Header } from 'react-native-elements';
+import { calDurationsDate } from "../src/actions/durations"
 
 //Date
 import { format, addDays } from 'date-fns'
@@ -148,6 +149,9 @@ export default class Add_SemesterScreen extends React.Component {
         />
         )}
       </View>
+      <View style={styles.containerDurations}>
+      <Text>Durations : {calDurationsDate(this.state.dateStarts,this.state.dateEnds)}</Text>
+      </View>
 
     </View>
     </TouchableWithoutFeedback>
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
     fontSize:18,
     backgroundColor:'#fff',
     height:50,
-    marginTop: 15,
+    marginTop: 8,
     padding:8,
     flexDirection:'row',
     justifyContent:'center'
@@ -203,13 +207,14 @@ const styles = StyleSheet.create({
   },
   containerTextDate: {
     flex:2,
-    justifyContent:'center'
-    
+    justifyContent:'center' 
   },
   containerShowDate: {
     flex:1,
     justifyContent:'center'
-    
+  },
+  containerDurations: {
+    margin:5
   },
 
 });
