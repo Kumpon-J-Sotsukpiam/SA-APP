@@ -3,10 +3,10 @@ import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from '
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerSemester from '../components/ContainerSemester';
-import { calDurationsDate } from "../src/actions/durations"
+import { calDurationsSemesterLeft } from "../src/actions/durations"
 
-var dateStarts = '2562/10/1';
-var dateEnds = '2562/10/1';
+var dateCurent = new Date();
+var dateEnd = '2019/12/31';
 
 export default class CourseListScreen extends React.Component {
   constructor(props) {
@@ -48,7 +48,7 @@ export default class CourseListScreen extends React.Component {
             <Text style={styles.textHeader}>{this.state.semesterID}</Text>
           </View>
           <View style={styles.containerDurationsHeader}>
-            <Text style={styles.durationsHeader}>Durations : {calDurationsDate(dateStarts,dateEnds)}</Text>
+            <Text style={styles.durationsHeader}>Durations : {calDurationsSemesterLeft(dateCurent,dateEnd)}</Text>
           </View>
         </View>
         )}

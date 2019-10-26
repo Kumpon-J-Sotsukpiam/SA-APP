@@ -49,6 +49,7 @@ export default class TodayScreen extends React.Component {
 
     this.state = {
       test:'Class id / TodayScreen',
+      classID:'Class ID',
       date: date+' '+month+' '+year,
       day: day,
     }
@@ -93,7 +94,7 @@ export default class TodayScreen extends React.Component {
         StartEndTime={'Start - End Time'}
         Students={'The Number Of Student'}
         NavigateCamera={() => this.props.navigation.navigate('Camera',{test:this.state.test})}
-        NavigateClassDetails={() => this.props.navigation.navigate('Camera',{test:'Test ClassDetails / TodayScreen'})}
+        NavigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{classID:this.state.classID})}
         />
     
     <View style={styles.containerClass}>

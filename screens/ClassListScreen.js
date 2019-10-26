@@ -9,7 +9,8 @@ export default class ClassListScreen extends React.Component {
     super(props);
 
       this.state = {
-      courseID:this.props.navigation.state.params.courseID,
+      courseID:'Course ID',
+      classID:'Class ID'
     };
   }
 
@@ -43,7 +44,7 @@ export default class ClassListScreen extends React.Component {
           </View>
         </View>
         )}
-        centerContainerStyle={{flex:10}}
+        centerContainerStyle={{flex:9}}
         containerStyle={{
           backgroundColor: '#fd4176',
           height:120,
@@ -60,7 +61,7 @@ export default class ClassListScreen extends React.Component {
         StartEndTime={'Start - End Time'}
         Students={'The Number Of Student'}
         NavigateCamera={() => this.props.navigation.navigate('Camera',{classID:this.state.classID})}
-        NavigateClassDetails={() => this.props.navigation.navigate('Camera',{classID:this.state.classID})}
+        NavigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{courseID:this.state.courseID,classID:this.state.classID})}
         />
 
       
