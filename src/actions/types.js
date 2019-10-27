@@ -4,6 +4,12 @@ export const GET_ERRORS = 'GET_ERRORS'
 export const SET_CURRENT_TOKEN = 'SET_CURRENT_TOKEN'
 export const UNSET_CURRENT_TOKEN = 'UNSET_CURRENT_TOKEN'
 
+// Semester Even Type
+export const ADD_SEMESTER = 'ADD_SEMESTER'
+export const DELETE_SEMESTER = 'DELETE_SEMESTER'
+export const SET_SEMESTER = 'SET_SEMESTER'
+export const GET_SEMESTER = 'GET_SEMESTER'
+
 // Student Even Type
 export const ADD_STUDENT = 'ADD_STUDENT'
 export const DELETE_STUDENT = 'DELETE_STUDENT'

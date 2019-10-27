@@ -8,7 +8,7 @@ import { calDurationsSemesterLeft } from "../src/actions/durations"
 var dateCurent = new Date();
 var dateEnd = '2019/12/31';
 
-export default class CourseListScreen extends React.Component {
+class CourseListScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -105,3 +105,4 @@ const styles = StyleSheet.create({
       fontWeight:'bold'
   },
 });
+export default CourseListScreen
