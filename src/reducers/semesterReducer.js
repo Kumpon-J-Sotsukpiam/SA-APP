@@ -1,0 +1,29 @@
+import { ADD_SEMESTER,GET_SEMESTER,DELETE_SEMESTER,SET_SEMESTER } from '../actions/types'
+import isEmpty from '../modules/is-empty'
+
+const initialState = {
+    semester: []
+}
+
+export default (state = initialState, actions) => {
+    switch (actions.type) {
+        case ADD_SEMESTER:
+            return [
+                ...state,
+                actions.payload
+            ]
+        case GET_SEMESTER:
+            return actions.payload
+            
+        case DELETE_SEMESTER:
+            return {
+
+            }
+        case SET_SEMESTER:
+            return {
+
+            }
+        default:
+            return state
+    }
+}

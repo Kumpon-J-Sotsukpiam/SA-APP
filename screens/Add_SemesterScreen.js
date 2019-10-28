@@ -2,13 +2,12 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text, TextInput, DatePickerIOS, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import { Header } from 'react-native-elements';
 import { calDurationsDate } from "../src/actions/durations"
-
+import {add_semester} from '../src/actions/semester'
 //Date
 import { format, addDays } from 'date-fns'
 
 var getDate = new Date();
-
-export default class Add_SemesterScreen extends React.Component {
+class Add_SemesterScreen extends React.Component {
    constructor(props) {
     super(props);
 
@@ -22,6 +21,7 @@ export default class Add_SemesterScreen extends React.Component {
 
      this.setDateStarts = this.setDateStarts.bind(this);
      this.setDateEnds = this.setDateEnds.bind(this);
+     this.handleOnSave = this.handleOnSave.bind(this)
   }
 
    setDateStarts(newDate) {
@@ -70,8 +70,14 @@ export default class Add_SemesterScreen extends React.Component {
 
   }
 
-
-  
+  handleOnSave(semester,props) {
+    add_semester(semester,props)
+  }
+  handleChange = (name, e) => {
+    this.setState({
+      [name]: e.nativeEvent.text
+    })
+  }
   render() {
     
   return (
@@ -83,7 +89,10 @@ export default class Add_SemesterScreen extends React.Component {
                         </TouchableOpacity>
                         )}
         centerComponent={({ text: 'New Semester', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('Semesters')}}>
+        rightComponent={(<TouchableOpacity onPress={
+                          ()=> this.handleOnSave(this.state,this.props)
+                          //{this.props.navigation.navigate('Semesters')}
+                            }>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}
@@ -218,3 +227,4 @@ const styles = StyleSheet.create({
   },
 
 });
+export default Add_SemesterScreen
