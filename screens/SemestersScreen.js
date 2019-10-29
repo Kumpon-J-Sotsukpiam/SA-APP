@@ -4,9 +4,10 @@ import { ScrollView, StyleSheet, View, Text,Platform } from 'react-native';
 import { Header, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import ContainerSemester from '../components/ContainerSemester';
+import {get_semester} from '../src/actions/semester'
+import { connect } from "react-redux"
 
-
-export default class SemestersScreen extends React.Component {
+class SemestersScreen extends React.Component {
    constructor(props) {
     super(props);
 
@@ -16,8 +17,14 @@ export default class SemestersScreen extends React.Component {
       
     }
   }
-
+  componentWillMount(){
+    get_semester(this.props)
+  }
   render() {
+    console.log('====================================');
+    console.log(`Check Array in mapStateToProps ${Array.isArray(this.props.semester)}`);
+    console.log(this.props.semester[0])
+    console.log('====================================');
   return (
     <View style = {styles.container}>
       <Header
@@ -44,7 +51,6 @@ export default class SemestersScreen extends React.Component {
         students={this.state.students}
         navigateCourseList={() => this.props.navigation.navigate('CourseList')}
         />
-
       <View style={styles.containerSemester}>
       <Text style={styles.header}>PAST</Text>
       </View>
@@ -89,3 +95,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
+
+const mapStateToProps = state => ({
+  semester: state.semester
+})
+export default connect(mapStateToProps)(SemestersScreen)

@@ -3,7 +3,6 @@ import * as SecureStore from 'expo-secure-store';
 import { connect } from "react-redux"
 import isEmpty from "../src/modules/is-empty"
 import jwt_decode from 'jwt-decode'
-import axios from 'axios'
 
 import { setCurrentToken } from "../src/actions/authentication"
 
@@ -19,7 +18,6 @@ class AuthLoadingScreen extends Component {
             }else{
                 const decoded = jwt_decode(token)
                 dispatch(setCurrentToken(decoded))
-                axios.defaults.headers.common['Authorization'] = token;
                 navigation.navigate("App")
             }
         }).catch(err => {

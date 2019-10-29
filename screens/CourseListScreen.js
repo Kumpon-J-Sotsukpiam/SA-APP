@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, View, Text,TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerSemester from '../components/ContainerSemester';
@@ -9,6 +9,7 @@ var dateCurent = new Date();
 var dateEnd = '2019/12/31';
 
 export default class CourseListScreen extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -30,14 +31,14 @@ export default class CourseListScreen extends React.Component {
         leftComponent={(
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Semesters')}>
         <Ionicons
-          name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
+          name='md-arrow-back'
           size={35}
           color='#fff'
         />
         </TouchableOpacity>
         )}
         leftContainerStyle={{flex:2}}
-        rightComponent={(<Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
+        rightComponent={(<Ionicons name={'ios-add'}
         size={60}
         color={'#fff'}
         onPress={()=>{this.props.navigation.navigate('AddCourse')}}

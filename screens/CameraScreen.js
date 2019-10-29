@@ -32,6 +32,9 @@ class CameraScreen extends React.Component {
     })
     this.socket.on('connect',() => {
       this.setState({isConnect:true})
+      this.socket.emit('load-model',{
+        classId:this.state.classId
+      })
     })
   }
   setCamera = (ref) => {
@@ -93,7 +96,12 @@ class CameraScreen extends React.Component {
     <View style = {styles.container}>
 
     <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('Check')}}>
+        leftComponent={(<TouchableOpacity onPress={()=>{
+          this.socket.emit('del-model',{
+            classId:this.state.classId
+          })
+          this.props.navigation.navigate('Check')
+          }}>
                         <Text style={styles.textCancel}>Camera</Text>
                         </TouchableOpacity>
                       )}
