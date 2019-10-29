@@ -8,6 +8,12 @@ export const getSemester = semester => {
         payload: semester
     }
 }
+export const addSemester = semester => {
+    return {
+        type: ADD_SEMESTER,
+        payload: semester
+    }
+}
 // action FrontEnd
 export const get_semester = (props) => {
     const { dispatch } = props
@@ -27,9 +33,7 @@ export const add_semester = (semester,props) => {
         endDate:semester.dateEnds
     }
     api.post('semester/',data).then(res => {
-        console.log('====================================');
-        console.log(res.data);
-        console.log('====================================');
+        dispatch(addSemester(res.data))
         navigation.navigate('Semesters')
     })
 }
