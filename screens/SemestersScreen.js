@@ -1,5 +1,13 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text,Platform } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  Platform,
+  FlatList
+} from 'react-native';
+
 
 import { Header, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,17 +22,28 @@ class SemestersScreen extends React.Component {
     this.state = {
       semester:'Semester',
       students:'Total student',
+      data:this.props.semester
       
     }
   }
   componentWillMount(){
     get_semester(this.props)
   }
+
+ 
+
+  ListViewItemSeparator = () => {
+    return (
+      <View style={{ backgroundColor: '#000',}} />
+    );
+  }; 
+
   render() {
     console.log('====================================');
     console.log(`Check Array in mapStateToProps ${Array.isArray(this.props.semester)}`);
-    console.log(this.props.semester[0])
+    console.log(this.state.data)
     console.log('====================================');
+
   return (
     <View style = {styles.container}>
       <Header
@@ -46,14 +65,30 @@ class SemestersScreen extends React.Component {
       <Text style={styles.header}>CURRENT</Text>
       </View>
 
-       <ContainerSemester
-        semester={this.state.semester}
-        students={this.state.students}
-        navigateCourseList={() => this.props.navigation.navigate('CourseList')}
-        />
+      <FlatList
+        ItemSeparatorComponent={this.ListViewItemSeparator}
+        data={this.props.semester}
+        renderItem={({item}) => (
+            <View>
+            
+            <ContainerSemester
+            semester={item.name}
+            students={this.state.students}
+            navigateCourseList={() => this.props.navigation.navigate('CourseList')}
+            delete={this.delete_semester}/>
+            
+            </View>
+            
+   )}
+/>
+
+
+        
       <View style={styles.containerSemester}>
       <Text style={styles.header}>PAST</Text>
       </View>
+      <Text>{this.state.data.name}</Text>   
+
       </ScrollView>
 
     </View>

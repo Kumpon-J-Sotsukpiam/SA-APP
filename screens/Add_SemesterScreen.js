@@ -7,12 +7,14 @@ import {add_semester} from '../src/actions/semester'
 import { format, addDays } from 'date-fns'
 
 var getDate = new Date();
+
+
 class Add_SemesterScreen extends React.Component {
    constructor(props) {
     super(props);
 
     this.state = {
-      semesterID:'Semester id',
+      semesterName:'Semester',
       dateStarts:getDate,
       dateEnds:addDays(getDate, 120),
       datepickerStarts:false,
@@ -21,7 +23,12 @@ class Add_SemesterScreen extends React.Component {
 
      this.setDateStarts = this.setDateStarts.bind(this);
      this.setDateEnds = this.setDateEnds.bind(this);
-     this.handleOnSave = this.handleOnSave.bind(this)
+     this.handleOnSave = this.handleOnSave.bind(this);
+     this.setSemesterName = this.setSemesterName.bind(this);
+  }
+
+  setSemesterName(name){
+    this.setState({ semesterName:name });
   }
 
    setDateStarts(newDate) {
@@ -72,6 +79,8 @@ class Add_SemesterScreen extends React.Component {
 
   handleOnSave(semester,props) {
     add_semester(semester,props)
+    
+    
   }
   handleChange = (name, e) => {
     this.setState({
@@ -89,10 +98,7 @@ class Add_SemesterScreen extends React.Component {
                         </TouchableOpacity>
                         )}
         centerComponent={({ text: 'New Semester', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={
-                          ()=> this.handleOnSave(this.state,this.props)
-                          //{this.props.navigation.navigate('Semesters')}
-                            }>
+        rightComponent={(<TouchableOpacity onPress={()=> this.handleOnSave(this.state,this.props)}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}
@@ -110,6 +116,7 @@ class Add_SemesterScreen extends React.Component {
         placeholder='Untitled Semester'
         style={styles.textInput}
         onFocus={()=>this.hideDatePicker()}
+        onChangeText={this.setSemesterName}
         />
       
       </View>

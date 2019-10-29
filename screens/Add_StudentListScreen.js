@@ -25,7 +25,7 @@ export default class Add_StudentListScreen extends React.Component {
   }
   
  render() {
-  let { data, checked } = this.state;
+  let { data } = this.state;
 
   return (
     <View style = {styles.container}>
