@@ -37,7 +37,7 @@ export default class ClassDetailsScreen extends React.Component {
         leftComponent={(
 
         <View style={styles.containerLeftHeader}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList',{courseID:this.state.courseID})}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
         <View style={styles.leftSection1}>
           <Ionicons
             name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
@@ -64,13 +64,7 @@ export default class ClassDetailsScreen extends React.Component {
         color={'#fff'}
         onPress={()=>{this.props.navigation.navigate('Semesters')}}
       />)}
-        containerStyle={{
-          backgroundColor: '#fd4176',
-          height:150,
-          justifyContent: 'space-around',
-          borderBottomColor: '#be5f7a',
-          borderBottomWidth: 1,
-        }}
+        containerStyle={styles.containerStyle}
       />
 
       <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentList')}>
@@ -208,5 +202,12 @@ const styles = StyleSheet.create({
     alignItems:'flex-end',
     justifyContent:'center',
     marginRight:10
+  },
+  containerStyle:{
+    backgroundColor: '#fd4176',
+    height:130,
+    justifyContent: 'space-around',
+    borderBottomColor: '#be5f7a',
+    borderBottomWidth: 1,
   },
 });

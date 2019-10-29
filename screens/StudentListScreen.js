@@ -23,19 +23,20 @@ export default class StudentListScreen extends React.Component {
       <Header
         
         leftComponent={(
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList',{semesterID:'SemesterID'})}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassDetails')}>
         <Ionicons
-          name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
+          name='ios-arrow-back'
           size={35}
           color='#fff'
         />
         </TouchableOpacity>
         )}
         leftContainerStyle={{flex:2}}
-        rightComponent={(<Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
-        size={60}
-        color={'#fff'}
-        onPress={()=>{this.props.navigation.navigate('AddClass',{courseID:this.state.courseID})}}
+        rightComponent={(
+          <Ionicons name='ios-add'
+            size={60}
+            color={'#fff'}
+            onPress={()=>{this.props.navigation.navigate('AddStudentList')}}
       />)}
         rightContainerStyle={{flex:1}}
         centerComponent={(
@@ -46,13 +47,7 @@ export default class StudentListScreen extends React.Component {
         </View>
         )}
         centerContainerStyle={{flex:9}}
-        containerStyle={{
-          backgroundColor: '#fd4176',
-          height:120,
-          justifyContent: 'space-around',
-          borderBottomColor: '#be5f7a',
-          borderBottomWidth: 1,
-        }}
+        containerStyle={styles.containerStyle}
       />
         
         <TextInput
@@ -124,5 +119,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     margin:10
+  },
+  containerStyle:{
+    backgroundColor: '#fd4176',
+    height:120,
+    justifyContent: 'space-around',
+    borderBottomColor: '#be5f7a',
+    borderBottomWidth: 1,
   },
 });

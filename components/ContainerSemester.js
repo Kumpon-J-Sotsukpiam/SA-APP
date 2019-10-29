@@ -4,8 +4,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Platform
+  View,  
 } from 'react-native';
 
 const ContainerSemester = props => {
@@ -14,19 +13,19 @@ const ContainerSemester = props => {
 
     <View style={styles.container}>
 
-    <TouchableOpacity style={styles.containerSemester} onPress={props.NavigateCourseList}>
+    <TouchableOpacity style={styles.containerSemester} onPress={props.navigateCourseList}>
 
     <View style={styles.section1}>
-    <Text style={styles.header}>{props.Semester}</Text>
+    <Text style={styles.header}>{props.course}{props.semester}</Text>
     </View>
 
     <View style={styles.section2}>
-    <Text style={styles.semesterDetails}>{props.Students}</Text>
+    <Text style={styles.semesterDetails}>{props.students}</Text>
     </View>
 
     <View style={styles.section3}>
       <Ionicons
-      name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
+      name='ios-arrow-forward'
       size={35}
       color='#979797'
     />

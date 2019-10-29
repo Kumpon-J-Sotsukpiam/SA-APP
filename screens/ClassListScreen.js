@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
-import ContainerClass from '../components/ContainerClass';
+import ContainerClassList from '../components/ContainerClassList';
 
 export default class ClassListScreen extends React.Component {
   constructor(props) {
@@ -10,10 +10,15 @@ export default class ClassListScreen extends React.Component {
 
       this.state = {
       courseID:'Course ID',
-      classID:'Class ID'
+      classID:'Class ID',
+      group:'Group',
+      location:'Location',
+      day:'Day',
+      timeStart:'Start',
+      timeEnd:'End',
+      students:'Total Student',
     };
   }
-
 
  render() {
 
@@ -22,7 +27,7 @@ export default class ClassListScreen extends React.Component {
       <Header
         
         leftComponent={(
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList',{semesterID:'SemesterID'})}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList')}>
         <Ionicons
           name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
           size={35}
@@ -34,7 +39,7 @@ export default class ClassListScreen extends React.Component {
         rightComponent={(<Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
         size={60}
         color={'#fff'}
-        onPress={()=>{this.props.navigation.navigate('AddClass',{courseID:this.state.courseID})}}
+        onPress={()=>{this.props.navigation.navigate('AddClass')}}
       />)}
         rightContainerStyle={{flex:1}}
         centerComponent={(
@@ -45,27 +50,19 @@ export default class ClassListScreen extends React.Component {
         </View>
         )}
         centerContainerStyle={{flex:9}}
-        containerStyle={{
-          backgroundColor: '#fd4176',
-          height:120,
-          justifyContent: 'space-around',
-          borderBottomColor: '#be5f7a',
-          borderBottomWidth: 1,
-        }}
+        containerStyle={styles.containerStyle}
       />
 
-        <ContainerClass
-        Course={'Course'}
-        Group={'Group'}
-        Location={'Location'}
-        StartEndTime={'Start - End Time'}
-        Students={'The Number Of Student'}
-        NavigateCamera={() => this.props.navigation.navigate('Camera',{classID:this.state.classID})}
-        NavigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{courseID:this.state.courseID,classID:this.state.classID})}
+        <ContainerClassList
+        group={this.state.group}
+        location={this.state.location}
+        day={this.state.day}
+        timeStart={this.state.timeStart}
+        timeEnd={this.state.timeEnd}
+        students={this.state.students}
+        navigateCamera={() => this.props.navigation.navigate('Camera')}
+        navigateClassDetails={() => this.props.navigation.navigate('ClassDetails')}
         />
-
-      
-
         
     </View>
   );
@@ -103,5 +100,12 @@ const styles = StyleSheet.create({
       color: '#fff',
       fontSize:14,
       fontWeight:'bold'
+  },
+  containerStyle:{
+    backgroundColor: '#fd4176',
+    height:120,
+    justifyContent: 'space-around',
+    borderBottomColor: '#be5f7a',
+    borderBottomWidth: 1,
   },
 });

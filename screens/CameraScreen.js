@@ -16,7 +16,7 @@ class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      classId:this.props.navigation.state.params.test,
+      classId:'Class ID',
       hasCameraPermission: null,
       type: Camera.Constants.Type.front,
       isConnect: false,

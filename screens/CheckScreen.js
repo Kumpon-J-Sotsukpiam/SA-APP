@@ -8,7 +8,14 @@ export default class CheckScreen extends React.Component {
     super(props);
 
       this.state = {
-      test:'Class id / CheckScreen',
+        course:'Course',
+        group:'Group',
+        location:'Location',
+        day:'Day',
+        timeStart:'Start',
+        timeEnd:'End',
+        students:'Total Student',
+      
     }
   }
 
@@ -27,13 +34,15 @@ export default class CheckScreen extends React.Component {
       />     
       <ScrollView>
         <ContainerClass
-        Course={'Course'}
-        Group={'Group'}
-        Location={'Location'}
-        StartEndTime={'Start - End Time'}
-        Students={'The Number Of Student'}
-        NavigateCamera={() => this.props.navigation.navigate('Camera',{test:this.state.test})}
-        NavigateClassDetails={() => this.props.navigation.navigate('Camera',{test:'Test ClassDetails / CheckScreen'})}
+          course={this.state.course}
+          group={this.state.group}
+          location={this.state.location}
+          day={this.state.day}
+          timeStart={this.state.timeStart}
+          timeEnd={this.state.timeEnd}
+          students={this.state.students}
+          navigateCamera={() => this.props.navigation.navigate('Camera')}
+          navigateClassDetails={() => this.props.navigation.navigate('ClassDetails')}
         />
         </ScrollView>
     </View>

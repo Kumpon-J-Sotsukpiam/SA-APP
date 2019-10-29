@@ -11,13 +11,9 @@ export default class SemestersScreen extends React.Component {
     super(props);
 
     this.state = {
-      semesterID:'Semester id',
-      data:[
-        {semester:'semester'},
-        {course:'course'},
-        {class:'class'}
-      ]
-
+      semester:'Semester',
+      students:'Total student',
+      
     }
   }
 
@@ -36,13 +32,7 @@ export default class SemestersScreen extends React.Component {
                         )}
             
                
-        containerStyle={{
-          backgroundColor: '#fd4176',
-          height:120,
-          justifyContent: 'space-around',
-          borderBottomColor: '#be5f7a',
-          borderBottomWidth: 1,
-        }}
+        containerStyle={styles.containerStyle}
       />
       <ScrollView>
       <View style={styles.containerSemester}>
@@ -50,9 +40,9 @@ export default class SemestersScreen extends React.Component {
       </View>
 
        <ContainerSemester
-        Semester={'Semester'}
-        Students={'Total course'}
-        NavigateCourseList={() => this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})}
+        semester={this.state.semester}
+        students={this.state.students}
+        navigateCourseList={() => this.props.navigation.navigate('CourseList')}
         />
 
       <View style={styles.containerSemester}>
@@ -90,5 +80,12 @@ const styles = StyleSheet.create({
   containerRightHeader: {
     flex:1,
     marginTop:22,
+  },
+  containerStyle:{
+    backgroundColor: '#fd4176',
+    height:120,
+    justifyContent: 'space-around',
+    borderBottomColor: '#be5f7a',
+    borderBottomWidth: 1,
   },
 });
