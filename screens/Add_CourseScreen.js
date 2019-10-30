@@ -12,7 +12,7 @@ export default class Add_CourseScreen extends React.Component {
     super(props);
 
     this.state = {
-      semesterID:this.props.navigation.state.params.semesterID,
+      semesterID:'Semester ID',
       courseID:'Course ID',
     }
 }
@@ -23,12 +23,12 @@ render() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style = {styles.container}>
       <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})}}>
+        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList')}}>
                           <Text style={styles.textCancel}>Cancel</Text>
                         </TouchableOpacity>
                         )}
         centerComponent={({ text: 'New Course', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})}}>
+        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList')}}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}

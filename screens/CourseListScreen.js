@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, View, Text,TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerSemester from '../components/ContainerSemester';
@@ -8,13 +8,15 @@ import { calDurationsSemesterLeft } from "../src/actions/durations"
 var dateCurent = new Date();
 var dateEnd = '2019/12/31';
 
-class CourseListScreen extends React.Component {
+export default class CourseListScreen extends React.Component {
+
   constructor(props) {
     super(props);
 
       this.state = {
-      semesterID:this.props.navigation.state.params.semesterID,
-      courseID:'Course ID',
+      semesterID:'Semester ID',
+      course:'Course',
+      students:'Total student',
       
     };
   }
@@ -27,19 +29,19 @@ class CourseListScreen extends React.Component {
       <Header
         
         leftComponent={(
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Semesters',{semesterID:this.state.semesterID})}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('Semesters')}>
         <Ionicons
-          name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
+          name='md-arrow-back'
           size={35}
           color='#fff'
         />
         </TouchableOpacity>
         )}
         leftContainerStyle={{flex:2}}
-        rightComponent={(<Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
+        rightComponent={(<Ionicons name={'ios-add'}
         size={60}
         color={'#fff'}
-        onPress={()=>{this.props.navigation.navigate('AddCourse',{semesterID:this.state.semesterID})}}
+        onPress={()=>{this.props.navigation.navigate('AddCourse')}}
       />)}
         rightContainerStyle={{flex:1}}
         centerComponent={(
@@ -53,20 +55,15 @@ class CourseListScreen extends React.Component {
         </View>
         )}
         centerContainerStyle={{flex:10}}
-        containerStyle={{
-          backgroundColor: '#fd4176',
-          height:120,
-          justifyContent: 'space-around',
-          borderBottomColor: '#be5f7a',
-          borderBottomWidth: 1,
-        }}
+        containerStyle={styles.containerStyle}
       />
-
+     
         <ContainerSemester
-        Semester={'Course'}
-        Students={'Total student'}
-        NavigateCourseList={() => this.props.navigation.navigate('ClassList',{courseID:this.state.courseID})}
+          course={this.state.course}
+          students={this.state.students}
+          navigateCourseList={() => this.props.navigation.navigate('ClassList')}
         />
+      
     </View>
   );
 }
@@ -99,10 +96,16 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems: 'center'
   },
-    durationsHeader:{
+  durationsHeader:{
       color: '#fff',
       fontSize:14,
       fontWeight:'bold'
   },
+  containerStyle:{
+    backgroundColor: '#fd4176',
+    height:120,
+    justifyContent: 'space-around',
+    borderBottomColor: '#be5f7a',
+    borderBottomWidth: 1,
+  },
 });
-export default CourseListScreen

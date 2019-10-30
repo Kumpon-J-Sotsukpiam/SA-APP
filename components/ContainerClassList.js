@@ -1,5 +1,4 @@
 import React from 'react';
-import { IconButton } from 'react-native-paper';
 import {
   StyleSheet,
   Text,
@@ -7,19 +6,20 @@ import {
   View,
 } from 'react-native';
 
-const ContainerClass = props => {
+import { IconButton } from 'react-native-paper';
+
+const ContainerClassList = props => {
   
   return (
 
     <View style={styles.container}>
 
-      <TouchableOpacity style={styles.containerClass} onPress={props.navigateClassDetails}>
+      <TouchableOpacity style={styles.containerClassDetails} onPress={props.navigateClassDetails}>
         <View style={styles.section1}>
-          <Text style={styles.headerClass}>{props.course}</Text>
-          <Text style={styles.textClass}>{props.group}</Text>
-          <Text style={styles.textClass}>{props.location}</Text>
+          <Text style={styles.headerClassDetails}>{props.group}</Text>
+          <Text style={styles.textClassDetails}>{props.location}</Text>
           <Text style={styles.textClassDetails}>{props.day} , {props.timeStart} - {props.timeEnd}</Text>
-          <Text style={styles.textClass}>{props.students}</Text>
+          <Text style={styles.textClassDetails}>{props.students}</Text>
         </View>
     
       <View style={styles.section2}>
@@ -30,15 +30,13 @@ const ContainerClass = props => {
           onPress={props.navigateCamera}
           animated='true'
         />
-      </View>
-    
+      </View>  
     </TouchableOpacity>
-
   </View>
 
-   );
+  );
 
-  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +44,7 @@ const styles = StyleSheet.create({
     margin:10,
     borderRadius:10,
   },
-  containerClass: {
+  containerClassDetails: {
     backgroundColor: '#fff',
     flexDirection: 'row',
     margin: 10,
@@ -61,14 +59,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerClass:{
+  headerClassDetails:{
     fontSize:20,
     fontWeight: 'bold',
   },
-  textClass:{
+  textClassDetails:{
     fontSize:16
-  },
-  
+  }
+
 });
 
-export default ContainerClass;
+export default ContainerClassList;

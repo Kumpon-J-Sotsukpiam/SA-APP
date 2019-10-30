@@ -4,35 +4,49 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Platform
+  View,  
 } from 'react-native';
+
+import Swipeout from 'react-native-swipeout';
+
+
+
+
 
 const ContainerSemester = props => {
   
   return (
+  
 
     <View style={styles.container}>
+      <Swipeout left={[{text: 'Delete',
+      backgroundColor: 'red',
+      underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+      onPress:{}
+      }]}
+              autoClose='true'
+              backgroundColor= 'transparent'>
 
-    <TouchableOpacity style={styles.containerSemester} onPress={props.NavigateCourseList}>
+    <TouchableOpacity style={styles.containerSemester} onPress={props.navigateCourseList}>
 
     <View style={styles.section1}>
-    <Text style={styles.header}>{props.Semester}</Text>
+    <Text style={styles.header}>{props.course}{props.semester}</Text>
     </View>
 
     <View style={styles.section2}>
-    <Text style={styles.semesterDetails}>{props.Students}</Text>
+    <Text style={styles.semesterDetails}>{props.students}</Text>
     </View>
 
     <View style={styles.section3}>
       <Ionicons
-      name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
+      name='ios-arrow-forward'
       size={35}
       color='#979797'
     />
     </View>
     
     </TouchableOpacity>
+    </Swipeout>
     </View>
   );
 
@@ -41,9 +55,10 @@ const ContainerSemester = props => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    margin:10,
+    marginTop:5,
+    marginRight:10,
+    marginLeft:10,
     borderRadius:10,
-    
   },
   containerSemester: {
     backgroundColor: '#fff',

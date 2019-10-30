@@ -1,5 +1,14 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text,Platform } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  Platform,
+  FlatList
+} from 'react-native';
+import Swipeout from 'react-native-swipeout';
+
 
 import { Header, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,24 +21,29 @@ class SemestersScreen extends React.Component {
     super(props);
 
     this.state = {
-      semesterID:'Semester id',
-      data:[
-        {semester:'semester'},
-        {course:'course'},
-        {class:'class'}
-      ]
-
+      semester:'Semester',
+      students:'Total student',
+      current:[],
+      past:[],
+      
     }
   }
   componentWillMount(){
     get_semester(this.props)
   }
+
+  ListViewItemSeparator = () => {
+    return (
+      <View style={{ backgroundColor: '#000'}} />
+    );
+  }; 
+ 
+
   render() {
-    console.log('====================================');
-    console.log(`Check Array in mapStateToProps ${Array.isArray(this.props.semester)}`);
-    console.log(this.props.semester[0])
-    console.log('====================================');
+
   return (
+
+
     <View style = {styles.container}>
       <Header
         centerComponent={({ text: 'Semester', style:{color: '#fff', fontSize:36, fontWeight:'bold'} })}
@@ -43,27 +57,46 @@ class SemestersScreen extends React.Component {
                         )}
             
                
-        containerStyle={{
-          backgroundColor: '#fd4176',
-          height:120,
-          justifyContent: 'space-around',
-          borderBottomColor: '#be5f7a',
-          borderBottomWidth: 1,
-        }}
+        containerStyle={styles.containerStyle}
       />
-      <ScrollView>
+      
       <View style={styles.containerSemester}>
       <Text style={styles.header}>CURRENT</Text>
       </View>
-        <ContainerSemester
-          Semester={'Semester Old'}
-          Students={'Total course'}
-          NavigateCourseList={() => this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})}
-        />
+
+      <View style={{paddingBottom:5}}>
+      <FlatList
+        ItemSeparatorComponent={this.ListViewItemSeparator}
+        data={this.props.semester}
+        refreshing={true}
+        renderItem={({item,index}) => (
+            
+          <Swipeout left={[{text: 'Delete',
+          backgroundColor: 'red',
+          underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+          onPress: () => {}
+          }]}
+                  autoClose='true'
+                  backgroundColor= 'transparent'>
+            <ContainerSemester
+            semester={item.name}
+            students={this.state.students}
+            navigateCourseList={() => this.props.navigation.navigate('CourseList')}
+            delete={item._id}/> 
+            </Swipeout>       
+             )}
+      />
+      
+      </View>
+
+
+        
       <View style={styles.containerSemester}>
       <Text style={styles.header}>PAST</Text>
       </View>
-      </ScrollView>
+    
+
+      
 
     </View>
   );
@@ -95,6 +128,13 @@ const styles = StyleSheet.create({
   containerRightHeader: {
     flex:1,
     marginTop:22,
+  },
+  containerStyle:{
+    backgroundColor: '#fd4176',
+    height:120,
+    justifyContent: 'space-around',
+    borderBottomColor: '#be5f7a',
+    borderBottomWidth: 1,
   },
 });
 

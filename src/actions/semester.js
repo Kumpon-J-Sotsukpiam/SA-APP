@@ -28,12 +28,17 @@ export const add_semester = (semester,props) => {
     const { dispatch,navigation } = props
     // format data
     data = {
-        name:semester.semesterID,
+        name:semester.semesterName,
         startDate:semester.dateStarts,
         endDate:semester.dateEnds
     }
+        
     api.post('semester/',data).then(res => {
         dispatch(addSemester(res.data))
-        navigation.navigate('Semesters')
+        console.log('this is then after send to server !!! ');
+    }).catch(err => {
+        console.error(err.response.data);
     })
+    //navigation.navigate('Semesters')
+    console.log('Semester Name : '+semester.semesterName+'\n'+'Date Start : '+semester.dateStarts+'\n'+'Date End : '+semester.dateEnds)    
 }
