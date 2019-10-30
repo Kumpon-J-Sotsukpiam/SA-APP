@@ -16,16 +16,7 @@ import Swipeout from 'react-native-swipeout';
 const ContainerSemester = props => {
   
   return (
-  
 
-    <View style={styles.container}>
-      <Swipeout left={[{text: 'Delete',
-      backgroundColor: 'red',
-      underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
-      onPress:{}
-      }]}
-              autoClose='true'
-              backgroundColor= 'transparent'>
 
     <TouchableOpacity style={styles.containerSemester} onPress={props.navigateCourseList}>
 
@@ -46,20 +37,12 @@ const ContainerSemester = props => {
     </View>
     
     </TouchableOpacity>
-    </Swipeout>
-    </View>
   );
 
   }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#fff',
-    marginTop:5,
-    marginRight:10,
-    marginLeft:10,
-    borderRadius:10,
-  },
+
   containerSemester: {
     backgroundColor: '#fff',
     flexDirection: 'row',

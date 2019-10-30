@@ -13,7 +13,7 @@ import Swipeout from 'react-native-swipeout';
 import { Header, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import ContainerSemester from '../components/ContainerSemester';
-import {get_semester} from '../src/actions/semester'
+import { get_semester, del_semester } from '../src/actions/semester'
 import { connect } from "react-redux"
 
 class SemestersScreen extends React.Component {
@@ -31,6 +31,8 @@ class SemestersScreen extends React.Component {
   componentWillMount(){
     get_semester(this.props)
   }
+
+
 
   ListViewItemSeparator = () => {
     return (
@@ -59,7 +61,7 @@ class SemestersScreen extends React.Component {
                
         containerStyle={styles.containerStyle}
       />
-      
+      <ScrollView>
       <View style={styles.containerSemester}>
       <Text style={styles.header}>CURRENT</Text>
       </View>
@@ -69,23 +71,27 @@ class SemestersScreen extends React.Component {
         ItemSeparatorComponent={this.ListViewItemSeparator}
         data={this.props.semester}
         refreshing={true}
-        renderItem={({item,index}) => (
-            
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => (
+          <View style={styles.containerSemesterList}>  
           <Swipeout left={[{text: 'Delete',
-          backgroundColor: 'red',
-          underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
-          onPress: () => {}
-          }]}
-                  autoClose='true'
-                  backgroundColor= 'transparent'>
+                            backgroundColor: 'red',
+                            underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                            onPress: () => {del_semester(item._id,this.props)}
+                          }]}
+                    style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
+                    autoClose='true'
+                    backgroundColor= 'transparent'>
             <ContainerSemester
             semester={item.name}
             students={this.state.students}
-            navigateCourseList={() => this.props.navigation.navigate('CourseList')}
-            delete={item._id}/> 
-            </Swipeout>       
+            navigateCourseList={() => this.props.navigation.navigate('CourseList',{semesterID:item._id})}
+            /> 
+            </Swipeout>
+          </View>      
              )}
       />
+      
       
       </View>
 
@@ -97,7 +103,7 @@ class SemestersScreen extends React.Component {
     
 
       
-
+      </ScrollView>
     </View>
   );
 }
@@ -135,6 +141,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderBottomColor: '#be5f7a',
     borderBottomWidth: 1,
+  },
+  containerSemesterList: {
+    backgroundColor: '#fff',
+    marginTop:5,
+    marginRight:10,
+    marginLeft:10,
+    borderRadius:10,
   },
 });
 

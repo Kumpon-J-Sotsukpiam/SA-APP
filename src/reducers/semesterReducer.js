@@ -16,16 +16,12 @@ export default (state = initialState, actions) => {
             return actions.payload
             
         case DELETE_SEMESTER:
-            return  state.filter((data, i) => i !== action.id);
-                default:
-            return state;
-
+            return  state.filter((data, i) => i !== action.id)
             
         case SET_SEMESTER:
             return {
 
             }
-        default:
-            return state
+        default: return state
     }
 };

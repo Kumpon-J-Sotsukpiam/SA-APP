@@ -1,12 +1,13 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text,TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, View, Text,TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerSemester from '../components/ContainerSemester';
 import { calDurationsSemesterLeft } from "../src/actions/durations"
+import Swipeout from 'react-native-swipeout';
 
 var dateCurent = new Date();
-var dateEnd = '2019/12/31';
+
 
 export default class CourseListScreen extends React.Component {
 
@@ -14,12 +15,35 @@ export default class CourseListScreen extends React.Component {
     super(props);
 
       this.state = {
-      semesterID:'Semester ID',
-      course:'Course',
-      students:'Total student',
+
+      semester:{
+        semesterID:1,
+        semesterName:'Semester 2019',
+        startDate:'2019/12/1',
+        endDate:'2019/12/31',
+      },
+      course:[{
+        courseName:'SP326',
+        id_:'1',
+        semesterID:'SemesterID',
+        students:'Total student SP326',
+      },{
+        courseName:'SP423',
+        id_:'2',
+        semesterID:'SemesterID',
+        students:'Total student SP423',
+        }
+    ],
+      
       
     };
   }
+
+  ListViewItemSeparator = () => {
+    return (
+      <View style={{ backgroundColor: '#000'}} />
+    );
+  }; 
 
 
  render() {
@@ -31,7 +55,7 @@ export default class CourseListScreen extends React.Component {
         leftComponent={(
           <TouchableOpacity onPress={() => this.props.navigation.navigate('Semesters')}>
         <Ionicons
-          name='md-arrow-back'
+          name='ios-arrow-back'
           size={35}
           color='#fff'
         />
@@ -47,10 +71,10 @@ export default class CourseListScreen extends React.Component {
         centerComponent={(
         <View style={styles.containerHeader}>
           <View style={styles.containerTextHeader}>
-            <Text style={styles.textHeader}>{this.state.semesterID}</Text>
+            <Text style={styles.textHeader}>{this.state.semester.semesterID}</Text>
           </View>
           <View style={styles.containerDurationsHeader}>
-            <Text style={styles.durationsHeader}>Durations : {calDurationsSemesterLeft(dateCurent,dateEnd)}</Text>
+            <Text style={styles.durationsHeader}>Durations : {calDurationsSemesterLeft(this.state.semester.endDate)}</Text>
           </View>
         </View>
         )}
@@ -58,11 +82,40 @@ export default class CourseListScreen extends React.Component {
         containerStyle={styles.containerStyle}
       />
      
-        <ContainerSemester
-          course={this.state.course}
-          students={this.state.students}
-          navigateCourseList={() => this.props.navigation.navigate('ClassList')}
-        />
+     <ScrollView>
+      <View style={styles.containerSemester}>
+      </View>
+
+      <View style={{paddingBottom:5}}>
+      <FlatList
+        ItemSeparatorComponent={this.ListViewItemSeparator}
+        data={this.state.course}
+        refreshing={true}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => (
+          <View style={styles.containerSemesterList}>  
+          <Swipeout left={[{text: 'Delete',
+                            backgroundColor: 'red',
+                            underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                            onPress: () => {}
+                          }]}
+                    style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
+                    autoClose='true'
+                    backgroundColor= 'transparent'>
+            <ContainerSemester
+            semester={item.courseName}
+            students={item.students}
+            navigateCourseList={() => this.props.navigation.navigate('ClassList')}
+           /> 
+            </Swipeout>
+          </View>      
+             )}
+      />
+      
+      
+      </View>
+
+      </ScrollView>
       
     </View>
   );
@@ -107,5 +160,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderBottomColor: '#be5f7a',
     borderBottomWidth: 1,
+  },
+  containerSemesterList: {
+    backgroundColor: '#fff',
+    marginTop:5,
+    marginRight:10,
+    marginLeft:10,
+    borderRadius:10,
   },
 });

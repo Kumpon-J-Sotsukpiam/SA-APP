@@ -83,8 +83,8 @@ export const calDurationsDate = (x,y) => {
   
   };
 
-  export const calDurationsSemesterLeft = (x,y) => {
-    var DateCurent = new Date(x);
+  export const calDurationsSemesterLeft = (y) => {
+    var DateCurent = new Date();
     var DateEnd = new Date(y);
 
     if(DateCurent > DateEnd){

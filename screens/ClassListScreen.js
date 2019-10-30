@@ -29,14 +29,14 @@ export default class ClassListScreen extends React.Component {
         leftComponent={(
           <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList')}>
         <Ionicons
-          name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
+          name='ios-arrow-back'
           size={35}
           color='#fff'
         />
         </TouchableOpacity>
         )}
         leftContainerStyle={{flex:2}}
-        rightComponent={(<Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
+        rightComponent={(<Ionicons name='ios-add'
         size={60}
         color={'#fff'}
         onPress={()=>{this.props.navigation.navigate('AddClass')}}

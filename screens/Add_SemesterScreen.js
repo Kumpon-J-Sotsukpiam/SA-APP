@@ -1,5 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, TextInput, DatePickerIOS, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import { 
+  StyleSheet, 
+  View, 
+  TouchableOpacity, 
+  Text, 
+  TextInput, 
+  DatePickerIOS, 
+  TouchableWithoutFeedback, 
+  Keyboard,
+  DatePickerAndroid,
+  Platform
+
+} from 'react-native';
+
 import { Header } from 'react-native-elements';
 import { calDurationsDate } from "../src/actions/durations"
 import {add_semester} from '../src/actions/semester'
@@ -51,7 +64,7 @@ class Add_SemesterScreen extends React.Component {
   }
 
   showDatePickerEnds(){
-
+    
     this.setState({
       datepickerEnds:!this.state.datepickerEnds
     })
@@ -132,14 +145,23 @@ class Add_SemesterScreen extends React.Component {
       </TouchableOpacity>
 
       <View style={styles.containerInputDate}>
-        {this.state.datepickerStarts &&
+        {Platform.OS === 'ios' ? this.state.datepickerStarts &&
         (
         <DatePickerIOS
           date={this.state.dateStarts}
           onDateChange={this.setDateStarts}
           mode='date'
         />
-        )}
+        ) : 
+        this.state.datepickerStarts && 
+        ( 
+        <DatePickerIOS
+          date={this.state.dateStarts}
+          onDateChange={this.setDateStarts}
+          mode='date'
+        />
+        ) 
+        }
       </View>
 
       <TouchableOpacity onPress={()=>this.showDatePickerEnds()}>
@@ -154,7 +176,8 @@ class Add_SemesterScreen extends React.Component {
       </TouchableOpacity>
 
       <View style={styles.containerInputDate}>
-        {this.state.datepickerEnds &&
+
+      {Platform.OS === 'ios' ? this.state.datepickerEnds &&
         (
         <DatePickerIOS
           date={this.state.dateEnds}
@@ -162,7 +185,18 @@ class Add_SemesterScreen extends React.Component {
           mode='date'
           minimumDate={this.state.dateStarts}
         />
-        )}
+        ) :
+        this.state.datepickerEnds &&
+        (
+        <DatePickerAndroid
+          date={this.state.dateEnds}
+          onDateChange={this.setDateEnds}
+          mode='date'
+          minimumDate={this.state.dateStarts}
+        />
+        )
+        }
+
       </View>
       <View style={styles.containerDurations}>
       <Text>Durations : {calDurationsDate(this.state.dateStarts,this.state.dateEnds)}</Text>
