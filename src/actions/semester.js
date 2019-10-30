@@ -32,7 +32,7 @@ export const get_semester = (props) => {
 export const del_semester = (id,props) => {
     const { dispatch } = props
     api.delete(`semester/${id}`).then(res => {
-        dispatch(delSemester(res.data))
+        dispatch(delSemester(id))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
     })

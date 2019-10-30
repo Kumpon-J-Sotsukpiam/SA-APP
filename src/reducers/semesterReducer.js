@@ -16,7 +16,7 @@ export default (state = initialState, actions) => {
             return actions.payload
             
         case DELETE_SEMESTER:
-            return  state.filter((data, i) => i !== action.id)
+            return  state.filter((i) => i._id !== actions.id)
             
         case SET_SEMESTER:
             return {
