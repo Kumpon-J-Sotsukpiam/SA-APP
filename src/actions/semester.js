@@ -1,4 +1,4 @@
-import { ADD_SEMESTER,GET_SEMESTER,DELETE_SEMESTER,SET_SEMESTER, GET_STUDENT} from './types'
+import { ADD_SEMESTER,GET_SEMESTER,DELETE_SEMESTER,SET_SEMESTER} from './types'
 import { get_erors } from './errors'
 import api from '../modules/api'
 // action Backend 

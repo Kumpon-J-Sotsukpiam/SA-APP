@@ -29,5 +29,6 @@ export const SET_CLASS= 'SET_CLASS'
 export const GET_CLASS = 'GET_CLASS'
 
 // Check-Student Even Type
-export const CHECK_STUDENT = 'CHECK_STUDENT'
-export const UNCHECK_STUDENT = 'UNCHECK_STUDENT'
+export const ADD_CHECKIN = 'ADD_CHECKIN'
+export const DELETE_CHECKIN = 'DELETE_CHECKIN'
+export const GET_CHECKIN = 'GET_CHECKIN'
