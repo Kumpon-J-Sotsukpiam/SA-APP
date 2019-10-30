@@ -15,7 +15,7 @@ export default class CourseListScreen extends React.Component {
     super(props);
 
       this.state = {
-
+        autoClose:true,
       semester:{
         semesterID:1,
         semesterName:'Semester 2019',
@@ -69,6 +69,7 @@ export default class CourseListScreen extends React.Component {
       />)}
         rightContainerStyle={{flex:1}}
         centerComponent={(
+        <TouchableOpacity onPress={()=>{this.props.navigation.navigate('EditSemester',{semesterID:this.state.semester.semesterID})}}>
         <View style={styles.containerHeader}>
           <View style={styles.containerTextHeader}>
             <Text style={styles.textHeader}>{this.state.semester.semesterID}</Text>
@@ -77,6 +78,7 @@ export default class CourseListScreen extends React.Component {
             <Text style={styles.durationsHeader}>Durations : {calDurationsSemesterLeft(this.state.semester.endDate)}</Text>
           </View>
         </View>
+        </TouchableOpacity>
         )}
         centerContainerStyle={{flex:10}}
         containerStyle={styles.containerStyle}
@@ -96,11 +98,10 @@ export default class CourseListScreen extends React.Component {
           <View style={styles.containerSemesterList}>  
           <Swipeout left={[{text: 'Delete',
                             backgroundColor: 'red',
-                            underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
                             onPress: () => {}
                           }]}
                     style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
-                    autoClose='true'
+                    autoClose={this.state.autoClose}
                     backgroundColor= 'transparent'>
             <ContainerSemester
             semester={item.courseName}

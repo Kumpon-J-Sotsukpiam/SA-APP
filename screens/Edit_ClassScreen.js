@@ -21,13 +21,16 @@ var getTimeStarts = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.
 var getTimeEnds = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 11, 0, 0);
 
 
-export default class Add_ClassScreen extends React.Component {
+export default class Edit_ClassScreen extends React.Component {
    constructor(props) {
     super(props);
 
     this.state = {
+      classID:this.props.navigation.state.params.classID,
       courseID:'Course ID',
-      selectedWeek: '',
+      group:'Group',
+      location:'Location',
+      selectedWeek:'',
       timepickerStarts:false,
       timepickerEnds:false,
       setTimeStarts:getTimeStarts,
@@ -36,6 +39,16 @@ export default class Add_ClassScreen extends React.Component {
     this.updateIndex = this.updateIndex.bind(this)
     this.setTimeStarts = this.setTimeStarts.bind(this);
     this.setTimeEnds = this.setTimeEnds.bind(this);
+    this.setClassGroup = this.setClassGroup.bind(this);
+    this.setClassLocation = this.setClassLocation.bind(this);
+}
+
+setClassGroup(group){
+  this.setState({ semesterName:group });
+}
+
+setClassLocation(location){
+  this.setState({ semesterName:location });
 }
 
 updateIndex (selectedWeek) {
@@ -86,9 +99,7 @@ hideTimePicker(){
   })
   }
 
-  
 }
-
 
 render() {
   const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']
@@ -97,12 +108,12 @@ render() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style = {styles.container}>
       <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassList')}}>
+        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassDetails')}}>
                           <Text style={styles.textCancel}>Cancel</Text>
                         </TouchableOpacity>
                         )}
-        centerComponent={({ text: 'New Class', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassList')}}>
+        centerComponent={({ text: 'Edit Class', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
+        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassDetails')}}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}
@@ -116,16 +127,18 @@ render() {
       />
       <View style={styles.containerTextInput}>
         <TextInput
-        placeholder='Group'
+        placeholder={this.state.group}
         style={styles.textInput}
         onFocus={()=>this.hideTimePicker()}
+        onChangeText={this.setClassGroup}
         />
       </View>
       <View style={styles.containerTextInput}>
         <TextInput
-        placeholder='Location'
+        placeholder={this.state.location}
         style={styles.textInput}
         onFocus={()=>this.hideTimePicker()}
+        onChangeText={this.setClassLocation}
         />
       </View>
 
@@ -220,7 +233,7 @@ render() {
 }
 }
 
-Add_ClassScreen.navigationOptions = {
+Edit_ClassScreen.navigationOptions = {
   header:null
 };
 

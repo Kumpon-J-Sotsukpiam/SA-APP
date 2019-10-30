@@ -21,18 +21,17 @@ class SemestersScreen extends React.Component {
     super(props);
 
     this.state = {
+      autoClose:true,
       semester:'Semester',
       students:'Total student',
-      current:[],
-      past:[],
       
     }
   }
+  
   componentWillMount(){
     get_semester(this.props)
+
   }
-
-
 
   ListViewItemSeparator = () => {
     return (
@@ -40,9 +39,10 @@ class SemestersScreen extends React.Component {
     );
   }; 
  
-
   render() {
 
+
+    
   return (
 
 
@@ -76,11 +76,10 @@ class SemestersScreen extends React.Component {
           <View style={styles.containerSemesterList}>  
           <Swipeout left={[{text: 'Delete',
                             backgroundColor: 'red',
-                            underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
                             onPress: () => {del_semester(item._id,this.props)}
                           }]}
                     style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
-                    autoClose='true'
+                    autoClose={this.state.autoClose}
                     backgroundColor= 'transparent'>
             <ContainerSemester
             semester={item.name}
@@ -92,16 +91,11 @@ class SemestersScreen extends React.Component {
              )}
       />
       
-      
       </View>
-
-
         
       <View style={styles.containerSemester}>
       <Text style={styles.header}>PAST</Text>
       </View>
-    
-
       
       </ScrollView>
     </View>

@@ -40,7 +40,7 @@ export default class ClassDetailsScreen extends React.Component {
         <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
         <View style={styles.leftSection1}>
           <Ionicons
-            name={Platform.OS === 'ios' ? 'ios-arrow-back' : 'md-arrow-back'}
+            name='ios-arrow-back'
             size={35}
             color='#fff'
           />
@@ -59,10 +59,10 @@ export default class ClassDetailsScreen extends React.Component {
         
         )}
         leftContainerStyle={{flex:8}}
-        rightComponent={(<Ionicons name={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
+        rightComponent={(<Ionicons name='ios-settings'
         size={30}
         color={'#fff'}
-        onPress={()=>{this.props.navigation.navigate('Semesters')}}
+        onPress={()=>{this.props.navigation.navigate('EditClass',{classID:'Class ID'})}}
       />)}
         containerStyle={styles.containerStyle}
       />
@@ -74,7 +74,7 @@ export default class ClassDetailsScreen extends React.Component {
         </View>
         <View style={styles.headleftSection2}>
           <Ionicons
-            name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
+            name='ios-arrow-forward'
             size={35}
             color='#979797'
           />

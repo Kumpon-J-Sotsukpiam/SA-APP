@@ -43,11 +43,13 @@ export default class ClassListScreen extends React.Component {
       />)}
         rightContainerStyle={{flex:1}}
         centerComponent={(
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse',{courseID:this.state.courseID})}>
         <View style={styles.containerHeader}>
           <View style={styles.containerTextHeader}>
             <Text style={styles.textHeader}>{this.state.courseID}</Text>
           </View>
         </View>
+        </TouchableOpacity>
         )}
         centerContainerStyle={{flex:9}}
         containerStyle={styles.containerStyle}

@@ -4,10 +4,14 @@ import { createAppContainer, createSwitchNavigator, createStackNavigator } from 
 import MainTabNavigator from './MainTabNavigator';
 import CheckNavigator from './CheckNavigator';
 import AddSemesterNavigator from './AddSemesterNavigator';
+import EditSemesterNavigator from './EditSemesterNavigator';
 import AddCourseNavigator from './AddCourseNavigator';
 import AddClassNavigator from './AddClassNavigator';
 import ClassListNavigator from './ClassListNavigator';
 import ClassDetailsNavigator from './ClassDetailsNavigator';
+import EditCourseNavigator from './EditCourseNavigator';
+import EditClassNavigator from './EditClassNavigator';
+
 
 // Loading Screens
 import AuthLoading from "../screens/AuthLoadingScreen";
@@ -44,6 +48,9 @@ const AppContainer = createAppContainer(createSwitchNavigator({
     AddClassNavigator,
     ClassListNavigator,
     ClassDetailsNavigator,
+    EditSemesterNavigator,
+    EditCourseNavigator,
+    EditClassNavigator,
   })
 );
 

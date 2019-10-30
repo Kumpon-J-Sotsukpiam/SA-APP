@@ -8,35 +8,33 @@ import {
   DatePickerIOS, 
   TouchableWithoutFeedback, 
   Keyboard,
-  DatePickerAndroid,
   Platform
 
 } from 'react-native';
 
 import { Header } from 'react-native-elements';
 import { calDurationsDate } from "../src/actions/durations"
-import {add_semester} from '../src/actions/semester'
-//Date
-import { format, addDays } from 'date-fns'
+
+import { format } from 'date-fns'
 
 var getDate = new Date();
 
 
-class Add_SemesterScreen extends React.Component {
+class Edit_SemesterScreen extends React.Component {
    constructor(props) {
     super(props);
 
     this.state = {
+      semesterID:this.props.navigation.state.params.semesterID,
       semesterName:'Semester',
       dateStarts:getDate,
-      dateEnds:addDays(getDate, 120),
+      dateEnds:getDate,
       datepickerStarts:false,
       datepickerEnds:false,
     }
 
      this.setDateStarts = this.setDateStarts.bind(this);
      this.setDateEnds = this.setDateEnds.bind(this);
-     this.handleOnSave = this.handleOnSave.bind(this);
      this.setSemesterName = this.setSemesterName.bind(this);
   }
 
@@ -90,27 +88,18 @@ class Add_SemesterScreen extends React.Component {
 
   }
 
-  handleOnSave(semester,props) {
-    add_semester(semester,props)
-    {this.props.navigation.navigate('Semesters')}
-  }
-  handleChange = (name, e) => {
-    this.setState({
-      [name]: e.nativeEvent.text
-    })
-  }
   render() {
     
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style = {styles.container}>
       <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('Semesters')}}>
+        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList')}}>
                           <Text style={styles.textCancel}>Cancel</Text>
                         </TouchableOpacity>
                         )}
-        centerComponent={({ text: 'New Semester', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=> this.handleOnSave(this.state,this.props)}>
+        centerComponent={({ text: 'Edit Semester', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
+        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList')}}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}
@@ -125,7 +114,7 @@ class Add_SemesterScreen extends React.Component {
 
       <View style={styles.containerTextInput}>
         <TextInput
-        placeholder='Untitled Semester'
+        placeholder={this.state.semesterName}
         style={styles.textInput}
         onFocus={()=>this.hideDatePicker()}
         onChangeText={this.setSemesterName}
@@ -199,7 +188,7 @@ class Add_SemesterScreen extends React.Component {
 }
 }
 
-Add_SemesterScreen.navigationOptions = {
+Edit_SemesterScreen.navigationOptions = {
   header:null
 };
 
@@ -258,4 +247,6 @@ const styles = StyleSheet.create({
   },
 
 });
-export default Add_SemesterScreen
+
+
+export default Edit_SemesterScreen

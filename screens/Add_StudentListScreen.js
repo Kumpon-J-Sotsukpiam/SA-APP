@@ -18,11 +18,16 @@ export default class Add_StudentListScreen extends React.Component {
 
     onCheckChanged(studentID) {
       const data = this.state.data;
-
       const index = data.findIndex(x => x.studentID === studentID);
       data[index].checked = !data[index].checked;
       this.setState(data);
   }
+
+  ListViewItemSeparator = () => {
+    return (
+      <View style={{ backgroundColor: '#000'}} />
+    );
+  }; 
   
  render() {
   let { data } = this.state;
@@ -61,8 +66,10 @@ export default class Add_StudentListScreen extends React.Component {
         </View>
 
         <FlatList
-        data={data}
+          ItemSeparatorComponent={this.ListViewItemSeparator}
+          data={data}
           extraData={this.state}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) =>
           <View>
         <Text>{item.studentID}</Text>

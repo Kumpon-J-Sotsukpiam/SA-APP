@@ -9,14 +9,19 @@ import { StyleSheet,
 } from 'react-native';
 import { Header } from 'react-native-elements';
 
-export default class Add_CourseScreen extends React.Component {
+export default class Edit_CourseScreen extends React.Component {
    constructor(props) {
     super(props);
 
     this.state = {
-      semesterID:'Semester ID',
-      courseID:'Course ID',
+      courseID:this.props.navigation.state.params.courseID,
+      courseName:'Course'
     }
+    this.setCourseName = this.setCourseName.bind(this);
+}
+
+setCourseName(name){
+  this.setState({ courseName:name });
 }
  
 render() {
@@ -25,12 +30,12 @@ render() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style = {styles.container}>
       <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList')}}>
+        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassList')}}>
                           <Text style={styles.textCancel}>Cancel</Text>
                         </TouchableOpacity>
                         )}
-        centerComponent={({ text: 'New Course', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList')}}>
+        centerComponent={({ text: 'Edit Course', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
+        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassList')}}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}
@@ -44,8 +49,9 @@ render() {
       />
       <View style={styles.containerTextInput}>
         <TextInput
-        placeholder='Untitled Course'
+        placeholder={this.state.courseName}
         style={styles.textInput}
+        onChangeText={this.setSemesterName}
         />
       </View>
     </View>
@@ -54,7 +60,7 @@ render() {
 }
 }
 
-Add_CourseScreen.navigationOptions = {
+Edit_CourseScreen.navigationOptions = {
   header:null
 };
 

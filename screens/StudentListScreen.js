@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity, TextInput } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header,Button } from 'react-native-elements';
 
