@@ -7,6 +7,7 @@ import {
   Platform,
   FlatList
 } from 'react-native';
+import Swipeout from 'react-native-swipeout';
 
 
 import { Header, Icon } from 'react-native-elements';
@@ -22,7 +23,8 @@ class SemestersScreen extends React.Component {
     this.state = {
       semester:'Semester',
       students:'Total student',
-      data:this.props.semester
+      current:[],
+      past:[],
       
     }
   }
@@ -30,21 +32,18 @@ class SemestersScreen extends React.Component {
     get_semester(this.props)
   }
 
- 
-
   ListViewItemSeparator = () => {
     return (
-      <View style={{ backgroundColor: '#000',}} />
+      <View style={{ backgroundColor: '#000'}} />
     );
   }; 
+ 
 
   render() {
-    console.log('====================================');
-    console.log(`Check Array in mapStateToProps ${Array.isArray(this.props.semester)}`);
-    console.log(this.state.data)
-    console.log('====================================');
 
   return (
+
+
     <View style = {styles.container}>
       <Header
         centerComponent={({ text: 'Semester', style:{color: '#fff', fontSize:36, fontWeight:'bold'} })}
@@ -60,36 +59,44 @@ class SemestersScreen extends React.Component {
                
         containerStyle={styles.containerStyle}
       />
-      <ScrollView>
+      
       <View style={styles.containerSemester}>
       <Text style={styles.header}>CURRENT</Text>
       </View>
 
+      <View style={{paddingBottom:5}}>
       <FlatList
         ItemSeparatorComponent={this.ListViewItemSeparator}
         data={this.props.semester}
-        renderItem={({item}) => (
-            <View>
+        refreshing={true}
+        renderItem={({item,index}) => (
             
+          <Swipeout left={[{text: 'Delete',
+          backgroundColor: 'red',
+          underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+          onPress: () => {}
+          }]}
+                  autoClose='true'
+                  backgroundColor= 'transparent'>
             <ContainerSemester
             semester={item.name}
             students={this.state.students}
             navigateCourseList={() => this.props.navigation.navigate('CourseList')}
-            delete={this.delete_semester}/>
-            
-            </View>
-            
-   )}
-/>
+            delete={item._id}/> 
+            </Swipeout>       
+             )}
+      />
+      
+      </View>
 
 
         
       <View style={styles.containerSemester}>
       <Text style={styles.header}>PAST</Text>
       </View>
-      <Text>{this.state.data.name}</Text>   
+    
 
-      </ScrollView>
+      
 
     </View>
   );

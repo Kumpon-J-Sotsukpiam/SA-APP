@@ -9,8 +9,8 @@ export default (state = initialState, actions) => {
     switch (actions.type) {
         case ADD_SEMESTER:
             return [
-                ...state,
-                actions.payload
+                actions.payload,
+                ...state
             ]
         case GET_SEMESTER:
             return actions.payload

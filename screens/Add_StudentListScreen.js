@@ -10,16 +10,16 @@ export default class Add_StudentListScreen extends React.Component {
 
       this.state = {
         data: [
-          { id: 1, key: 'test1', checked: false },
-          { id: 2, key: 'test1', checked: true }
+          { key:'student',studentID: 5905100025, studentName:'Chanathip Nobnom',checked: false },
+          { key:'student',studentID: 5905100026, studentName:'Chanathip Nobnom',checked: false },
       ]
     }
   }
 
-    onCheckChanged(id) {
+    onCheckChanged(studentID) {
       const data = this.state.data;
 
-      const index = data.findIndex(x => x.id === id);
+      const index = data.findIndex(x => x.studentID === studentID);
       data[index].checked = !data[index].checked;
       this.setState(data);
   }
@@ -57,11 +57,6 @@ export default class Add_StudentListScreen extends React.Component {
             <Text style={{fontSize:16}}>{this.state.name}</Text>
           </View>
           <View style={{flex:1,alignItems:'flex-end',justifyContent:'center'}}>
-            <CheckBox
-              center
-              checked={this.state.checked}
-              onPress={()=>this.checkBoxChanged()}
-            />
           </View>
         </View>
 
@@ -69,13 +64,17 @@ export default class Add_StudentListScreen extends React.Component {
         data={data}
           extraData={this.state}
           renderItem={({ item, index }) =>
-          
+          <View>
+        <Text>{item.studentID}</Text>
+        <Text>{item.studentName}</Text>
+        
         <CheckBox
+          title={item.checked+''}
           checked={item.checked}
-          title={item.key+item.checked}
-          onPress={() => this.onCheckChanged(item.id)}
+          onPress={() => this.onCheckChanged(item.studentID)}
           key={item.key}
           />
+          </View>
        
          }
         />
