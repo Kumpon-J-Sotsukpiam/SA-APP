@@ -16,9 +16,11 @@ export default (state = initialState, actions) => {
             return actions.payload
             
         case DELETE_SEMESTER:
-            return {
+            return  state.filter((data, i) => i !== action.id);
+                default:
+            return state;
 
-            }
+            
         case SET_SEMESTER:
             return {
 
@@ -26,4 +28,4 @@ export default (state = initialState, actions) => {
         default:
             return state
     }
-}
+};

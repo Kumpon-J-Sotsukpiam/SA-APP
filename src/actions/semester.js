@@ -14,12 +14,27 @@ export const addSemester = semester => {
         payload: semester
     }
 }
+export const delSemester= (id) => {
+    return {
+        type: DELETE_SEMESTER,
+        id: id
+    }
+}
 // action FrontEnd
 export const get_semester = (props) => {
     const { dispatch } = props
     api.get('semester/').then(res => {
         console.log(`Check Array in Action ${Array.isArray(res.data)}`);
         dispatch(getSemester(res.data))
+    }).catch(err => {
+        dispatch(get_errors(err.response.data))
+    })
+}
+export const del_semester = (id,props) => {
+    const { dispatch } = props
+    api.delete(`semester/${id}`).then(res => {
+        console.log(`Check Array in Action ${Array.isArray(res.data)}`);
+        dispatch(delSemester(res.data))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
     })

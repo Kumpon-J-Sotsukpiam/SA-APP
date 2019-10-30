@@ -32,3 +32,4 @@ export const GET_CLASS = 'GET_CLASS'
 export const ADD_CHECKIN = 'ADD_CHECKIN'
 export const DELETE_CHECKIN = 'DELETE_CHECKIN'
 export const GET_CHECKIN = 'GET_CHECKIN'
+
