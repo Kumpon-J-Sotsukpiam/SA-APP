@@ -26,6 +26,7 @@
     "expo-react-native-adapter": "^3.0.1",
     "expo-secure-store": "~6.0.0",
     "galio-framework": "^0.6.3",
+    "ip": "^1.1.5",
     "jwt-decode": "^2.2.0",
     "native-base": "^2.13.8",
     "prop-types": "^15.7.2",
