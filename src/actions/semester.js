@@ -39,6 +39,6 @@ export const add_semester = (semester,props) => {
     }).catch(err => {
         console.error(err.response.data);
     })
-    navigation.navigate('Semesters')
+    //navigation.navigate('Semesters')
     console.log('Semester Name : '+semester.semesterName+'\n'+'Date Start : '+semester.dateStarts+'\n'+'Date End : '+semester.dateEnds)    
 }

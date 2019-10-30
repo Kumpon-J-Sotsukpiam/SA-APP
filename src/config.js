@@ -1,6 +1,6 @@
 import * as FaceDetector from 'expo-face-detector'
 
-export const ip_server = '192.168.1.39'
+export const ip_server = '172.20.10.3'
 export const port = 3001
 export const server_url = `http://${ip_server}:${port}`
 

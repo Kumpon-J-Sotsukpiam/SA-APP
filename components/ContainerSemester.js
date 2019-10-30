@@ -9,21 +9,21 @@ import {
 
 import Swipeout from 'react-native-swipeout';
 
+
+
+
+
 const ContainerSemester = props => {
   
-  let swipeBtns = [{
-    text: 'Delete',
-    backgroundColor: 'red',
-    underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
-    onPress: () => {}
-  }];
-
-  
   return (
-    
+  
 
     <View style={styles.container}>
-      <Swipeout left={swipeBtns}
+      <Swipeout left={[{text: 'Delete',
+      backgroundColor: 'red',
+      underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+      onPress:{}
+      }]}
               autoClose='true'
               backgroundColor= 'transparent'>
 
