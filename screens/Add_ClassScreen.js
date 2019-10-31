@@ -11,10 +11,9 @@ import {
 } from 'react-native';
 import { Header, ButtonGroup} from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
-
+import {add_class} from '../src/actions/class'
 //Date
 import { format } from 'date-fns'
-
 
 var getDate = new Date();
 var getTimeStarts = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 8, 0, 0);
@@ -26,7 +25,8 @@ export default class Add_ClassScreen extends React.Component {
     super(props);
 
     this.state = {
-      courseID:'Course ID',
+      courseID:null,
+      semesterID:null,
       selectedWeek: '',
       timepickerStarts:false,
       timepickerEnds:false,
@@ -36,8 +36,22 @@ export default class Add_ClassScreen extends React.Component {
     this.updateIndex = this.updateIndex.bind(this)
     this.setTimeStarts = this.setTimeStarts.bind(this);
     this.setTimeEnds = this.setTimeEnds.bind(this);
+    this.handleNavigationBack = this.handleNavigationBack.bind(this)
+    this.handleOnSave = this.handleOnSave.bind(this)
 }
-
+componentWillMount(){ 
+  const { courseId,semesterID } = this.props.navigation.state.params
+  console.log('====================================');
+  console.log({courseId,semesterID});
+  console.log('====================================');
+  this.setState({
+    courseID:courseId,
+    semesterID:semesterID
+  })
+}
+handleNavigationBack() {
+  this.props.navigation.navigate('ClassList',{courseId:this.state.courseID,semesterID:this.state.semesterID})
+}
 updateIndex (selectedWeek) {
   this.setState({selectedWeek})
 }
@@ -85,24 +99,23 @@ hideTimePicker(){
     timepickerEnds:false
   })
   }
-
-  
 }
-
-
+handleOnSave(data,props) {
+  //add_class(data,props)
+  this.handleNavigationBack()
+}
 render() {
-  const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']
-    
+  const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']   
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style = {styles.container}>
       <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassList')}}>
+        leftComponent={(<TouchableOpacity onPress={this.handleNavigationBack}>
                           <Text style={styles.textCancel}>Cancel</Text>
                         </TouchableOpacity>
                         )}
         centerComponent={({ text: 'New Class', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassList')}}>
+        rightComponent={(<TouchableOpacity onPress={()=>{ this.handleOnSave(this.state,this.props)}}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}

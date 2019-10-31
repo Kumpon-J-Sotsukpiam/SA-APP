@@ -9,7 +9,6 @@ import {connect}from 'react-redux'
 import {get_course,del_course} from '../src/actions/course'
 
 var dateCurent = new Date();
-
 class CourseListScreen extends React.Component {
 
   constructor(props) {
@@ -80,11 +79,9 @@ class CourseListScreen extends React.Component {
         centerContainerStyle={{flex:10}}
         containerStyle={styles.containerStyle}
       />
-     
      <ScrollView>
       <View style={styles.containerSemester}>
       </View>
-
       <View style={{paddingBottom:5}}>
       <FlatList
         ItemSeparatorComponent={this.ListViewItemSeparator}
@@ -103,23 +100,17 @@ class CourseListScreen extends React.Component {
             <ContainerSemester
             semester={item.name}
             students={'Total Student in course  '}
-            navigateCourseList={() => this.props.navigation.navigate('ClassList')}
+            navigateCourseList={() => this.props.navigation.navigate('ClassList',{courseId:item._id,semesterID:this.state.semester._id})}
            /> 
             </Swipeout>
           </View>      
              )}
       />
-      
-      
       </View>
-
       </ScrollView>
-      
     </View>
   );
-}
-}
-
+}}
 CourseListScreen.navigationOptions = {
   header:null
 };

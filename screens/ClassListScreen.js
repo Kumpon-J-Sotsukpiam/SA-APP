@@ -3,23 +3,27 @@ import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from '
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerClassList from '../components/ContainerClassList';
-
-export default class ClassListScreen extends React.Component {
+import {get_class} from '../src/actions/class'
+import {connect} from 'react-redux'
+class ClassListScreen extends React.Component {
   constructor(props) {
     super(props);
 
       this.state = {
-      courseID:'Course ID',
-      classID:'Class ID',
-      group:'Group',
-      location:'Location',
-      day:'Day',
-      timeStart:'Start',
-      timeEnd:'End',
-      students:'Total Student',
+        course: [],
+        semesterID:''
     };
   }
-
+  componentWillMount(){
+    const {courseId,semesterID} = this.props.navigation.state.params
+    log = this.props.course.filter((i) => i._id === courseId)
+    this.setState({
+      course:log[0],
+      semesterID:semesterID
+    })
+    //get_course(id,this.props)
+  }
+  
  render() {
 
   return (
@@ -27,7 +31,7 @@ export default class ClassListScreen extends React.Component {
       <Header
         
         leftComponent={(
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList')}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})}>
         <Ionicons
           name='ios-arrow-back'
           size={35}
@@ -39,14 +43,14 @@ export default class ClassListScreen extends React.Component {
         rightComponent={(<Ionicons name='ios-add'
         size={60}
         color={'#fff'}
-        onPress={()=>{this.props.navigation.navigate('AddClass')}}
+        onPress={()=>{this.props.navigation.navigate('AddClass',{courseId:this.state.course._id,semesterID:this.state.semesterID})}}
       />)}
         rightContainerStyle={{flex:1}}
         centerComponent={(
           <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse',{courseID:this.state.courseID})}>
         <View style={styles.containerHeader}>
           <View style={styles.containerTextHeader}>
-            <Text style={styles.textHeader}>{this.state.courseID}</Text>
+            <Text style={styles.textHeader}>{this.state.course.name}</Text>
           </View>
         </View>
         </TouchableOpacity>
@@ -111,3 +115,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
+const mapStateToProps = state => ({
+  class:state.class,
+  course: state.coures
+})
+export default connect(mapStateToProps)(ClassListScreen)

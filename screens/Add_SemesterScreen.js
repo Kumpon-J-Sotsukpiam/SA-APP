@@ -90,9 +90,9 @@ class Add_SemesterScreen extends React.Component {
 
   }
 
-  handleOnSave(semester,props) {
-    add_semester(semester,props)
-    {this.props.navigation.navigate('Semesters')}
+  async handleOnSave(semester,props) {
+    await add_semester(semester,props)
+    await this.props.navigation.navigate('Semesters')
   }
   handleChange = (name, e) => {
     this.setState({

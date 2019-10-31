@@ -1,6 +1,8 @@
 import { ADD_CLASS,DELETE_CLASS,SET_CLASS, GET_CLASS} from '../actions/types'
 
-const initialState = {}
+const initialState = {
+    class:[]
+}
 
 export default (state = initialState, action) => {
     switch (action.type) {

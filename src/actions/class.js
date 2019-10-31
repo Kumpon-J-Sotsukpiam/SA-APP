@@ -37,15 +37,12 @@ export const get_class = (props) => {
 }
 export const add_class = (Class,props) => {
     const { dispatch,navigation } = props
-    // format data
     data = {
-        // name:semester.semesterID,
-        // startDate:semester.dateStarts,
-        // endDate:semester.dateEnds
     }
     api.post('clas/',data).then(res => {
         dispatch(addClass(res.data))
-        //navigation.navigate('Semesters')
+    }).catch(err => {
+        dispatch(get_errors(err.response.data))
     })
 }
 export const del_class = (id,props) => {
