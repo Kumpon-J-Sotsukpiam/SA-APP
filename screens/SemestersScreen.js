@@ -30,7 +30,6 @@ class SemestersScreen extends React.Component {
   
   componentWillMount(){
     get_semester(this.props)
-
   }
 
   ListViewItemSeparator = () => {
@@ -40,12 +39,7 @@ class SemestersScreen extends React.Component {
   }; 
  
   render() {
-
-
-    
   return (
-
-
     <View style = {styles.container}>
       <Header
         centerComponent={({ text: 'Semester', style:{color: '#fff', fontSize:36, fontWeight:'bold'} })}
@@ -56,9 +50,7 @@ class SemestersScreen extends React.Component {
                           onPress={()=>{this.props.navigation.navigate('AddSemester')}}
                         />
                         </View>
-                        )}
-            
-               
+                        )}     
         containerStyle={styles.containerStyle}
       />
       <ScrollView>

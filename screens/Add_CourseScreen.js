@@ -8,7 +8,7 @@ import { StyleSheet,
   Keyboard
 } from 'react-native';
 import { Header } from 'react-native-elements';
-
+import {add_course} from '../src/actions/course'
 export default class Add_CourseScreen extends React.Component {
    constructor(props) {
     super(props);
@@ -17,20 +17,40 @@ export default class Add_CourseScreen extends React.Component {
       semesterID:'Semester ID',
       courseID:'Course ID',
     }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleNavigationBack = this.handleNavigationBack.bind(this)
+    this.handleOnSave = this.handleOnSave.bind(this)
 }
- 
+handleChange = (name,e) => {
+  this.setState({
+    [name]: e.nativeEvent.text
+  })
+}
+handleOnSave(data,props) {
+  add_course(data,props)
+  //this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})
+  this.handleNavigationBack()
+}
+
+componentWillMount(){
+  this.setState({
+    semesterID:this.props.navigation.state.params.semesterID
+  })
+}
+handleNavigationBack() {
+  this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})
+}
 render() {
-    
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style = {styles.container}>
       <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList')}}>
+        leftComponent={(<TouchableOpacity onPress={this.handleNavigationBack}>
                           <Text style={styles.textCancel}>Cancel</Text>
                         </TouchableOpacity>
                         )}
         centerComponent={({ text: 'New Course', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CourseList')}}>
+        rightComponent={(<TouchableOpacity onPress={() => this.handleOnSave(this.state,this.props)}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}
@@ -46,6 +66,7 @@ render() {
         <TextInput
         placeholder='Untitled Course'
         style={styles.textInput}
+        onChange={e => this.handleChange('courseID',e)}
         />
       </View>
     </View>

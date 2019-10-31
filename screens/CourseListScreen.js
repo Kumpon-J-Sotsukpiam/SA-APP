@@ -5,23 +5,18 @@ import { Header } from 'react-native-elements';
 import ContainerSemester from '../components/ContainerSemester';
 import { calDurationsSemesterLeft } from "../src/actions/durations"
 import Swipeout from 'react-native-swipeout';
+import {connect}from 'react-redux'
+import {get_course} from '../src/actions/course'
 
 var dateCurent = new Date();
 
-
-export default class CourseListScreen extends React.Component {
+class CourseListScreen extends React.Component {
 
   constructor(props) {
     super(props);
-
       this.state = {
         autoClose:true,
-      semester:{
-        semesterID:1,
-        semesterName:'Semester 2019',
-        startDate:'2019/12/1',
-        endDate:'2019/12/31',
-      },
+      semester:{},
       course:[{
         courseName:'SP326',
         id_:'1',
@@ -33,21 +28,23 @@ export default class CourseListScreen extends React.Component {
         semesterID:'SemesterID',
         students:'Total student SP423',
         }
-    ],
-      
-      
-    };
+    ]};
   }
-
+  componentWillMount(){
+    id = this.props.navigation.state.params.semesterID
+    log = this.props.semester.filter((i) => i._id === id)
+    this.setState({
+      semester:log[0]
+    })
+    get_course(id,this.props)
+  }
   ListViewItemSeparator = () => {
     return (
       <View style={{ backgroundColor: '#000'}} />
     );
   }; 
 
-
  render() {
-
   return (
     <View style = {styles.container}>
       <Header
@@ -65,14 +62,14 @@ export default class CourseListScreen extends React.Component {
         rightComponent={(<Ionicons name={'ios-add'}
         size={60}
         color={'#fff'}
-        onPress={()=>{this.props.navigation.navigate('AddCourse')}}
+        onPress={()=>{this.props.navigation.navigate('AddCourse',{semesterID:this.state.semester._id})}}
       />)}
         rightContainerStyle={{flex:1}}
         centerComponent={(
         <TouchableOpacity onPress={()=>{this.props.navigation.navigate('EditSemester',{semesterID:this.state.semester.semesterID})}}>
         <View style={styles.containerHeader}>
           <View style={styles.containerTextHeader}>
-            <Text style={styles.textHeader}>{this.state.semester.semesterID}</Text>
+            <Text style={styles.textHeader}>{this.state.semester.name}</Text>
           </View>
           <View style={styles.containerDurationsHeader}>
             <Text style={styles.durationsHeader}>Durations : {calDurationsSemesterLeft(this.state.semester.endDate)}</Text>
@@ -91,7 +88,7 @@ export default class CourseListScreen extends React.Component {
       <View style={{paddingBottom:5}}>
       <FlatList
         ItemSeparatorComponent={this.ListViewItemSeparator}
-        data={this.state.course}
+        data={this.props.course}
         refreshing={true}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
@@ -104,8 +101,8 @@ export default class CourseListScreen extends React.Component {
                     autoClose={this.state.autoClose}
                     backgroundColor= 'transparent'>
             <ContainerSemester
-            semester={item.courseName}
-            students={item.students}
+            semester={item.name}
+            students={'Total Student in course  '}
             navigateCourseList={() => this.props.navigation.navigate('ClassList')}
            /> 
             </Swipeout>
@@ -170,3 +167,8 @@ const styles = StyleSheet.create({
     borderRadius:10,
   },
 });
+const mapStateToProps = state => ({
+  semester: state.semester,
+  course: state.coures  
+})
+export default connect(mapStateToProps)(CourseListScreen)

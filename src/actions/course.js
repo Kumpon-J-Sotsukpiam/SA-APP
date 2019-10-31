@@ -16,24 +16,27 @@ export const addCourse = data => {
 }
 
 // action FrontEnd
-export const get_course = (props) => {
+export const get_course = (id,props) => {
     const { dispatch } = props
-    api.get('cour/').then(res => {
-        console.log(`Check Array in Action ${Array.isArray(res.data)}`);
+    api.get(`cour/${id}`).then(res => {
+        console.log(res);
+        
         dispatch(getCourse(res.data))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
     })
 }
-export const add_course = (course,props) => {
+export const add_course = (data,props) => {
     const { dispatch,navigation } = props
     // format data
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
     data = {
-      //  name:semester.semesterID,
-       // startDate:semester.dateStarts,
-       // endDate:semester.dateEnds
+        _id:data.semesterID,
+        name:data.courseID,
     }
-    api.post('cour/',data).then(res => {
+    api.post(`cour/`,data).then(res => {
         dispatch(addCourse(res.data))
        // navigation.navigate('Semesters')
     })

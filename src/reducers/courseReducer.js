@@ -1,9 +1,11 @@
 import { ADD_COURSE,DELETE_COURSE,SET_COURSE, GET_COURSE} from '../actions/types'
 
-const initialState = {}
+const initialState = {
+    course: []
+}
 
-export default (state = initialState, action) => {
-    switch (action.type) {
+export default (state = initialState, actions) => {
+    switch (actions.type) {
         case ADD_COURSE:
             return [
                 ...state,
