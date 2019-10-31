@@ -8,7 +8,6 @@ import {connect} from 'react-redux'
 class ClassListScreen extends React.Component {
   constructor(props) {
     super(props);
-
       this.state = {
         course: [],
         semesterID:''
@@ -21,11 +20,12 @@ class ClassListScreen extends React.Component {
       course:log[0],
       semesterID:semesterID
     })
-    //get_course(id,this.props)
-  }
-  
+    get_class(courseId,this.props)
+  } 
  render() {
-
+  console.log('====================================');
+  console.log(this.props.class);
+  console.log('====================================');
   return (
     <View style = {styles.container}>
       <Header

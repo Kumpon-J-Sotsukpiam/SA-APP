@@ -28,6 +28,8 @@ export default class Add_ClassScreen extends React.Component {
       courseID:null,
       semesterID:null,
       selectedWeek: '',
+      group:'',
+      location:'',
       timepickerStarts:false,
       timepickerEnds:false,
       setTimeStarts:getTimeStarts,
@@ -38,12 +40,10 @@ export default class Add_ClassScreen extends React.Component {
     this.setTimeEnds = this.setTimeEnds.bind(this);
     this.handleNavigationBack = this.handleNavigationBack.bind(this)
     this.handleOnSave = this.handleOnSave.bind(this)
+    this.handleChange = this.handleChange.bind(this)
 }
 componentWillMount(){ 
   const { courseId,semesterID } = this.props.navigation.state.params
-  console.log('====================================');
-  console.log({courseId,semesterID});
-  console.log('====================================');
   this.setState({
     courseID:courseId,
     semesterID:semesterID
@@ -55,44 +55,37 @@ handleNavigationBack() {
 updateIndex (selectedWeek) {
   this.setState({selectedWeek})
 }
-
 setTimeStarts(newTime) {
   this.setState({ setTimeStarts: newTime });
 }
 setTimeEnds(newTime) {
   this.setState({ setTimeEnds: newTime });
 }
- 
 showTimePickerStarts(){
   this.setState({
     timepickerStarts:!this.state.timepickerStarts
   })
-
   if(this.state.timepickerEnds===true){
      this.setState({
-    timepickerEnds:false
-  })
+      timepickerEnds:false
+    })
   }
 }
-
 showTimePickerEnds(){
-
   this.setState({
     timepickerEnds:!this.state.timepickerEnds
   })
-
   if(this.state.timepickerStarts===true){
      this.setState({
-    timepickerStarts:false
-  })
+      timepickerStarts:false
+    })
   }
 }
-
 hideTimePicker(){
   if(this.state.timepickerStarts===true){
      this.setState({
-    timepickerStarts:false
-  })
+      timepickerStarts:false
+    })
   }
   if(this.state.timepickerEnds===true){
      this.setState({
@@ -100,8 +93,22 @@ hideTimePicker(){
   })
   }
 }
+handleChange = (name,e) => {
+  this.setState({
+    [name]: e.nativeEvent.text
+  }) 
+}
 handleOnSave(data,props) {
-  //add_class(data,props)
+  const {courseID,group,location,selectedWeek,setTimeStarts,setTimeEnds } = this.state
+  data = {
+    _id:courseID,
+    group:group,
+    location:location,
+    day:selectedWeek,
+    startTime:setTimeStarts,
+    endTime:setTimeEnds
+  }
+  add_class(data,this.props)
   this.handleNavigationBack()
 }
 render() {
@@ -132,6 +139,7 @@ render() {
         placeholder='Group'
         style={styles.textInput}
         onFocus={()=>this.hideTimePicker()}
+        onChange={e => {this.handleChange('group',e)}}
         />
       </View>
       <View style={styles.containerTextInput}>
@@ -139,6 +147,7 @@ render() {
         placeholder='Location'
         style={styles.textInput}
         onFocus={()=>this.hideTimePicker()}
+        onChange={e => {this.handleChange('location',e)}}
         />
       </View>
 

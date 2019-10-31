@@ -4,8 +4,8 @@ const initialState = {
     class:[]
 }
 
-export default (state = initialState, action) => {
-    switch (action.type) {
+export default (state = initialState, actions) => {
+    switch (actions.type) {
         case ADD_CLASS:
             return [
                 ...state,

@@ -24,7 +24,7 @@ export default class Add_CourseScreen extends React.Component {
 handleChange = (name,e) => {
   this.setState({
     [name]: e.nativeEvent.text
-  })
+  }) 
 }
 handleOnSave(data,props) {
   add_course(data,props)

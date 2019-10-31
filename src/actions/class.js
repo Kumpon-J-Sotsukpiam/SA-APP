@@ -27,18 +27,16 @@ export const setClass = data => {
     }
 }
 // action FrontEnd
-export const get_class = (props) => {
+export const get_class = (id,props) => {
     const { dispatch } = props
-    api.get('clas/').then(res => {
+    api.get(`clas/${id}`).then(res => {
         dispatch(getClass(res.data))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
     })
 }
-export const add_class = (Class,props) => {
+export const add_class = (data,props) => {
     const { dispatch,navigation } = props
-    data = {
-    }
     api.post('clas/',data).then(res => {
         dispatch(addClass(res.data))
     }).catch(err => {
