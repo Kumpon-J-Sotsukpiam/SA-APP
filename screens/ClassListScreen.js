@@ -1,16 +1,32 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
+import { StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerClassList from '../components/ContainerClassList';
 import {get_class} from '../src/actions/class'
 import {connect} from 'react-redux'
+import Swipeout from 'react-native-swipeout';
+
 class ClassListScreen extends React.Component {
   constructor(props) {
     super(props);
       this.state = {
         course: [],
-        semesterID:''
+        semesterID:'',
+        test:[{
+          group:'Test Group',
+          location:'Test Location',
+          day:'Monday',
+          timeStart:'07:00',
+          timeEnd:'08:00',
+          students:'Total Test',
+        }],
+
     };
   }
   componentWillMount(){
@@ -18,10 +34,18 @@ class ClassListScreen extends React.Component {
     log = this.props.course.filter((i) => i._id === courseId)
     this.setState({
       course:log[0],
-      semesterID:semesterID
+      semesterID:semesterID,
+
     })
     get_class(courseId,this.props)
   } 
+
+  ListViewItemSeparator = () => {
+    return (
+      <View style={{ backgroundColor: '#000'}} />
+    );
+  }; 
+
  render() {
   console.log('====================================');
   console.log(this.props.class);
@@ -58,17 +82,37 @@ class ClassListScreen extends React.Component {
         centerContainerStyle={{flex:9}}
         containerStyle={styles.containerStyle}
       />
-
+        <View>
+        
+        <FlatList
+        ItemSeparatorComponent={this.ListViewItemSeparator}
+        data={this.state.test}
+        refreshing={true}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => (
+          <View>  
+          <Swipeout left={[{text: 'Delete',
+                            backgroundColor: 'red',
+                            
+                          }]}
+                    style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
+                    autoClose={this.state.autoClose}
+                    backgroundColor= 'transparent'>
         <ContainerClassList
-        group={this.state.group}
-        location={this.state.location}
-        day={this.state.day}
-        timeStart={this.state.timeStart}
-        timeEnd={this.state.timeEnd}
-        students={this.state.students}
-        navigateCamera={() => this.props.navigation.navigate('Camera')}
+        group={item.group}
+        location={item.location}
+        day={item.day}
+        timeStart={item.timeStart}
+        timeEnd={item.timeEnd}
+        students={item.students}
+        navigateCamera={() => this.props.navigation.navigate('Camera',{classID:'ClassId'})}
         navigateClassDetails={() => this.props.navigation.navigate('ClassDetails')}
         />
+        </Swipeout>
+        </View>      
+             )}
+      />
+      </View>
         
     </View>
   );

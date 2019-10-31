@@ -1,7 +1,14 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, TouchableOpacity, TextInput, FlatList} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  FlatList,} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Header,CheckBox } from 'react-native-elements';
+import { Header, CheckBox, SearchBar } from 'react-native-elements';
 
 
 export default class Add_StudentListScreen extends React.Component {
@@ -9,14 +16,20 @@ export default class Add_StudentListScreen extends React.Component {
     super(props);
 
       this.state = {
-        data: [
+     
+        data: [],      
+        error: null,
+        text:'',
+
+        dataStudent: [
           { key:'student',studentID: 5905100025, studentName:'Chanathip Nobnom',checked: false },
           { key:'student',studentID: 5905100026, studentName:'Chanathip Nobnom',checked: false },
-      ]
+              ]
     }
+
   }
 
-    onCheckChanged(studentID) {
+  onCheckChanged(studentID) {
       const data = this.state.data;
       const index = data.findIndex(x => x.studentID === studentID);
       data[index].checked = !data[index].checked;
@@ -27,10 +40,23 @@ export default class Add_StudentListScreen extends React.Component {
     return (
       <View style={{ backgroundColor: '#000'}} />
     );
-  }; 
+  };
+  
+  searchFilterFunction(text){ 
+    const newData = this.state.dataStudent.filter(item => {      
+      const itemData = item.studentID ? item.studentID+''.toUpperCase() : ''.toUpperCase();
+      
+       const textData = text.toUpperCase();
+        
+       return itemData.indexOf(textData) > -1;    
+    });
+    
+    this.setState({ data: newData,text: text});  
+  };
+
   
  render() {
-  let { data } = this.state;
+
 
   return (
     <View style = {styles.container}>
@@ -54,34 +80,41 @@ export default class Add_StudentListScreen extends React.Component {
 
       <View style={{marginTop:10,paddingBottom:3,paddingTop:3,backgroundColor:'#fff'}}>
       <ScrollView>
-        <View style={{flexDirection:'row',padding:5,backgroundColor:'#fff',borderBottomColor:'#fd4176',borderBottomWidth:1,flexWrap:'wrap'}}>
-          <View style={{flex:2,justifyContent:'center'}}>
-            <Text style={{fontSize:16}}>{this.state.studentID}</Text>
-          </View>
-          <View style={{flex:2,justifyContent:'center'}}>
-            <Text style={{fontSize:16}}>{this.state.name}</Text>
-          </View>
-          <View style={{flex:1,alignItems:'flex-end',justifyContent:'center'}}>
-          </View>
-        </View>
+ 
+      <SearchBar        
+      placeholder="Type Here..."        
+      lightTheme        
+      round
+      onChangeText={text => this.searchFilterFunction(text)}
+      autoCorrect={false}
+      value={this.state.text}
+
+       />  
+
 
         <FlatList
           ItemSeparatorComponent={this.ListViewItemSeparator}
-          data={data}
-          extraData={this.state}
+          data={this.state.data}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) =>
-          <View>
-        <Text>{item.studentID}</Text>
-        <Text>{item.studentName}</Text>
         
+        
+      <View style={{flexDirection:'row',padding:2,backgroundColor:'#fff',flexWrap:'wrap',borderBottomColor:'#fd4176',borderBottomWidth:1}}>
+        <View style={{flex:2,justifyContent:'center'}}>
+          <Text style={{fontSize:16}}>{item.studentID}</Text>
+        </View>
+        <View style={{flex:2,justifyContent:'center'}}>
+          <Text style={{fontSize:16}}>{item.studentName}</Text>
+        </View>
+        <View style={{flex:1, justifyContent:'center'}}>
         <CheckBox
-          title={item.checked+''}
           checked={item.checked}
           onPress={() => this.onCheckChanged(item.studentID)}
-          key={item.key}
+          
           />
-          </View>
+        </View>
+      </View>
+ 
        
          }
         />
