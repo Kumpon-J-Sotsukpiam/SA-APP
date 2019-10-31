@@ -6,7 +6,7 @@ import ContainerSemester from '../components/ContainerSemester';
 import { calDurationsSemesterLeft } from "../src/actions/durations"
 import Swipeout from 'react-native-swipeout';
 import {connect}from 'react-redux'
-import {get_course} from '../src/actions/course'
+import {get_course,del_course} from '../src/actions/course'
 
 var dateCurent = new Date();
 
@@ -95,7 +95,7 @@ class CourseListScreen extends React.Component {
           <View style={styles.containerSemesterList}>  
           <Swipeout left={[{text: 'Delete',
                             backgroundColor: 'red',
-                            onPress: () => {}
+                            onPress: () => {del_course(item._id,this.props)}
                           }]}
                     style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
                     autoClose={this.state.autoClose}

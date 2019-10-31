@@ -19,9 +19,8 @@ export default (state = initialState, actions) => {
 
             }
         case DELETE_COURSE:
-            return {
-
-            }
+            return  state.filter((i) => i._id !== actions.id)
+        
         default:
             return state
     }

@@ -14,13 +14,16 @@ export const addCourse = data => {
         payload: data
     }
 }
-
+export const delCourse= (id) => {
+    return {
+        type: DELETE_COURSE,
+        id: id
+    }
+}
 // action FrontEnd
 export const get_course = (id,props) => {
     const { dispatch } = props
     api.get(`cour/${id}`).then(res => {
-        console.log(res);
-        
         dispatch(getCourse(res.data))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
@@ -28,16 +31,19 @@ export const get_course = (id,props) => {
 }
 export const add_course = (data,props) => {
     const { dispatch,navigation } = props
-    // format data
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
     data = {
         _id:data.semesterID,
         name:data.courseID,
     }
     api.post(`cour/`,data).then(res => {
         dispatch(addCourse(res.data))
-       // navigation.navigate('Semesters')
+    })
+}
+export const del_course = (id,props) => {
+    const { dispatch } = props
+    api.delete(`cour/${id}`).then(res => {
+        dispatch(delCourse(id))
+    }).catch(err => {
+        dispatch(get_errors(err.response.data))
     })
 }
