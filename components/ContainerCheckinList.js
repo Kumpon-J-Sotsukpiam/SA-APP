@@ -11,15 +11,14 @@ const ContainerCheckinList = props => {
   
   return (
 
-    <View style={{borderRadius:10}}>
-    <TouchableOpacity style={styles.containerCheckinList} onPress={props.navigateCheckinList}>
+    <TouchableOpacity style={styles.container} onPress={props.navigateCheckinList}>
 
     <View style={styles.section1}>
-    <Text style={styles.header}>{props.dateCheckin}</Text>
+    <Text style={styles.header}>{props.course}{props.dateCheckin}</Text>
     </View>
 
     <View style={styles.section2}>
-    <Text style={styles.semesterDetails}>{props.students}</Text>
+    <Text style={styles.semesterDetails}>{props.student}</Text>
     </View>
 
     <View style={styles.section3}>
@@ -31,17 +30,17 @@ const ContainerCheckinList = props => {
     </View>
     
     </TouchableOpacity>
-    </View>
+    
   );
 
   }
 
 const styles = StyleSheet.create({
 
-  containerCheckinList: {
+  container: {
     backgroundColor: '#fff',
     flexDirection: 'row',
-    marginBottom:3,
+    margin: 10,
   },
   section1: {
     flex: 4,

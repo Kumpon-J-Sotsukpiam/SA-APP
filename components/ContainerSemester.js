@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'row',
     margin: 10,
+    padding:3
   },
   section1: {
     flex: 4,
@@ -50,7 +51,6 @@ const styles = StyleSheet.create({
   section2: {
     flex: 5,
     backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
   },
   section3: {

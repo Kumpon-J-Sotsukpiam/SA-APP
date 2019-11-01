@@ -21,25 +21,17 @@ class ClassListScreen extends React.Component {
     this.state = {
       course: [],
       semesterID: '',
-      test: [{
-        group: 'Test Group',
-        location: 'Test Location',
-        day: 'Monday',
-        timeStart: '07:00',
-        timeEnd: '08:00',
-        students: 'Total Test',
-      }],
-
+      autoClose:true
     };
   }
-  async componentWillMount() {
+  componentWillMount() {
     const { courseId, semesterID } = this.props.navigation.state.params
     log = this.props.course.filter((i) => i._id === courseId)
     this.setState({
       course: log[0],
       semesterID: semesterID,
     })
-    await get_class(courseId, this.props)
+     get_class(courseId, this.props)
   }
   ListViewItemSeparator = () => {
     return (
@@ -88,25 +80,28 @@ class ClassListScreen extends React.Component {
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <View>
+              <View style={{margin:5,backgroundColor:'#fff'}}>
                 <Swipeout left={[{
                   text: 'Delete',
                   backgroundColor: 'red',
+                  autoClose:this.state.autoClose,
                   onPress: () => { del_class(item._id, this.props) }
                 }]}
                   style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
+
                   <ContainerClassList
                     group={item.group}
                     location={item.location}
                     day={getDayOfWeek(item.day)}
                     startTime={formatTime(item.startTime)}
                     endTime={formatTime(item.endTime)}
-                    students={item.students}
+                    students={'Total'}
                     navigateCamera={() => this.props.navigation.navigate('Camera', { classID: 'ClassId' })}
                     navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterID })}
                   />
+
                 </Swipeout>
               </View>
             )}

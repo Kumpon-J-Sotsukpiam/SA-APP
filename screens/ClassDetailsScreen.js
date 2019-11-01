@@ -1,8 +1,16 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
+import { getDayOfWeek, formatTime } from "../src/actions/date"
 import ContainerCheckinList from '../components/ContainerCheckinList';
 import { connect } from 'react-redux'
 var getDate = new Date();
@@ -23,7 +31,15 @@ class ClassDetailsScreen extends React.Component {
     this.setState({
       class: log[0],
       semesterId: semesterId,
-      courseId: courseId
+      courseId: courseId,
+      dataTest:[
+        {_id : '1',date:'Date 1',total:'total'},
+        {_id : '2',date:'Date 2',total:'total'},
+        {_id : '3',date:'Date 3',total:'total'},
+        {_id : '4',date:'Date 4',total:'total'},
+      ]
+
+
     })
   }
   render() {
@@ -46,9 +62,9 @@ class ClassDetailsScreen extends React.Component {
               <View style={styles.leftSection2}>
                 <Text style={styles.textHeader}>{group}</Text>
                 <Text style={styles.textHeader}>{location}</Text>
-                <Text style={styles.textHeader}>{day} , {new Date(startTime).toLocaleTimeString()} - {new Date(endTime).toLocaleTimeString()}</Text>
+                <Text style={styles.textHeader}>{getDayOfWeek(day)} , {formatTime(startTime)} - {formatTime(endTime)}</Text>
                 <Text style={styles.textHeader}>{'totalStudent'}</Text>
-                <Text style={styles.textHeader}>Durations : {calDurationsTime(this.state.setTimeStarts, this.state.setTimeEnds)}</Text>
+                <Text style={styles.textHeader}>Durations : {calDurationsTime(startTime, endTime)}</Text>
               </View>
             </View>
 
@@ -69,7 +85,7 @@ class ClassDetailsScreen extends React.Component {
             </View>
             <View style={styles.headleftSection2}>
               <Ionicons
-                name='ios-arrow-forward'
+                name='ios-list'
                 size={35}
                 color='#979797'
               />
@@ -83,23 +99,21 @@ class ClassDetailsScreen extends React.Component {
 
         <View style={styles.containerClassList}>
 
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Semesters')}>
-            <View style={styles.containerClass}>
-              <View style={styles.classSection1}>
-                <Text style={{ fontSize: 18 }}>{this.state.dateCheckin}</Text>
-              </View>
-              <View style={styles.classSection2}>
-                <Text style={{ fontSize: 18 }}>{this.state.percentage}</Text>
-              </View>
-              <View style={styles.classSection3}>
-                <Ionicons
-                  name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
-                  size={35}
-                  color='#979797'
-                />
-              </View>
+        <FlatList
+        ItemSeparatorComponent={this.ListViewItemSeparator}
+        data={this.state.dataTest}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => (
+            <View style={styles.containerCheckinList}>  
+            <ContainerCheckinList
+                dateCheckin={item.date}
+                student={item.total}
+                navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails')}
+            />
             </View>
-          </TouchableOpacity>
+             )}
+             />
+            
         </View>
       </View>
     );
@@ -121,7 +135,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderColor: '#e8e8e8',
     height: 50,
-    marginTop: 5,
     flexDirection: 'row'
   },
   containerLeftHeader: {
@@ -165,21 +178,19 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 35
   },
-  containerClassList: {
-    margin:10,
-  },
-  containerClass: {
-    borderBottomWidth: 1,
-    borderColor: '#fd4176',
-    marginTop: 10,
-    flexDirection: 'row'
-  },
   containerStyle:{
     backgroundColor: '#fd4176',
-    height: 130,
+    height: 140,
     justifyContent: 'space-around',
     borderBottomColor: '#be5f7a',
     borderBottomWidth: 1,
+  },
+  containerCheckinList: {
+    backgroundColor: '#fff',
+    marginTop:5,
+    marginRight:10,
+    marginLeft:10,
+    borderRadius:10,
   },
 });
 const mapStateToProps = state => ({
