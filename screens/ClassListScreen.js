@@ -35,7 +35,6 @@ class ClassListScreen extends React.Component {
     this.setState({
       course:log[0],
       semesterID:semesterID,
-
     })
     get_class(courseId,this.props)
   }
@@ -107,7 +106,7 @@ class ClassListScreen extends React.Component {
         timeEnd={item.timeEnd}
         students={item.students}
         navigateCamera={() => this.props.navigation.navigate('Camera',{classID:'ClassId'})}
-        navigateClassDetails={() => this.props.navigation.navigate('ClassDetails')}
+        navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{classId:item._id,courseId:this.state.course._id,semesterId:this.state.semesterID})}
         />
         </Swipeout>
         </View>      
