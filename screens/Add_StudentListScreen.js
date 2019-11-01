@@ -11,6 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Header, CheckBox, SearchBar } from 'react-native-elements';
 import { createFilter } from 'react-native-search-filter';
 
+
 const KEYS_TO_FILTERS = ['studentID', 'studentName'];
 
 
