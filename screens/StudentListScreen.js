@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header,Button,SearchBar } from 'react-native-elements';
+import Swipeout from 'react-native-swipeout';
 import { createFilter } from 'react-native-search-filter';
 
 const KEYS_TO_FILTERS = ['studentID', 'studentName'];
@@ -17,6 +18,7 @@ export default class StudentListScreen extends React.Component {
     super(props);
 
       this.state = {
+      autoClose:true,
       search:'',
       dataStudent: [
         { key:'1',studentID: 5905100025, studentName:'Chanathip Nobnom',percentage: '100%' },
@@ -38,7 +40,6 @@ export default class StudentListScreen extends React.Component {
       <View style={{ backgroundColor: '#000'}} />
     );
   };
-
 
 
  render() {
@@ -76,7 +77,7 @@ export default class StudentListScreen extends React.Component {
         centerContainerStyle={{flex:9}}
         containerStyle={styles.containerStyle}
       />
-           
+      
       <SearchBar
       containerStyle={{backgroundColor:'#fff',marginBottom:3}}   
       placeholder="Search"        
@@ -95,15 +96,27 @@ export default class StudentListScreen extends React.Component {
                               <Text style={{fontSize:16,fontWeight:'bold'}}>Name</Text>
                             </View>
                             <View style={{flex:1, justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{fontSize:16,fontWeight:'bold'}}>Checkin</Text>
+                              <Text style={{fontSize:16,fontWeight:'bold'}}>Checkin</Text>
                               <Text style={{fontSize:9.5,fontWeight:'bold'}}>(Percentage)</Text>
                             </View>
                           </View>
+          
           <ScrollView>
           {filteredStudent.map(dataStudent => {
             return (
-              <TouchableOpacity onPress={()=>alert(dataStudent.studentID)} key={dataStudent.key}>
-                          <View style={{flexDirection:'row',padding:2,backgroundColor:'#f3f3f3',height:50,borderRadius:10,margin:3}}>
+    
+              <View key={dataStudent.key} style={{backgroundColor: '#f3f3f3',margin:3,borderRadius:10}}>
+              <Swipeout left={[{text: 'Delete',
+                                backgroundColor: 'red',
+              
+                                }]}
+                        style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
+                        autoClose={this.state.autoClose}
+                        backgroundColor= 'transparent'>
+              
+              <TouchableOpacity onPress={()=>alert(dataStudent.studentID)}
+              style={{flexDirection:'row',backgroundColor:'#f3f3f3',borderRadius:10,height:50,paddingLeft:5}}>
+                
                             <View style={{flex:2,justifyContent:'center'}}>
                               <Text style={{fontSize:16}}>{dataStudent.studentID}</Text>
                             </View>
@@ -113,11 +126,16 @@ export default class StudentListScreen extends React.Component {
                             <View style={{flex:1, justifyContent:'center',alignItems:'center'}}>
                               <Text style={{fontSize:16}}>{dataStudent.percentage}</Text>
                             </View>
-                          </View>
+                        
               </TouchableOpacity>
+              </Swipeout>
+              </View>
+    
             )
           })}
-        </ScrollView>
+
+          </ScrollView>
+        
 
       
 
@@ -155,15 +173,6 @@ const styles = StyleSheet.create({
       color: '#fff',
       fontSize:36,
       fontWeight:'bold'
-  },
-  textInput: {
-    backgroundColor:'#fff',
-    height:50,
-    padding: 10,
-    fontSize:18,
-    color:'gray',
-    marginTop:10,
-    textAlign:'center'
   },
   buttonButtom: {
     flex: 1,

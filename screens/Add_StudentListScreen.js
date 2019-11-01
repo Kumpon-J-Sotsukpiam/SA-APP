@@ -9,6 +9,10 @@ import {
   FlatList,} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, CheckBox, SearchBar } from 'react-native-elements';
+import { createFilter } from 'react-native-search-filter';
+
+
+const KEYS_TO_FILTERS = ['studentID', 'studentName'];
 
 
 export default class Add_StudentListScreen extends React.Component {
@@ -17,23 +21,23 @@ export default class Add_StudentListScreen extends React.Component {
 
       this.state = {
      
-        data: [],      
-        error: null,
-        text:'',
+        search:'',      
 
         dataStudent: [
-          { key:'student',studentID: 5905100025, studentName:'Chanathip Nobnom',checked: false },
-          { key:'student',studentID: 5905100026, studentName:'Chanathip Nobnom',checked: false },
-              ]
+          { key:'1',studentID: 5905100025, studentName:'Chanathip Nobnom',checked:false },
+          { key:'2',studentID: 5905100026, studentName:'Champ Nobnom',checked:false},
+          { key:'3',studentID: 5915100026, studentName:'Chanathip Moochamp',checked:false},
+          { key:'4',studentID: 1100500589302, studentName:'Champ Iix',checked:false},
+                     ],
     }
 
   }
 
   onCheckChanged(studentID) {
-      const data = this.state.data;
-      const index = data.findIndex(x => x.studentID === studentID);
-      data[index].checked = !data[index].checked;
-      this.setState(data);
+      const dataStudent = this.state.dataStudent;
+      const index = dataStudent.findIndex(x => x.studentID === studentID);
+      dataStudent[index].checked = !dataStudent[index].checked;
+      this.setState(dataStudent);
   }
 
   ListViewItemSeparator = () => {
@@ -42,20 +46,15 @@ export default class Add_StudentListScreen extends React.Component {
     );
   };
   
-  searchFilterFunction(text){ 
-    const newData = this.state.dataStudent.filter(item => {      
-      const itemData = item.studentID ? item.studentID+''.toUpperCase() : ''.toUpperCase();
-      
-       const textData = text.toUpperCase();
-        
-       return itemData.indexOf(textData) > -1;    
-    });
-    
-    this.setState({ data: newData,text: text});  
-  };
+  searchUpdated(data) {
+    this.setState({ search: data })
+  }
 
   
  render() {
+
+  const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
+  const {dataStudent} = this.state;
 
 
   return (
@@ -73,54 +72,54 @@ export default class Add_StudentListScreen extends React.Component {
         containerStyle={styles.containerStyle}
       />
         
-        <TextInput
-        placeholder='Search'
-        style={styles.textInput}
-        />
-
-      <View style={{marginTop:10,paddingBottom:3,paddingTop:3,backgroundColor:'#fff'}}>
-      <ScrollView>
- 
-      <SearchBar        
-      placeholder="Type Here..."        
+      <SearchBar
+      containerStyle={{backgroundColor:'#fff',marginBottom:3}}   
+      placeholder="Search"        
       lightTheme        
-      round
-      onChangeText={text => this.searchFilterFunction(text)}
+      onChangeText={(data) => this.searchUpdated(data)}
       autoCorrect={false}
-      value={this.state.text}
+      value={this.state.search}
 
-       />  
+       /> 
 
+            <View style={{flexDirection:'row',padding:2,backgroundColor:'#fff',height:30,margin:3}}>
+                            <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
+                              <Text style={{fontSize:16,fontWeight:'bold'}}>Student ID</Text>
+                            </View>
+                            <View style={{flex:2.5,justifyContent:'center',alignItems:'center'}}>
+                              <Text style={{fontSize:16,fontWeight:'bold'}}>Name</Text>
+                            </View>
+                            <View style={{flex:1, justifyContent:'center',alignItems:'center'}}>
+                            <Text style={{fontSize:16,fontWeight:'bold'}}>Add</Text>
+                            </View>
+                          </View>
 
-        <FlatList
-          ItemSeparatorComponent={this.ListViewItemSeparator}
-          data={this.state.data}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item, index }) =>
-        
-        
-      <View style={{flexDirection:'row',padding:2,backgroundColor:'#fff',flexWrap:'wrap',borderBottomColor:'#fd4176',borderBottomWidth:1}}>
-        <View style={{flex:2,justifyContent:'center'}}>
-          <Text style={{fontSize:16}}>{item.studentID}</Text>
-        </View>
-        <View style={{flex:2,justifyContent:'center'}}>
-          <Text style={{fontSize:16}}>{item.studentName}</Text>
-        </View>
-        <View style={{flex:1, justifyContent:'center'}}>
-        <CheckBox
-          checked={item.checked}
-          onPress={() => this.onCheckChanged(item.studentID)}
+      
+      <ScrollView>
+      {filteredStudent.map(dataStudent => {
+            return (
+              <TouchableOpacity onPress={()=>alert(dataStudent.studentID)} key={dataStudent.key}>
+                          <View style={{flexDirection:'row',padding:2,backgroundColor:'#f3f3f3',height:55,borderRadius:10,margin:3}}>
+                            <View style={{flex:2,justifyContent:'center'}}>
+                              <Text style={{fontSize:16}}>{dataStudent.studentID}</Text>
+                            </View>
+                            <View style={{flex:2.5,justifyContent:'center'}}>
+                              <Text style={{fontSize:16}}>{dataStudent.studentName}</Text>
+                            </View>
+                            <View style={{flex:1, justifyContent:'center',alignItems:'center'}}>
+                            <CheckBox
+                              checked={dataStudent.checked}
+                              onPress={() => this.onCheckChanged(dataStudent.studentID)}
           
-          />
-        </View>
-      </View>
- 
-       
-         }
-        />
+                             />
+                            </View>
+                          </View>
+              </TouchableOpacity>
+            )
+          })}
  
       </ScrollView>
-      </View>
+     
         
     </View>
   );
@@ -134,7 +133,7 @@ Add_StudentListScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f3f3f3',
+    backgroundColor: '#fff',
   },
   containerHeader: {
     flexDirection: 'column',
