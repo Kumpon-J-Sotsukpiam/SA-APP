@@ -8,8 +8,9 @@ import { StyleSheet,
   Keyboard
 } from 'react-native';
 import { Header } from 'react-native-elements';
+import {connect} from 'react-redux'
 import {add_course} from '../src/actions/course'
-export default class Add_CourseScreen extends React.Component {
+class Add_CourseScreen extends React.Component {
    constructor(props) {
     super(props);
 
@@ -102,3 +103,7 @@ const styles = StyleSheet.create({
     marginTop:10,
   },
 });
+const mapStateToProps = state => ({
+  errors: state.errors
+})
+export default connect(mapStateToProps)(Add_CourseScreen)

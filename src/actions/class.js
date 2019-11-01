@@ -14,10 +14,10 @@ export const addClass = data => {
         payload: data
     }
 }
-export const delClass = data => {
+export const delClass = id => {
     return {
         type: DELETE_CLASS,
-        payload: data
+        id: id
     }
 }
 export const setClass = data => {
@@ -45,8 +45,8 @@ export const add_class = (data,props) => {
 }
 export const del_class = (id,props) => {
     const { dispatch } = props
-    api.get(`class/${id}`).then(res => {
-        dispatch(getClass(res.data))
+    api.delete(`clas/${id}`).then(res => {
+        dispatch(delClass(id))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
     })

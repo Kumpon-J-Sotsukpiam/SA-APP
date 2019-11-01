@@ -8,14 +8,14 @@ import ContainerCheckinList from '../components/ContainerCheckinList';
 var getDate = new Date();
 var getTimeStarts = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 8, 0, 0);
 var getTimeEnds = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 11, 0, 0);
-
-export default class ClassDetailsScreen extends React.Component {
+class ClassDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
-
       this.state = {
-        courseID:'Course ID',
-        group:'Group',
+        courseId:'',
+        semesterId:'',  
+        class:[]      
+        /*group:'Group',
         location:'Location',
         day:'Day',
         startTime:'Start ',
@@ -24,21 +24,27 @@ export default class ClassDetailsScreen extends React.Component {
         setTimeStarts:getTimeStarts,
         setTimeEnds:getTimeEnds,
         dateCheckin:'Date',
-        percentage:'Percentage'
+        percentage:'Percentage'*/
     };
   }
-
-
+  componentWillMount(){
+    const {classId,courseId,semesterId} = this.props.navigation.state.params
+    log = this.props.class.filter((i) => i._id === classId)
+    this.setState({
+      class:log[0],
+      semesterId:semesterId,
+      courseId:courseId
+    })
+  }
  render() {
+  const {_id,courseId,day,endTime,group,location,startTime,studentList} = this.state.class
 
   return (
     <View style = {styles.container}>
       <Header
-        
         leftComponent={(
-
         <View style={styles.containerLeftHeader}>
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList')}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList',{courseId:this.state.courseId,semesterID:this.state.semesterId})}>
         <View style={styles.leftSection1}>
           <Ionicons
             name='ios-arrow-back'
@@ -47,15 +53,13 @@ export default class ClassDetailsScreen extends React.Component {
           />
         </View>
         </TouchableOpacity>    
-        
         <View style={styles.leftSection2}>
-          <Text style={styles.textHeader}>{this.state.group}</Text>
-          <Text style={styles.textHeader}>{this.state.location}</Text>
-          <Text style={styles.textHeader}>{this.state.day} , {this.state.startTime} - {this.state.endTime}</Text>
-          <Text style={styles.textHeader}>{this.state.totalStudent}</Text>
+          <Text style={styles.textHeader}>{group}</Text>
+          <Text style={styles.textHeader}>{location}</Text>
+          <Text style={styles.textHeader}>{day} , {new Date(startTime).toLocaleTimeString()} - {new Date(endTime).toLocaleTimeString()}</Text>
+          <Text style={styles.textHeader}>{'totalStudent'}</Text>
           <Text style={styles.textHeader}>Durations : {calDurationsTime(this.state.setTimeStarts,this.state.setTimeEnds)}</Text>
         </View>
-
         </View>
         
         )}
@@ -188,3 +192,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
+const mapStateToProps = state => ({
+  class:state.class,
+  errors:state.errors
+})
+export default connect(mapStateToProps)(ClassDetailsScreen)

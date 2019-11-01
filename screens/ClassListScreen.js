@@ -13,8 +13,6 @@ import {get_class} from '../src/actions/class'
 import {connect} from 'react-redux'
 import Swipeout from 'react-native-swipeout';
 
-
-
 class ClassListScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -38,11 +36,11 @@ class ClassListScreen extends React.Component {
     this.setState({
       course:log[0],
       semesterID:semesterID,
-
     })
     get_class(courseId,this.props)
-  } 
-
+  }
+  
+  
   ListViewItemSeparator = () => {
     return (
       <View style={{ backgroundColor: '#000'}} />
@@ -97,7 +95,7 @@ class ClassListScreen extends React.Component {
           <View>  
           <Swipeout left={[{text: 'Delete',
                             backgroundColor: 'red',
-                            
+                            onPress: () => {del_class(item._id,this.props)}
                           }]}
                     style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
                     autoClose={this.state.autoClose}
@@ -110,7 +108,7 @@ class ClassListScreen extends React.Component {
         endTime={formatTime(item.endTime)}
         students={item.students}
         navigateCamera={() => this.props.navigation.navigate('Camera',{classID:'ClassId'})}
-        navigateClassDetails={() => this.props.navigation.navigate('ClassDetails')}
+        navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{classId:item._id,courseId:this.state.course._id,semesterId:this.state.semesterID})}
         />
         </Swipeout>
         </View>      
