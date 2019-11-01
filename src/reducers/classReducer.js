@@ -1,4 +1,4 @@
-import { ADD_CLASS,DELETE_CLASS,SET_CLASS, GET_CLASS} from '../actions/types'
+import { ADD_CLASS,DELETE_CLASS,SET_CLASS, GET_CLASS,CLEAR_CLASS} from '../actions/types'
 
 const initialState = {
     class:[]
@@ -20,7 +20,11 @@ export default (state = initialState, actions) => {
             }
         case DELETE_CLASS:
             return state.filter((i) => i._id !== actions.id)
+
+        case CLEAR_CLASS:
+            return initialState
+
         default:
-            return state
+            return state    
     }
 }

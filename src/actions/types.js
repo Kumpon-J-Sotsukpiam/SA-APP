@@ -27,9 +27,15 @@ export const ADD_CLASS = 'ADD_CLASS'
 export const DELETE_CLASS = 'DELETE_CLASS'
 export const SET_CLASS= 'SET_CLASS'
 export const GET_CLASS = 'GET_CLASS'
+export const CLEAR_CLASS = 'CLEAR_CLASS'
 
 // Check-Student Even Type
 export const ADD_CHECKIN = 'ADD_CHECKIN'
 export const DELETE_CHECKIN = 'DELETE_CHECKIN'
 export const GET_CHECKIN = 'GET_CHECKIN'
 
+// Today Even Type
+export const ADD_TODAY = 'ADD_TODAY'
+export const DELETE_TODAY = 'DELETE_TODAY'
+export const SET_TODAY = 'SET_TODAY'
+export const GET_TODAY = 'GET_TODAY'
