@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet,
+import {
+  StyleSheet,
   View,
   Text,
   TouchableOpacity,
@@ -8,121 +9,115 @@ import { StyleSheet,
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerClassList from '../components/ContainerClassList';
-import { getDayOfWeek, formatTime } from "../src/actions/date"
-import {get_class} from '../src/actions/class'
-import {connect} from 'react-redux'
+import { get_class, del_class } from '../src/actions/class'
+import { connect } from 'react-redux'
 import Swipeout from 'react-native-swipeout';
 
 class ClassListScreen extends React.Component {
   constructor(props) {
     super(props);
-      this.state = {
-        course: [],
-        semesterID:'',
-        test:[{
-          group:'Test Group',
-          location:'Test Location',
-          day:'Monday',
-          timeStart:'07:00',
-          timeEnd:'08:00',
-          students:'Total Test',
-        }],
+    this.state = {
+      course: [],
+      semesterID: '',
+      test: [{
+        group: 'Test Group',
+        location: 'Test Location',
+        day: 'Monday',
+        timeStart: '07:00',
+        timeEnd: '08:00',
+        students: 'Total Test',
+      }],
 
     };
   }
-  componentWillMount(){
-    const {courseId,semesterID} = this.props.navigation.state.params
+  componentWillMount() {
+    const { courseId, semesterID } = this.props.navigation.state.params
     log = this.props.course.filter((i) => i._id === courseId)
     this.setState({
-      course:log[0],
-      semesterID:semesterID,
+      course: log[0],
+      semesterID: semesterID,
     })
-    get_class(courseId,this.props)
+    get_class(courseId, this.props)
   }
-  
-  
   ListViewItemSeparator = () => {
     return (
-      <View style={{ backgroundColor: '#000'}} />
+      <View style={{ backgroundColor: '#000' }} />
     );
-  }; 
+  };
 
- render() {
-  console.log('====================================');
-  console.log(this.props.class);
-  console.log('====================================');
-  return (
-    <View style = {styles.container}>
-      <Header
-        
-        leftComponent={(
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})}>
-        <Ionicons
-          name='ios-arrow-back'
-          size={35}
-          color='#fff'
+  render() {
+    return (
+      <View style={styles.container}>
+        <Header
+
+          leftComponent={(
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList', { semesterID: this.state.semesterID })}>
+              <Ionicons
+                name='ios-arrow-back'
+                size={35}
+                color='#fff'
+              />
+            </TouchableOpacity>
+          )}
+          leftContainerStyle={{ flex: 2 }}
+          rightComponent={(<Ionicons name='ios-add'
+            size={60}
+            color={'#fff'}
+            onPress={() => { this.props.navigation.navigate('AddClass', { courseId: this.state.course._id, semesterID: this.state.semesterID }) }}
+          />)}
+          rightContainerStyle={{ flex: 1 }}
+          centerComponent={(
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse', { courseID: this.state.courseID })}>
+              <View style={styles.containerHeader}>
+                <View style={styles.containerTextHeader}>
+                  <Text style={styles.textHeader}>{this.state.course.name}</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+          centerContainerStyle={{ flex: 9 }}
+          containerStyle={styles.containerStyle}
         />
-        </TouchableOpacity>
-        )}
-        leftContainerStyle={{flex:2}}
-        rightComponent={(<Ionicons name='ios-add'
-        size={60}
-        color={'#fff'}
-        onPress={()=>{this.props.navigation.navigate('AddClass',{courseId:this.state.course._id,semesterID:this.state.semesterID})}}
-      />)}
-        rightContainerStyle={{flex:1}}
-        centerComponent={(
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse',{courseID:this.state.courseID})}>
-        <View style={styles.containerHeader}>
-          <View style={styles.containerTextHeader}>
-            <Text style={styles.textHeader}>{this.state.course.name}</Text>
-          </View>
-        </View>
-        </TouchableOpacity>
-        )}
-        centerContainerStyle={{flex:9}}
-        containerStyle={styles.containerStyle}
-      />
-      
         <View>
-        
-        <FlatList
-        ItemSeparatorComponent={this.ListViewItemSeparator}
-        data={this.props.class}
-        refreshing={true}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
-          <View>  
-          <Swipeout left={[{text: 'Delete',
-                            backgroundColor: 'red',
-                            onPress: () => {del_class(item._id,this.props)}
-                          }]}
-                    style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
-                    autoClose={this.state.autoClose}
-                    backgroundColor= 'transparent'>
-        <ContainerClassList
-        group={item.group}
-        location={item.location}
-        day={getDayOfWeek(item.day)}
-        startTime={formatTime(item.startTime)}
-        endTime={formatTime(item.endTime)}
-        students={item.students}
-        navigateCamera={() => this.props.navigation.navigate('Camera',{classID:'ClassId'})}
-        navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{classId:item._id,courseId:this.state.course._id,semesterId:this.state.semesterID})}
-        />
-        </Swipeout>
-        </View>      
-             )}
-      />
+
+          <FlatList
+            ItemSeparatorComponent={this.ListViewItemSeparator}
+            data={this.props.class}
+            refreshing={true}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View>
+                <Swipeout left={[{
+                  text: 'Delete',
+                  backgroundColor: 'red',
+                  onPress: () => { del_class(item._id, this.props) }
+                }]}
+                  style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
+                  autoClose={this.state.autoClose}
+                  backgroundColor='transparent'>
+                  <ContainerClassList
+                    group={item.group}
+                    location={item.location}
+                    day={item.day}
+                    timeStart={item.timeStart}
+                    timeEnd={item.timeEnd}
+                    students={item.students}
+                    navigateCamera={() => this.props.navigation.navigate('Camera', { classID: 'ClassId' })}
+                    navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterID })}
+                  />
+                </Swipeout>
+              </View>
+            )}
+          />
+        </View>
+
       </View>
-        
-    </View>
-  );
-}
+    );
+  }
 }
 
 ClassListScreen.navigationOptions = {
-  header:null
+  header: null
 };
 
 const styles = StyleSheet.create({
@@ -135,34 +130,34 @@ const styles = StyleSheet.create({
   },
   containerTextHeader: {
     flex: 2,
-    justifyContent:'center',
+    justifyContent: 'center',
     alignItems: 'center'
   },
-  textHeader:{
-      color: '#fff',
-      fontSize:36,
-      fontWeight:'bold'
+  textHeader: {
+    color: '#fff',
+    fontSize: 36,
+    fontWeight: 'bold'
   },
   containerDurationsHeader: {
     flex: 1,
-    justifyContent:'center',
+    justifyContent: 'center',
     alignItems: 'center'
   },
-    durationsHeader:{
-      color: '#fff',
-      fontSize:14,
-      fontWeight:'bold'
+  durationsHeader: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold'
   },
-  containerStyle:{
+  containerStyle: {
     backgroundColor: '#fd4176',
-    height:120,
+    height: 120,
     justifyContent: 'space-around',
     borderBottomColor: '#be5f7a',
     borderBottomWidth: 1,
   },
 });
 const mapStateToProps = state => ({
-  class:state.class,
+  class: state.class,
   course: state.coures
 })
 export default connect(mapStateToProps)(ClassListScreen)
