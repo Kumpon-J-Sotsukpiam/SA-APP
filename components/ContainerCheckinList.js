@@ -7,14 +7,15 @@ import {
   View,  
 } from 'react-native';
 
-const ContainerSemester = props => {
+const ContainerCheckinList = props => {
   
   return (
 
-    <TouchableOpacity style={styles.containerSemester} onPress={props.navigateCourseList}>
+    <View style={{borderRadius:10}}>
+    <TouchableOpacity style={styles.containerCheckinList} onPress={props.navigateCheckinList}>
 
     <View style={styles.section1}>
-    <Text style={styles.header}>{props.course}{props.semester}</Text>
+    <Text style={styles.header}>{props.dateCheckin}</Text>
     </View>
 
     <View style={styles.section2}>
@@ -30,16 +31,17 @@ const ContainerSemester = props => {
     </View>
     
     </TouchableOpacity>
+    </View>
   );
 
   }
 
 const styles = StyleSheet.create({
 
-  containerSemester: {
+  containerCheckinList: {
     backgroundColor: '#fff',
     flexDirection: 'row',
-    margin: 10,
+    marginBottom:3,
   },
   section1: {
     flex: 4,
@@ -69,4 +71,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default ContainerSemester;
+export default ContainerCheckinList;

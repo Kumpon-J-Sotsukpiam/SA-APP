@@ -110,6 +110,8 @@ handleOnSave(data,props) {
   }
   add_class(data,this.props)
   this.handleNavigationBack()
+  
+  
 }
 render() {
   const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']   

@@ -8,9 +8,12 @@ import { StyleSheet,
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerClassList from '../components/ContainerClassList';
+import { getDayOfWeek, formatTime } from "../src/actions/date"
 import {get_class} from '../src/actions/class'
 import {connect} from 'react-redux'
 import Swipeout from 'react-native-swipeout';
+
+
 
 class ClassListScreen extends React.Component {
   constructor(props) {
@@ -82,6 +85,7 @@ class ClassListScreen extends React.Component {
         centerContainerStyle={{flex:9}}
         containerStyle={styles.containerStyle}
       />
+      
         <View>
         
         <FlatList
@@ -101,9 +105,9 @@ class ClassListScreen extends React.Component {
         <ContainerClassList
         group={item.group}
         location={item.location}
-        day={item.day}
-        timeStart={item.timeStart}
-        timeEnd={item.timeEnd}
+        day={getDayOfWeek(item.day)}
+        startTime={formatTime(item.startTime)}
+        endTime={formatTime(item.endTime)}
         students={item.students}
         navigateCamera={() => this.props.navigation.navigate('Camera',{classID:'ClassId'})}
         navigateClassDetails={() => this.props.navigation.navigate('ClassDetails')}

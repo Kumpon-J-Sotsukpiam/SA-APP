@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from '
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
+import ContainerCheckinList from '../components/ContainerCheckinList';
 
 var getDate = new Date();
 var getTimeStarts = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 8, 0, 0);
@@ -85,29 +86,26 @@ export default class ClassDetailsScreen extends React.Component {
       <View style={styles.containerClasses}>
         <Text style={styles.textClasses}>CLASSES</Text>  
       </View>
-        
+      
       <View style={styles.containerClassList}>
+        <ScrollView>
+          <View>
+          
+              <ContainerCheckinList
+              dateCheckin={'Date'}
+              students={'total'}
+              navigateCheckinList={() => this.props.navigation.navigate('Semesters')}
+              />
 
-          <TouchableOpacity onPress={() => this.props.navigation.navigate('Semesters')}>
-          <View style={styles.containerClass}>
-            <View style={styles.classSection1}>
-              <Text style={{fontSize:18}}>{this.state.dateCheckin}</Text>
-            </View>
-            <View style={styles.classSection2}>
-            <Text style={{fontSize:18}}>{this.state.percentage}</Text>
-            </View>
-            <View style={styles.classSection3}>
-            <Ionicons
-            name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
-            size={35}
-            color='#979797'
-            />
-            </View>
-          </View>
-          </TouchableOpacity>
+              <ContainerCheckinList
+              dateCheckin={'Date'}
+              students={'total'}
+              navigateCheckinList={() => this.props.navigation.navigate('Semesters')}
+              />
 
+              </View>
+        </ScrollView>
       </View>
-
 
     </View>
   );
@@ -174,34 +172,13 @@ const styles = StyleSheet.create({
     marginLeft:35
   },
   containerClassList: {
-    marginTop:5,
-    flexWrap:'wrap',
-    backgroundColor:'#fff',
-    paddingLeft:15,
-    paddingTop:10,
-    paddingBottom:10
+    margin:10,
   },
   containerClass: {
     borderBottomWidth:1,
     borderColor:'#fd4176',
     marginTop:10,
     flexDirection:'row'
-  },
-  classSection1: {
-    flex:2,
-    justifyContent:'center',
-  },
-  classSection2: {
-    flex:2,
-    alignItems:'flex-end',
-    justifyContent:'center',
-    marginRight:10
-  },
-  classSection3: {
-    flex:1,
-    alignItems:'flex-end',
-    justifyContent:'center',
-    marginRight:10
   },
   containerStyle:{
     backgroundColor: '#fd4176',
