@@ -15,7 +15,6 @@ import {add_class} from '../src/actions/class'
 import {connect} from 'react-redux'
 //Date
 import { format } from 'date-fns'
-import Add_CourseScreen from './Add_CourseScreen';
 
 var getDate = new Date();
 var getTimeStarts = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 8, 0, 0);

@@ -1,5 +1,5 @@
 import * as FaceDetector from 'expo-face-detector'
- 
+// champ ip address = 192.168.1.39
 export const ip_server = '192.168.1.39' // my ip address
 export const port = 3001
 export const server_url = `http://${ip_server}:${port}`
