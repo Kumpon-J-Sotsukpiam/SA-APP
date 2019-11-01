@@ -86,7 +86,7 @@ class ClassListScreen extends React.Component {
         
         <FlatList
         ItemSeparatorComponent={this.ListViewItemSeparator}
-        data={this.state.test}
+        data={this.props.class}
         refreshing={true}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (

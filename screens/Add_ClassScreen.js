@@ -27,7 +27,7 @@ export default class Add_ClassScreen extends React.Component {
     this.state = {
       courseID:null,
       semesterID:null,
-      selectedWeek: '',
+      selectedWeek:0,
       group:'',
       location:'',
       timepickerStarts:false,
@@ -53,7 +53,7 @@ handleNavigationBack() {
   this.props.navigation.navigate('ClassList',{courseId:this.state.courseID,semesterID:this.state.semesterID})
 }
 updateIndex (selectedWeek) {
-  this.setState({selectedWeek})
+  this.setState({selectedWeek:selectedWeek})  
 }
 setTimeStarts(newTime) {
   this.setState({ setTimeStarts: newTime });
