@@ -25,23 +25,17 @@ export default class StudentListScreen extends React.Component {
         { key:'2',studentID: 5905100026, studentName:'Champ Nobnom',percentage: '100%' },
         { key:'3',studentID: 5915100026, studentName:'Chanathip Moochamp',percentage: '100%' },
         { key:'4',studentID: 1100500589302, studentName:'Champ Iix',percentage: '100%' },
-                   ],
+      ],
     };
   }
-
-
   searchUpdated(data) {
     this.setState({ search: data })
   }
-
-
   ListViewItemSeparator = () => {
     return (
       <View style={{ backgroundColor: '#000'}} />
     );
   };
-
-
  render() {
 
   const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))

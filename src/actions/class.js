@@ -39,9 +39,10 @@ export const add_class = (data,props,cb) => {
     const { dispatch,navigation } = props
     api.post('clas/',data).then(res => {
         dispatch(addClass(res.data))
+        cb(undefined)
     }).catch(err => {
         dispatch(get_errors(err.response.data))
-        cb(err.response.data)
+        cb(err)
     })
 }
 export const del_class = (id,props) => {

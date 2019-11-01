@@ -38,8 +38,9 @@ class ClassListScreen extends React.Component {
 
     })
     get_class(courseId,this.props)
-  } 
-
+  }
+  
+  
   ListViewItemSeparator = () => {
     return (
       <View style={{ backgroundColor: '#000'}} />

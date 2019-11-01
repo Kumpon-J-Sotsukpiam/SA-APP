@@ -109,12 +109,12 @@ handleOnSave(props) {
     endTime:setTimeEnds
   }
   add_class(data,props,err => {
-    if(!err)
-    this.handleNavigationBack()
+    if(err === undefined)
+      this.handleNavigationBack()
   })
 }
 render() {
-  const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']   
+  const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style = {styles.container}>
