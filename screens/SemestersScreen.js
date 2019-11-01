@@ -62,7 +62,6 @@ class SemestersScreen extends React.Component {
       <FlatList
         ItemSeparatorComponent={this.ListViewItemSeparator}
         data={this.props.semester}
-        refreshing={true}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
           <View style={styles.containerSemesterList}>  

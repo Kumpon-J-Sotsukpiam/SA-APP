@@ -31,11 +31,7 @@ export default class StudentListScreen extends React.Component {
   searchUpdated(data) {
     this.setState({ search: data })
   }
-  ListViewItemSeparator = () => {
-    return (
-      <View style={{ backgroundColor: '#000'}} />
-    );
-  };
+
  render() {
 
   const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
@@ -79,7 +75,6 @@ export default class StudentListScreen extends React.Component {
       onChangeText={(data) => this.searchUpdated(data)}
       autoCorrect={false}
       value={this.state.search}
-
        />  
 
                           <View style={{flexDirection:'row',padding:2,backgroundColor:'#fff',height:30,margin:3}}>

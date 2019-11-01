@@ -1,5 +1,12 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
@@ -24,7 +31,15 @@ class ClassDetailsScreen extends React.Component {
     this.setState({
       class: log[0],
       semesterId: semesterId,
-      courseId: courseId
+      courseId: courseId,
+      dataTest:[
+        {_id : '1',date:'Date 1',total:'total'},
+        {_id : '2',date:'Date 2',total:'total'},
+        {_id : '3',date:'Date 3',total:'total'},
+        {_id : '4',date:'Date 4',total:'total'},
+      ]
+
+
     })
   }
   render() {
@@ -83,13 +98,21 @@ class ClassDetailsScreen extends React.Component {
         </View>
 
         <View style={styles.containerClassList}>
+
+        <FlatList
+        ItemSeparatorComponent={this.ListViewItemSeparator}
+        data={this.state.dataTest}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({item}) => (
             <View style={styles.containerCheckinList}>  
             <ContainerCheckinList
-                dateCheckin={'Date'}
-                student={'total'}
-                navigateCheckinList={() => this.props.navigation.navigate('Semesters')}
+                dateCheckin={item.date}
+                student={item.total}
+                navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails')}
             />
             </View>
+             )}
+             />
             
         </View>
       </View>
