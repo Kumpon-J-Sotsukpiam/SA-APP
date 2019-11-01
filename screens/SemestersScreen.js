@@ -28,8 +28,8 @@ class SemestersScreen extends React.Component {
     }
   }
   
-  componentWillMount(){
-    get_semester(this.props)
+  async componentWillMount(){
+    await get_semester(this.props)
   }
 
   ListViewItemSeparator = () => {

@@ -29,13 +29,13 @@ class CourseListScreen extends React.Component {
         }
     ]};
   }
-  componentWillMount(){
+  async componentWillMount(){
     id = this.props.navigation.state.params.semesterID
     log = this.props.semester.filter((i) => i._id === id)
     this.setState({
       semester:log[0]
     })
-    get_course(id,this.props)
+    await get_course(id,this.props)
   }
   ListViewItemSeparator = () => {
     return (

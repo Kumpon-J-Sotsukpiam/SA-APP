@@ -17,7 +17,7 @@ class ClassDetailsScreen extends React.Component {
       class: []
     };
   }
-  componentWillMount() {
+  async componentWillMount() {
     const { classId, courseId, semesterId } = this.props.navigation.state.params
     log = this.props.class.filter((i) => i._id === classId)
     this.setState({

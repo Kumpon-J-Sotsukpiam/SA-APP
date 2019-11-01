@@ -4,7 +4,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  ScrollView
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
@@ -12,6 +13,7 @@ import ContainerClassList from '../components/ContainerClassList';
 import { get_class, del_class } from '../src/actions/class'
 import { connect } from 'react-redux'
 import Swipeout from 'react-native-swipeout';
+import { getDayOfWeek, formatTime } from "../src/actions/date"
 
 class ClassListScreen extends React.Component {
   constructor(props) {
@@ -30,14 +32,14 @@ class ClassListScreen extends React.Component {
 
     };
   }
-  componentWillMount() {
+  async componentWillMount() {
     const { courseId, semesterID } = this.props.navigation.state.params
     log = this.props.course.filter((i) => i._id === courseId)
     this.setState({
       course: log[0],
       semesterID: semesterID,
     })
-    get_class(courseId, this.props)
+    await get_class(courseId, this.props)
   }
   ListViewItemSeparator = () => {
     return (
@@ -79,7 +81,7 @@ class ClassListScreen extends React.Component {
           containerStyle={styles.containerStyle}
         />
         <View>
-
+          <ScrollView>
           <FlatList
             ItemSeparatorComponent={this.ListViewItemSeparator}
             data={this.props.class}
@@ -98,9 +100,9 @@ class ClassListScreen extends React.Component {
                   <ContainerClassList
                     group={item.group}
                     location={item.location}
-                    day={item.day}
-                    timeStart={item.timeStart}
-                    timeEnd={item.timeEnd}
+                    day={getDayOfWeek(item.day)}
+                    startTime={formatTime(item.startTime)}
+                    endTime={formatTime(item.endTime)}
                     students={item.students}
                     navigateCamera={() => this.props.navigation.navigate('Camera', { classID: 'ClassId' })}
                     navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterID })}
@@ -109,6 +111,7 @@ class ClassListScreen extends React.Component {
               </View>
             )}
           />
+        </ScrollView>
         </View>
 
       </View>
