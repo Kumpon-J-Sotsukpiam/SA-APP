@@ -14,10 +14,10 @@ export const addClass = data => {
         payload: data
     }
 }
-export const delClass = data => {
+export const delClass = id => {
     return {
         type: DELETE_CLASS,
-        payload: data
+        id: id
     }
 }
 export const setClass = data => {
@@ -35,18 +35,19 @@ export const get_class = (id,props) => {
         dispatch(get_errors(err.response.data))
     })
 }
-export const add_class = (data,props) => {
+export const add_class = (data,props,cb) => {
     const { dispatch,navigation } = props
     api.post('clas/',data).then(res => {
         dispatch(addClass(res.data))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
+        cb(err.response.data)
     })
 }
 export const del_class = (id,props) => {
     const { dispatch } = props
-    api.get(`class/${id}`).then(res => {
-        dispatch(getClass(res.data))
+    api.delete(`clas/${id}`).then(res => {
+        dispatch(delClass(id))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
     })

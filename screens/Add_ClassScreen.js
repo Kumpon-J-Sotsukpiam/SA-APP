@@ -12,15 +12,15 @@ import {
 import { Header, ButtonGroup} from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
 import {add_class} from '../src/actions/class'
+import {connect} from 'react-redux'
 //Date
 import { format } from 'date-fns'
+import Add_CourseScreen from './Add_CourseScreen';
 
 var getDate = new Date();
 var getTimeStarts = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 8, 0, 0);
 var getTimeEnds = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 11, 0, 0);
-
-
-export default class Add_ClassScreen extends React.Component {
+class Add_ClassScreen extends React.Component {
    constructor(props) {
     super(props);
 
@@ -98,7 +98,7 @@ handleChange = (name,e) => {
     [name]: e.nativeEvent.text
   }) 
 }
-handleOnSave(data,props) {
+handleOnSave(props) {
   const {courseID,group,location,selectedWeek,setTimeStarts,setTimeEnds } = this.state
   data = {
     _id:courseID,
@@ -108,8 +108,10 @@ handleOnSave(data,props) {
     startTime:setTimeStarts,
     endTime:setTimeEnds
   }
-  add_class(data,this.props)
-  this.handleNavigationBack()
+  add_class(data,props,err => {
+    if(!err)
+    this.handleNavigationBack()
+  })
 }
 render() {
   const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']   
@@ -122,7 +124,7 @@ render() {
                         </TouchableOpacity>
                         )}
         centerComponent={({ text: 'New Class', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{ this.handleOnSave(this.state,this.props)}}>
+        rightComponent={(<TouchableOpacity onPress={()=>{ this.handleOnSave(this.props)}}>
                           <Text style={styles.textSave}>Save</Text>
                         </TouchableOpacity>
                         )}
@@ -309,3 +311,7 @@ const styles = StyleSheet.create({
     margin:5
   },
 });
+const mapStateToProps = state => ({
+  errors:state.errors
+})
+export default connect(mapStateToProps)(Add_ClassScreen)

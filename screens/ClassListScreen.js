@@ -8,7 +8,7 @@ import { StyleSheet,
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerClassList from '../components/ContainerClassList';
-import {get_class} from '../src/actions/class'
+import {get_class,del_class} from '../src/actions/class'
 import {connect} from 'react-redux'
 import Swipeout from 'react-native-swipeout';
 
@@ -86,14 +86,14 @@ class ClassListScreen extends React.Component {
         
         <FlatList
         ItemSeparatorComponent={this.ListViewItemSeparator}
-        data={this.state.test}
+        data={this.props.class}
         refreshing={true}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
           <View>  
           <Swipeout left={[{text: 'Delete',
                             backgroundColor: 'red',
-                            
+                            onPress: () => {del_class(item._id,this.props)}
                           }]}
                     style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
                     autoClose={this.state.autoClose}
