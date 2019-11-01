@@ -16,6 +16,7 @@ import {
 import { Header } from 'react-native-elements';
 import { calDurationsDate } from "../src/actions/durations"
 import {add_semester} from '../src/actions/semester'
+import {connect} from 'react-redux'
 //Date
 import { format, addDays } from 'date-fns'
 
@@ -257,5 +258,8 @@ const styles = StyleSheet.create({
     margin:5
   },
 
-});
-export default Add_SemesterScreen
+})
+const mapStateToProps = state => ({
+  errors : state.errors
+})
+export default connect(mapStateToProps)(Add_SemesterScreen)

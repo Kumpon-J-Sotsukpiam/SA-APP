@@ -108,10 +108,8 @@ handleOnSave(props) {
     startTime:setTimeStarts,
     endTime:setTimeEnds
   }
-  add_class(data,props,err => {
-    if(err === undefined)
-      this.handleNavigationBack()
-  })
+  add_class(data,props)
+  this.handleNavigationBack()
 }
 render() {
   const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']
