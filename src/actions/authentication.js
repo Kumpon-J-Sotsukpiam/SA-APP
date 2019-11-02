@@ -1,10 +1,8 @@
 import { SET_CURRENT_TOKEN, UNSET_CURRENT_TOKEN } from './types'
 import { get_errors } from './errors'
 import api from '../modules/api'
-
 import * as SecureStore from 'expo-secure-store';
 
-// action Backend Token
 export const setCurrentToken = (decoded) => {
     return {
         type: SET_CURRENT_TOKEN,
