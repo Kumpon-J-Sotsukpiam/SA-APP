@@ -7,9 +7,9 @@ import { getStudent } from './student'
 import api from '../modules/api'
 
 // action FrontEnd
-export const get_first = (props) => {
+export const get_first = async (props) => {
     const { dispatch } = props
-    api.get('opt/').then(res => {
+    await api.get('opt/').then(res => {
         dispatch(getSemester(res.data.semester))
         dispatch(getCourse(res.data.course))
         dispatch(getClass(res.data.class))

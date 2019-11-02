@@ -40,7 +40,7 @@ export const getToday = data => {
 // action FrontEnd
 export const get_class = (id,props) => {
     const { dispatch } = props
-    api.get(`clas/by/${id}`).then(res => {
+    api.get(`clas/${id}`).then(res => {
         dispatch(getClass(res.data))
     }).catch(err => {
         dispatch(get_errors(err.response.data))

@@ -42,6 +42,9 @@ export const add_course = (data,props) => {
 export const del_course = (id,props) => {
     const { dispatch } = props
     api.delete(`cour/${id}`).then(res => {
+        console.log('====================================');
+        console.log(res);
+        console.log('====================================');
         dispatch(delCourse(id))
     }).catch(err => {
         dispatch(get_errors(err.response.data))

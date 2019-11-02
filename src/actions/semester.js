@@ -45,7 +45,7 @@ export const add_semester = (semester,props) => {
         endDate:semester.dateEnds
     } 
     api.post('semester/',data).then(res => {
-        dispatch(addSemester(res.data.data))
+        dispatch(addSemester(res.data))
     }).catch(err => {
         console.error(err.response.data);
     })

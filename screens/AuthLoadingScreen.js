@@ -14,13 +14,14 @@ class AuthLoadingScreen extends Component {
         const { dispatch, navigation } = this.props
         SecureStore.getItemAsync('tokenAuth').then(token => {
             // todo check token wiht server
-            if(isEmpty(token)){
+            if (isEmpty(token)) {
                 navigation.navigate("Auth")
-            }else{
+            } else {
                 const decoded = jwt_decode(token)
                 dispatch(setCurrentToken(decoded))
-                get_first(this.props)
-                navigation.navigate("App")
+                get_first(this.props).then(() => {
+                    navigation.navigate("App")
+                })
             }
         }).catch(err => {
             console.error(err)

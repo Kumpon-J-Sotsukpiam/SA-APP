@@ -11,7 +11,6 @@ import { Header } from 'react-native-elements';
 import { connect } from 'react-redux'
 //action
 import { currentDay, currentMonth, currentDate, currentYear } from "../src/actions/currentdate"
-import { get_toDay } from '../src/actions/class'
 // Component
 import ContainerClass from '../components/ContainerClass';
 
@@ -20,17 +19,26 @@ class TodayScreen extends React.Component {
     super(props);
 
     this.state = {
-      course: 'Course',
-      group: 'Group',
-      location: 'Location',
-      day: 'Day',
-      timeStart: 'Start',
-      timeEnd: 'End',
-      students: 'Total Student',
+      now: [],
+      next: []
     }
   }
   componentWillMount() {
-    //get_toDay(this.props)
+    const { semester, course, Class } = this.props
+    toDate = new Date()
+    toDay = toDate.getDay() - 1
+
+    semesterNow = semester.filter(i => toDate >= new Date(i.startDate) && toDate <= new Date(i.endDate))[0]
+    CourseNow = course.filter(i => i.semesterId === semesterNow._id)
+    CourseId = []
+    CourseNow.map(v => CourseId.push(v._id))
+    ClassNow = Class.filter(i => i.day == toDay && CourseId.indexOf(i.courseId) >= 0)
+    ClassNow.map((v,i) => {
+      v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
+    })
+    this.setState({
+      now:ClassNow
+    })
   }
   render() {
     return (
@@ -59,7 +67,7 @@ class TodayScreen extends React.Component {
           </View>
           <FlatList
             ItemSeparatorComponent={this.ListViewItemSeparator}
-            data={this.props.course}
+            data={this.state.now}
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
@@ -155,8 +163,8 @@ const styles = StyleSheet.create({
 
 });
 const mapStateToProps = state => ({
-  toDay: state.toDay,
-  class: state.class,
-  course: state.course
+  Class: state.class,
+  course: state.course,
+  semester: state.semester
 })
 export default connect(mapStateToProps)(TodayScreen) 
