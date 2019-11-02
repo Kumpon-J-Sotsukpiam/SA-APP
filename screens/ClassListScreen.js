@@ -10,7 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import ContainerClassList from '../components/ContainerClassList';
-import { get_class, del_class } from '../src/actions/class'
+import { del_class } from '../src/actions/class'
 import { connect } from 'react-redux'
 import Swipeout from 'react-native-swipeout';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
@@ -31,7 +31,6 @@ class ClassListScreen extends React.Component {
       course: log[0],
       semesterID: semesterID,
     })
-     get_class(courseId, this.props)
   }
   ListViewItemSeparator = () => {
     return (
@@ -76,7 +75,7 @@ class ClassListScreen extends React.Component {
           <ScrollView>
           <FlatList
             ItemSeparatorComponent={this.ListViewItemSeparator}
-            data={this.props.class}
+            data={this.props.class.filter(i => i.courseId == this.state.course._id)}
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
@@ -156,6 +155,6 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = state => ({
   class: state.class,
-  course: state.coures
+  course: state.course
 })
 export default connect(mapStateToProps)(ClassListScreen)

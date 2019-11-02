@@ -5,6 +5,7 @@ import isEmpty from "../src/modules/is-empty"
 import jwt_decode from 'jwt-decode'
 
 import { setCurrentToken } from "../src/actions/authentication"
+import { get_first } from "../src/actions/firstLoading"
 
 import { StyleSheet, View, Text, ActivityIndicator } from 'react-native'
 
@@ -18,6 +19,7 @@ class AuthLoadingScreen extends Component {
             }else{
                 const decoded = jwt_decode(token)
                 dispatch(setCurrentToken(decoded))
+                get_first(this.props)
                 navigation.navigate("App")
             }
         }).catch(err => {

@@ -13,26 +13,18 @@ import Swipeout from 'react-native-swipeout';
 import { Header, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import ContainerSemester from '../components/ContainerSemester';
-import { get_semester, del_semester } from '../src/actions/semester'
+import { del_semester } from '../src/actions/semester'
 import { connect } from "react-redux"
 
 class SemestersScreen extends React.Component {
   constructor(props) {
-    super(props);
-
+    super(props)
     this.state = {
       autoClose: true,
       semester: 'Semester',
       students: 'Total student',
     }
   }
-
-  async componentWillMount() {
-    if(this.props.semester !== []){
-      await get_semester(this.props)
-    }
-  }
-
   ListViewItemSeparator = () => {
     return (
       <View style={{ backgroundColor: '#000' }} />

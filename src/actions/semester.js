@@ -38,19 +38,16 @@ export const del_semester = (id,props) => {
     })
 }
 export const add_semester = (semester,props) => {
-    const { dispatch,navigation } = props
-    // format data
+    const { dispatch } = props
     data = {
         name:semester.semesterName,
         startDate:semester.dateStarts,
         endDate:semester.dateEnds
-    }
-        
+    } 
     api.post('semester/',data).then(res => {
-        dispatch(addSemester(res.data))
+        dispatch(addSemester(res.data.data))
     }).catch(err => {
         console.error(err.response.data);
     })
-    //navigation.navigate('Semesters')
         
 }

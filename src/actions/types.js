@@ -39,3 +39,5 @@ export const ADD_TODAY = 'ADD_TODAY'
 export const DELETE_TODAY = 'DELETE_TODAY'
 export const SET_TODAY = 'SET_TODAY'
 export const GET_TODAY = 'GET_TODAY'
+
+export const GET_FIRST = 'GET_FIRST'

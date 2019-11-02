@@ -14,6 +14,6 @@ export default combineReducers({
     student: studentReducer,
     checkIn: checkInReducer,
     class: classReducer,
-    coures: courseReducer,
+    course: courseReducer,
     toDay: toDayReducer
 })

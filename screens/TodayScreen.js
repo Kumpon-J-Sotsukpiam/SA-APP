@@ -30,7 +30,7 @@ class TodayScreen extends React.Component {
     }
   }
   componentWillMount() {
-    get_toDay(this.props)
+    //get_toDay(this.props)
   }
   render() {
     return (
@@ -59,7 +59,7 @@ class TodayScreen extends React.Component {
           </View>
           <FlatList
             ItemSeparatorComponent={this.ListViewItemSeparator}
-            data={this.props.toDay}
+            data={this.props.course}
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
@@ -155,6 +155,8 @@ const styles = StyleSheet.create({
 
 });
 const mapStateToProps = state => ({
-  toDay: state.toDay
+  toDay: state.toDay,
+  class: state.class,
+  course: state.course
 })
 export default connect(mapStateToProps)(TodayScreen) 
