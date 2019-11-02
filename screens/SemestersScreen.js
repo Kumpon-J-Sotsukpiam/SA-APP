@@ -51,18 +51,19 @@ class SemestersScreen extends React.Component {
             <Text style={styles.header}>CURRENT</Text>
           </View>
 
-      <View style={{paddingBottom:5}}>
-      <FlatList
-        ItemSeparatorComponent={this.ListViewItemSeparator}
-        data={this.props.semester}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
-          <View style={styles.containerSemesterList}>  
-          <Swipeout left={[{text: 'Delete',
-                            backgroundColor: 'red',
-                            onPress: () => {del_semester(item._id,this.props)}
-                          }]}
-                    style={{borderBottomLeftRadius: 10,borderTopLeftRadius:10}}    
+          <View style={{ paddingBottom: 5 }}>
+            <FlatList
+              ItemSeparatorComponent={this.ListViewItemSeparator}
+              data={this.props.semester}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.containerSemesterList}>
+                  <Swipeout left={[{
+                    text: 'Delete',
+                    backgroundColor: 'red',
+                    onPress: () => { del_semester(item._id, this.props) }
+                  }]}
+                    style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                     autoClose={this.state.autoClose}
                     backgroundColor='transparent'>
                     <ContainerSemester
@@ -74,9 +75,7 @@ class SemestersScreen extends React.Component {
                 </View>
               )}
             />
-
           </View>
-
           <View style={styles.containerSemester}>
             <Text style={styles.header}>PAST</Text>
           </View>

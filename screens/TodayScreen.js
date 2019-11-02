@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 import { currentDay, currentMonth, currentDate, currentYear } from "../src/actions/currentdate"
 // Component
 import ContainerClass from '../components/ContainerClass';
+import { getDayOfWeek, formatTime } from "../src/actions/date"
 
 class TodayScreen extends React.Component {
   constructor(props) {
@@ -35,13 +36,17 @@ class TodayScreen extends React.Component {
     CourseNow = course.filter(i => semesterId.indexOf(i.semesterId) >= 0)
     CourseId = []
     CourseNow.map(v => CourseId.push(v._id))
-    
+
     ClassNow = Class.filter(i => i.day == toDay && CourseId.indexOf(i.courseId) >= 0)
-    ClassNow.map((v,i) => {
+    ClassNow.map((v, i) => {
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
+      v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
+    console.log('====================================');
+    console.log(ClassNow);
+    console.log('====================================');
     this.setState({
-      now:ClassNow
+      now: ClassNow
     })
   }
   render() {
@@ -80,12 +85,12 @@ class TodayScreen extends React.Component {
                   course={item.name}
                   group={item.group}
                   location={item.location}
-                  day={item.day}
-                  timeStart={this.state.timeStart}
-                  timeEnd={this.state.timeEnd}
-                  students={this.state.students}
+                  day={getDayOfWeek(item.day)}
+                  timeStart={formatTime(item.startTime)}
+                  timeEnd={formatTime(item.endTime)}
+                  students={item.studentList.length}
                   navigateCamera={() => this.props.navigation.navigate('Camera')}
-                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails')}
+                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{ classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
                 />
               </View>
             )}

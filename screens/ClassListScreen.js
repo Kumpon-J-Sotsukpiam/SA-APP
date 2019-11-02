@@ -21,7 +21,7 @@ class ClassListScreen extends React.Component {
     this.state = {
       course: [],
       semesterID: '',
-      autoClose:true
+      autoClose: true
     };
   }
   componentWillMount() {
@@ -73,39 +73,37 @@ class ClassListScreen extends React.Component {
         />
         <View>
           <ScrollView>
-          <FlatList
-            ItemSeparatorComponent={this.ListViewItemSeparator}
-            data={this.props.class.filter(i => i.courseId == this.state.course._id)}
-            refreshing={true}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={{margin:5,backgroundColor:'#fff'}}>
-                <Swipeout left={[{
-                  text: 'Delete',
-                  backgroundColor: 'red',
-                  autoClose:this.state.autoClose,
-                  onPress: () => { del_class(item._id, this.props) }
-                }]}
-                  style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
-                  autoClose={this.state.autoClose}
-                  backgroundColor='transparent'>
-
-                  <ContainerClassList
-                    group={item.group}
-                    location={item.location}
-                    day={getDayOfWeek(item.day)}
-                    startTime={formatTime(item.startTime)}
-                    endTime={formatTime(item.endTime)}
-                    students={'Total'}
-                    navigateCamera={() => this.props.navigation.navigate('Camera', { classID: 'ClassId' })}
-                    navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterID })}
-                  />
-
-                </Swipeout>
-              </View>
-            )}
-          />
-        </ScrollView>
+            <FlatList
+              ItemSeparatorComponent={this.ListViewItemSeparator}
+              data={this.props.class.filter(i => i.courseId == this.state.course._id)}
+              refreshing={true}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <View style={{ margin: 5, backgroundColor: '#fff' }}>
+                  <Swipeout left={[{
+                    text: 'Delete',
+                    backgroundColor: 'red',
+                    autoClose: this.state.autoClose,
+                    onPress: () => { del_class(item._id, this.props) }
+                  }]}
+                    style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
+                    autoClose={this.state.autoClose}
+                    backgroundColor='transparent'>
+                    <ContainerClassList
+                      group={item.group}
+                      location={item.location}
+                      day={getDayOfWeek(item.day)}
+                      startTime={formatTime(item.startTime)}
+                      endTime={formatTime(item.endTime)}
+                      students={'Total'}
+                      navigateCamera={() => this.props.navigation.navigate('Camera', { classID: 'ClassId' })}
+                      navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterID })}
+                    />
+                  </Swipeout>
+                </View>
+              )}
+            />
+          </ScrollView>
         </View>
 
       </View>
