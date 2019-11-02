@@ -28,10 +28,14 @@ class TodayScreen extends React.Component {
     toDate = new Date()
     toDay = toDate.getDay() - 1
 
-    semesterNow = semester.filter(i => toDate >= new Date(i.startDate) && toDate <= new Date(i.endDate))[0]
-    CourseNow = course.filter(i => i.semesterId === semesterNow._id)
+    semesterNow = semester.filter(i => toDate >= new Date(i.startDate) && toDate <= new Date(i.endDate))
+    semesterId = []
+    semesterNow.map(v => semesterId.push(v._id))
+
+    CourseNow = course.filter(i => semesterId.indexOf(i.semesterId) >= 0)
     CourseId = []
     CourseNow.map(v => CourseId.push(v._id))
+    
     ClassNow = Class.filter(i => i.day == toDay && CourseId.indexOf(i.courseId) >= 0)
     ClassNow.map((v,i) => {
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
