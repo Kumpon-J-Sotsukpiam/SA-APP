@@ -11,6 +11,7 @@ import ClassListNavigator from './ClassListNavigator';
 import ClassDetailsNavigator from './ClassDetailsNavigator';
 import EditCourseNavigator from './EditCourseNavigator';
 import EditClassNavigator from './EditClassNavigator';
+import AddStudentNavigator from './AddStudentNavigator';
 
 
 // Loading Screens
@@ -51,6 +52,7 @@ const AppContainer = createAppContainer(createSwitchNavigator({
     EditSemesterNavigator,
     EditCourseNavigator,
     EditClassNavigator,
+    AddStudentNavigator,
   })
 );
 

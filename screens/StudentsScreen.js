@@ -5,13 +5,16 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Picker
+  Picker,
+  Modal,
+  TouchableHighlight,
+  Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Header, Button, SearchBar } from 'react-native-elements';
+import { Header, Button, SearchBar,Icon } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import { createFilter } from 'react-native-search-filter';
-import { isThisHour } from 'date-fns';
+
 
 const KEYS_TO_FILTERS = ['studentID', 'studentName','faculty','major'];
 
@@ -25,27 +28,43 @@ export default class StudentsScreen extends React.Component {
       faculty:'',
       major:'',
       test:'',
+      toggleFaculty:false,
+      toggleMajor:false,
+      filterMajor:false,
+      majorList:[],
+      facultyList:[],
       dataStudent: [
-        { key: '1', studentID: 5905100025, studentName: 'Chanathip Nobnom',faculty:'School of Science and Technology',major:'Computer Science', percentage: '100%' },
-        { key: '2', studentID: 5905100026, studentName: 'Champ Nobnom',faculty:'School of Science and Technology',major:'Financial engineering',  percentage: '100%' },
-        { key: '3', studentID: 5915100026, studentName: 'Chanathip Moochamp',faculty:'School of Law',major:'Food Science',  percentage: '100%' },
-        { key: '4', studentID: 1100500589302, studentName: 'Champ Iix',faculty:'School of Communication OF Arts',major:'Advertise',  percentage: '100%' },
+        { key: '1', studentID: 5905100025, studentName: 'Chanathip Nobnom',faculty:'School of Science and Technology',major:'Computer Science'},
+        { key: '2', studentID: 5905100026, studentName: 'Champ Nobnom',faculty:'School of Science and Technology',major:'Financial engineering'},
+        { key: '3', studentID: 5915100026, studentName: 'Chanathip Moochamp',faculty:'School of Law',major:'Food Science'},
+        { key: '4', studentID: 1100500589302, studentName: 'Champ Iix',faculty:'School of Communication OF Arts',major:'Advertise'},
       ],
     };
   }
   searchUpdated(data) {
-    this.setState({ search: data,test:data+' '+this.state.faculty })
+    this.setState({ search: data,test:data+' '+this.state.faculty+' '+this.state.major })
   }
 
   setFaculty(data) {
-    this.setState({ showMajor:true,faculty: data,test:this.state.search+' '+data })
+    this.setState({ 
+      filterMajor:true,
+      faculty: data,
+      test:this.state.search+' '+data })
   }
 
   setMajor(data) {
     this.setState({ major: data,test:this.state.search+' '+this.state.faculty+' '+data})
+      if(data === ''){}
+
   }
 
- 
+  toggleFaculty(){
+    this.setState({toggleFaculty:!this.state.toggleFaculty})
+  }
+  toggleMajor(){
+    this.setState({toggleMajor:!this.state.toggleMajor})
+  }
+
 
   render() {
 
@@ -53,13 +72,14 @@ export default class StudentsScreen extends React.Component {
     const { dataStudent } = this.state;
     return (
       <View style={styles.container}>
+        
         <View>
         <Header
           rightComponent={(
             <Ionicons name='ios-add'
               size={60}
               color={'#fff'}
-              onPress={() => { this.props.navigation.navigate('AddStudentList') }}
+              onPress={() => { this.props.navigation.navigate('AddStudent') }}
             />)}
           rightContainerStyle={{ flex: 1 }}
           centerComponent={(
@@ -74,7 +94,41 @@ export default class StudentsScreen extends React.Component {
         />
         </View>
 
+
+        <View>
+        {Platform.OS === 'ios' ? (<Button
+          title={(' Filter Faculty '+this.state.faculty)}
+          type='clear'
+          titleStyle={{color:'#000',fontSize:14}}
+          icon= {
+            <Ionicons
+              name='ios-add'
+              size={20}
+              color='black'
+            />}
+            onPress={()=> this.toggleFaculty()}
+        />) : (<Text>Test</Text>)}
+
+
+        {Platform.OS === 'ios' ? 
+        this.state.filterMajor &&(
+                  <Button
+                  title={(' Filter Major '+this.state.major)}
+                  type='clear'
+                  titleStyle={{color:'#000',fontSize:14}}
+                  icon= {
+                    <Ionicons
+                      name='ios-add'
+                      size={20}
+                      color='black'
+                    />}
+                    onPress={()=> this.toggleMajor()}
+                />) : (<Text>Test</Text>
+                
+                )}
         
+        </View>    
+
         <View style={{flexWrap:'wrap'}}>
         <SearchBar
           containerStyle={{ backgroundColor: '#fff', marginBottom: 3 }}
@@ -86,22 +140,12 @@ export default class StudentsScreen extends React.Component {
         />
         </View>
 
-
-        
-
-          
-        
-
         <View style={{flexDirection: 'row', padding: 2, backgroundColor: '#fff', height: 30, margin: 3 }}>
           <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Student ID</Text>
           </View>
           <View style={{ flex: 2.5, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Name</Text>
-          </View>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Checkin</Text>
-            <Text style={{ fontSize: 9.5, fontWeight: 'bold' }}>(Percentage)</Text>
           </View>
         </View>
 
@@ -128,10 +172,6 @@ export default class StudentsScreen extends React.Component {
                     <View style={{ flex: 2.5, justifyContent: 'center' }}>
                       <Text style={{ fontSize: 16 }}>{dataStudent.studentName}</Text>
                     </View>
-                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{dataStudent.percentage}</Text>
-                    </View>
-
                   </TouchableOpacity>
                 </Swipeout>
               </View>
@@ -141,9 +181,17 @@ export default class StudentsScreen extends React.Component {
 
         </ScrollView>
           
-        <Picker
+
+
+        <Modal visible={this.state.toggleFaculty}
+        transparent={true}
+        animationType={'slide'}
+        onRequestClose={()=> console.log('Close')}>
+         
+          <TouchableHighlight style={{bottom:0,left:0,right:0,top:0,position:'absolute',justifyContent:'center'}} onPress={() => this.toggleFaculty()}>
+          <Picker
           selectedValue={this.state.faculty}
-          style={{bottom:0,left:0,right:0,position:'absolute'}}
+          style={{bottom:0,left:0,right:0,position:'absolute',backgroundColor:'#f3f3f3'}}
           onValueChange={(itemValue, itemIndex) => this.setFaculty(itemValue)}>
         <Picker.Item label='Default' value='' />
         <Picker.Item label='School of Business' value='School of Business' />
@@ -160,6 +208,38 @@ export default class StudentsScreen extends React.Component {
         <Picker.Item label='International School of Management' value='International School of Management' />
         <Picker.Item label='Extension School' value='Extension School' />
         </Picker>
+        
+          </TouchableHighlight>
+        </Modal>
+
+        <Modal visible={this.state.toggleMajor}
+        transparent={true}
+        animationType={'slide'}
+        onRequestClose={()=> console.log('Close')}>
+         
+          <TouchableHighlight style={{bottom:0,left:0,right:0,top:0,position:'absolute',}} onPress={() => this.toggleMajor()}>
+          <Picker
+          selectedValue={this.state.major}
+          style={{bottom:0,left:0,right:0,position:'absolute',backgroundColor:'#f3f3f3'}}
+          onValueChange={(itemValue, itemIndex) => this.setMajor(itemValue)}>
+        <Picker.Item label='Default' value='' />
+        <Picker.Item label='School of Business' value='School of Business' />
+        <Picker.Item label='School of Accountancy' value='School of Accountancy' />
+        <Picker.Item label='School of Science and Technology' value='School of Science and Technology' />
+        <Picker.Item label='School of Economics' value='School of Economics' />
+        <Picker.Item label='School of Humanities and Applied Arts' value='School of Humanities and Applied Arts' />
+        <Picker.Item label='School of Communication of Arts' value='School of Communication of Arts' />
+        <Picker.Item label='School of Law' value='School of Law' />
+        <Picker.Item label='School of Tourism and Services' value='School of Tourism and Services' />
+        <Picker.Item label='School of Engineering' value='School of Engineering' />
+        <Picker.Item label='School of Early Childhood Education' value='School of Early Childhood Education' />
+        <Picker.Item label='College of Entrepreneurship' value='College of Entrepreneurship' />
+        <Picker.Item label='International School of Management' value='International School of Management' />
+        <Picker.Item label='Extension School' value='Extension School' />
+        </Picker>
+        
+          </TouchableHighlight>
+        </Modal>
 
 
 

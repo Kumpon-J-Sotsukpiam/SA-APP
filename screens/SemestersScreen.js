@@ -20,7 +20,8 @@ class SemestersScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      autoClose: true
+      autoClose: true,
+      students:''
     }
   }
   ListViewItemSeparator = () => {
@@ -67,7 +68,7 @@ class SemestersScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerSemester
                       semester={item.name}
-                      students={this.state.students}
+                      students={'total is'+this.state.students}
                       navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
                     />
                   </Swipeout>
@@ -75,8 +76,12 @@ class SemestersScreen extends React.Component {
               )}
             />
           </View>
+          
+
           <View style={styles.containerSemester}>
             <Text style={styles.header}>PAST</Text>
+          </View>
+            <View style={{ paddingBottom: 5 }}>
             <FlatList
               ItemSeparatorComponent={this.ListViewItemSeparator}
               data={this.props.semester.filter( i => toDate > new Date(i.endDate))}
@@ -93,14 +98,16 @@ class SemestersScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerSemester
                       semester={item.name}
-                      students={this.state.students}
+                      students={'total is'+this.state.students}
                       navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
-                    />
-                  </Swipeout>
-                </View>
-              )}
-            />
-          </View>
+                      />
+                      </Swipeout>
+                    </View>
+                  )}
+                />
+              </View>
+            
+          
 
         </ScrollView>
       </View>
@@ -121,7 +128,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderBottomWidth: 2,
     borderColor: '#e8e8e8',
-
   },
   header: {
     fontWeight: 'bold',
