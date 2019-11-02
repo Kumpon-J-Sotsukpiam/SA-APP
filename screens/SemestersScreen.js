@@ -21,30 +21,22 @@ class SemestersScreen extends React.Component {
     super(props)
     this.state = {
       autoClose: true,
-      current:[],
-      past:[]
+      current: [],
+      past: []
     }
   }
-  componentWillMount(){
-    const {semester} = this.props
+  componentWillMount() {
+    const { semester } = this.props
     toDate = new Date()
-    toDay = toDate.getDay() - 1
-    //currentSemester = semester.filter(i => toDate < new Date(i.endDate))
-    passSemester = []
-    semester.map((v,i) => {
-      if(toDate > new Date(v.endDate)){
-        item = this.state.past
-        item.push(v)
-        this.setState({
-          past:item
-        })
-      }else{
-        item = this.state.current
-        item.push(v)
-        this.setState({
-          current:item
-        })
-      }
+    current = []
+    past = []
+    semester.map((v, i) => {
+      if (toDate > new Date(v.enddate)) past.push(v)
+      else current.push(v)
+      this.setState({
+        current:current,
+        past:past
+      })
     })
   }
   ListViewItemSeparator = () => {
@@ -54,10 +46,6 @@ class SemestersScreen extends React.Component {
   };
 
   render() {
-    console.log('====================================');
-    console.log(this.state);
-    console.log('====================================');
-    
     return (
       <View style={styles.container}>
         <Header
