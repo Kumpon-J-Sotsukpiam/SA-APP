@@ -21,9 +21,31 @@ class SemestersScreen extends React.Component {
     super(props)
     this.state = {
       autoClose: true,
-      semester: 'Semester',
-      students: 'Total student',
+      current:[],
+      past:[]
     }
+  }
+  componentWillMount(){
+    const {semester} = this.props
+    toDate = new Date()
+    toDay = toDate.getDay() - 1
+    //currentSemester = semester.filter(i => toDate < new Date(i.endDate))
+    passSemester = []
+    semester.map((v,i) => {
+      if(toDate > new Date(v.endDate)){
+        item = this.state.past
+        item.push(v)
+        this.setState({
+          past:item
+        })
+      }else{
+        item = this.state.current
+        item.push(v)
+        this.setState({
+          current:item
+        })
+      }
+    })
   }
   ListViewItemSeparator = () => {
     return (
@@ -32,6 +54,10 @@ class SemestersScreen extends React.Component {
   };
 
   render() {
+    console.log('====================================');
+    console.log(this.state);
+    console.log('====================================');
+    
     return (
       <View style={styles.container}>
         <Header
@@ -54,7 +80,7 @@ class SemestersScreen extends React.Component {
           <View style={{ paddingBottom: 5 }}>
             <FlatList
               ItemSeparatorComponent={this.ListViewItemSeparator}
-              data={this.props.semester}
+              data={this.state.current}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={styles.containerSemesterList}>
@@ -78,6 +104,29 @@ class SemestersScreen extends React.Component {
           </View>
           <View style={styles.containerSemester}>
             <Text style={styles.header}>PAST</Text>
+            <FlatList
+              ItemSeparatorComponent={this.ListViewItemSeparator}
+              data={this.state.past}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.containerSemesterList}>
+                  <Swipeout left={[{
+                    text: 'Delete',
+                    backgroundColor: 'red',
+                    onPress: () => { del_semester(item._id, this.props) }
+                  }]}
+                    style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
+                    autoClose={this.state.autoClose}
+                    backgroundColor='transparent'>
+                    <ContainerSemester
+                      semester={item.name}
+                      students={this.state.students}
+                      navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
+                    />
+                  </Swipeout>
+                </View>
+              )}
+            />
           </View>
 
         </ScrollView>
