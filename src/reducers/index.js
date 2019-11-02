@@ -7,6 +7,7 @@ import courseReducer from './courseReducer'
 import checkInReducer from './checkInReducer'
 import classReducer from './classReducer'
 import toDayReducer from './todayReducer'
+import modelReducer from './modelReducer'
 export default combineReducers({
     auth: authReducer,
     errors: errorReducer,
@@ -15,5 +16,6 @@ export default combineReducers({
     checkIn: checkInReducer,
     class: classReducer,
     course: courseReducer,
-    toDay: toDayReducer
+    toDay: toDayReducer,
+    model:modelReducer
 })

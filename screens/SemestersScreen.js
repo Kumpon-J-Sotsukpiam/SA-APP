@@ -20,24 +20,8 @@ class SemestersScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      autoClose: true,
-      current: [],
-      past: []
+      autoClose: true
     }
-  }
-  componentWillMount() {
-    const { semester } = this.props
-    toDate = new Date()
-    current = []
-    past = []
-    semester.map((v, i) => {
-      if (toDate > new Date(v.enddate)) past.push(v)
-      else current.push(v)
-      this.setState({
-        current:current,
-        past:past
-      })
-    })
   }
   ListViewItemSeparator = () => {
     return (
@@ -46,6 +30,7 @@ class SemestersScreen extends React.Component {
   };
 
   render() {
+    const toDate = new Date()
     return (
       <View style={styles.container}>
         <Header
@@ -68,7 +53,7 @@ class SemestersScreen extends React.Component {
           <View style={{ paddingBottom: 5 }}>
             <FlatList
               ItemSeparatorComponent={this.ListViewItemSeparator}
-              data={this.state.current}
+              data={this.props.semester.filter( i => toDate < new Date(i.endDate))}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={styles.containerSemesterList}>
@@ -94,7 +79,7 @@ class SemestersScreen extends React.Component {
             <Text style={styles.header}>PAST</Text>
             <FlatList
               ItemSeparatorComponent={this.ListViewItemSeparator}
-              data={this.state.past}
+              data={this.props.semester.filter( i => toDate > new Date(i.endDate))}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={styles.containerSemesterList}>
