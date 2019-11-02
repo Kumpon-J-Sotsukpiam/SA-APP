@@ -41,3 +41,8 @@ export const SET_TODAY = 'SET_TODAY'
 export const GET_TODAY = 'GET_TODAY'
 
 export const GET_FIRST = 'GET_FIRST'
+
+// model before predict face
+export const LOAD_MODEL = 'LOAD_MODEL'
+export const DELETE_MODEL = 'DELETE_MODEL'
+export const PREDICT_FACE = 'PREDICT_FACE'

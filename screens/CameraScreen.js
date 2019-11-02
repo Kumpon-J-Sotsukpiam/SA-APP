@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, Platform, TouchableOpacity} from 'react-native';
+import { StyleSheet,Alert, View, Text, Button, Platform, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { connect } from "react-redux"
@@ -8,33 +8,36 @@ import * as Permissions from 'expo-permissions'
 import * as FaceDetector from 'expo-face-detector'
 import * as ImageManipulator from 'expo-image-manipulator'
 import * as FileSystem from 'expo-file-system'
-import {ip_server,port,server_url} from '../src/config'
-import {faceDetectorSetting} from '../src/config'
+import { ip_server, port, server_url } from '../src/config'
+import { get_model, del_model } from '../src/actions/model'
+import { predict_face, predicted_face } from '../src/actions/predict'
+import { faceDetectorSetting } from '../src/config'
 
 const io = require('socket.io-client')
 class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      classId:'Class ID',
+      classId: 'vgg_face',
       hasCameraPermission: null,
       type: Camera.Constants.Type.front,
-      isConnect: false,
-      ping:null
+      isConnect: false
     };
   }
+  async componentWillMount() {
+    get_model(this.state.classId,this.props)
+  }
   async componentDidMount() {
+    // check permissions camera
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === 'granted' });
-    this.socket = io(server_url,{
-      transportOptions:['websocket'],
-      autoConnect:true
+    // connect socket.IO
+    this.socket = io(server_url, {
+      transportOptions: ['websocket'],
+      autoConnect: true
     })
-    this.socket.on('connect',() => {
-      this.setState({isConnect:true})
-      this.socket.emit('load-model',{
-        classId:this.state.classId
-      })
+    this.socket.on('connect', () => {
+      this.setState({isConnect: true })
     })
   }
   setCamera = (ref) => {
@@ -78,12 +81,12 @@ class CameraScreen extends React.Component {
       encoding: FileSystem.EncodingType.Base64
     }
     FileSystem.readAsStringAsync(uri, options).then(v => {
-      this.socket.emit('sendphoto', {
+      this.socket.emit('predict', {
         Base64: v,
         name: uri.split("/").pop(),
         type: 'data:image/jpg;base64',
-        classId:this.state.classId,
-        authId:this.props.auth.user.id
+        classId: this.state.classId,
+        authId: this.props.auth.user.id
       })
     }).then(() => {
       FileSystem.deleteAsync(uri).then(e => {
@@ -92,58 +95,58 @@ class CameraScreen extends React.Component {
     })
   }
   render() {
-  return (
-    <View style = {styles.container}>
+    return (
+      <View style={styles.container}>
 
-    <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{
-          this.socket.emit('del-model',{
-            classId:this.state.classId
-          })
-          this.props.navigation.navigate('Check')
+        <Header
+          leftComponent={(<TouchableOpacity onPress={() => {
+            this.socket.emit('del-model', {
+              classId: this.state.classId
+            })
+            this.props.navigation.navigate('Check')
           }}>
-                        <Text style={styles.textCancel}>Camera</Text>
-                        </TouchableOpacity>
-                      )}
-        centerComponent={({ text: 'Camera', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<View style={styles.containerRightHeader}>
-                         <Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
-                          size={60}
-                          color={'#fff'}
-                          onPress={()=>{this.props.navigation.navigate('CheckScreen')}}
-                        />
-                        </View>
-                        )}
-        containerStyle={{
-          backgroundColor: '#fd4176',
-          height:80,
-          justifyContent: 'space-around',
-          borderBottomColor: '#be5f7a',
-          borderBottomWidth: 1,
-        }}
-    />
+            <Text style={styles.textCancel}>Camera</Text>
+          </TouchableOpacity>
+          )}
+          centerComponent={({ text: 'Camera', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
+          rightComponent={(<View style={styles.containerRightHeader}>
+            <Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
+              size={60}
+              color={'#fff'}
+              onPress={() => { this.props.navigation.navigate('CheckScreen') }}
+            />
+          </View>
+          )}
+          containerStyle={{
+            backgroundColor: '#fd4176',
+            height: 80,
+            justifyContent: 'space-around',
+            borderBottomColor: '#be5f7a',
+            borderBottomWidth: 1,
+          }}
+        />
 
-        <View style = {styles.containerCamera}>
+        <View style={styles.containerCamera}>
           <Camera
-          ref={this.setCamera}
-          style={{ flex: 1 }}
-          type={this.state.type}
-          onFacesDetected={this.handleFaceDetected}
-          faceDetectorSetting={faceDetectorSetting}
-        >
+            ref={this.setCamera}
+            style={{ flex: 1 }}
+            type={this.state.type}
+            onFacesDetected={this.handleFaceDetected}
+            faceDetectorSetting={faceDetectorSetting}
+          >
           </Camera>
         </View>
 
-        <View style = {styles.containerMessage}>
-            <Text>{this.state.test}</Text>
+        <View style={styles.containerMessage}>
+          <Text>{this.state.test}</Text>
         </View>
-    </View>
-  );
-}
+      </View>
+    );
+  }
 }
 
 CameraScreen.navigationOptions = {
-  header:null
+  header: null
 };
 
 const styles = StyleSheet.create({
@@ -163,15 +166,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   containerRightHeader: {
-    flex:1,
+    flex: 1,
   },
   textCancel: {
-    fontSize:18,
-    color:'#fff'
+    fontSize: 18,
+    color: '#fff'
   },
 });
 
 const mapStatetoProps = state => ({
-  auth:state.auth
+  auth: state.auth,
+  model: state.model
 })
 export default connect(mapStatetoProps)(CameraScreen)
