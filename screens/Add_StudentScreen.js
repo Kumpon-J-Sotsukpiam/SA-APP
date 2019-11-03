@@ -21,6 +21,8 @@ export default class Add_StudentScreen extends React.Component {
 
       this.state = {
         image: null,
+        studentID:'',
+        studentName:'',
     }
   }
 
@@ -39,7 +41,7 @@ export default class Add_StudentScreen extends React.Component {
 
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: true,
       aspect: [4, 3],
     });
@@ -50,6 +52,14 @@ export default class Add_StudentScreen extends React.Component {
       this.setState({ image: result.uri });
     }
   };
+
+  setStudentID(data) {
+    this.setState({ studentID: data });
+  }
+
+  setStudentName(data) {
+    this.setState({ studentName: data });
+  }
 
 
  render() {
@@ -73,16 +83,27 @@ export default class Add_StudentScreen extends React.Component {
       />
       </View>
 
+      <View style={styles.containerTextInput}>
+        <TextInput
+        placeholder='Student ID'
+        style={styles.textInput}
+        onChangeText={(data) => this.setStudentID(data)}
+        />
+      </View>
+      <View style={styles.containerTextInput}>
+        <TextInput
+        placeholder='Student Name'
+        style={styles.textInput}
+        onChangeText={(data)=> this.setStudentName(data)}
+        />
+      </View>
+
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Button
           title="Pick an image from camera roll"
           onPress={this._pickImage}
         />
-        {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-      </View>
-        
-    
+      </View>   
         
     </View>
 
@@ -100,7 +121,7 @@ Add_StudentScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f3f3f3',
   },
   containerHeader: {
     flexDirection: 'column',
@@ -138,5 +159,14 @@ const styles = StyleSheet.create({
   textSave: {
     fontSize:18,
     color:'#fff'
+  },
+  textInput: {
+    backgroundColor:'#fff',
+    height:50,
+    padding: 10,
+    fontSize:18
+  },
+  containerTextInput: {
+    marginTop:10,
   },
 });
