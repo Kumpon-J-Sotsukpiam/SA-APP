@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet,Alert, View, Text, Button, Platform, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Button, Platform, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { connect } from "react-redux"
@@ -25,20 +25,24 @@ class CameraScreen extends React.Component {
     };
   }
   async componentWillMount() {
-    get_model(this.state.classId,this.props)
+    get_model(this.state.classId, this.props)
   }
   async componentDidMount() {
     // check permissions camera
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-    // connect socket.IO
-    this.socket = io(server_url, {
-      transportOptions: ['websocket'],
-      autoConnect: true
-    })
-    this.socket.on('connect', () => {
-      this.setState({isConnect: true })
-    })
+    if (status === 'granted') {
+      this.setState({ hasCameraPermission: status === 'granted' });
+      this.socket = io(server_url, {
+        transportOptions: ['websocket'],
+        autoConnect: true
+      })
+      this.socket.on('connect', () => {
+        this.setState({ isConnect: true })
+        predicted_face(this.props,this.socket)
+      })
+    } else {
+      alert('camera permission not granted')
+    }
   }
   setCamera = (ref) => {
     this.camera = ref
@@ -46,7 +50,7 @@ class CameraScreen extends React.Component {
   handleFaceDetected = async ({ faces }) => {
     if (faces.length > 0) this.taskPicture()
   }
-  taskPicture = async () => {
+  taskPicture = async () => { // todo del
     option = {
       captureAudio: false
     }
@@ -81,13 +85,14 @@ class CameraScreen extends React.Component {
       encoding: FileSystem.EncodingType.Base64
     }
     FileSystem.readAsStringAsync(uri, options).then(v => {
-      this.socket.emit('predict', {
+      data = {
         Base64: v,
         name: uri.split("/").pop(),
         type: 'data:image/jpg;base64',
         classId: this.state.classId,
         authId: this.props.auth.user.id
-      })
+      }
+      predict_face(data,this.socket)
     }).then(() => {
       FileSystem.deleteAsync(uri).then(e => {
         console.log('delete Success...');
@@ -97,12 +102,8 @@ class CameraScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
         <Header
           leftComponent={(<TouchableOpacity onPress={() => {
-            this.socket.emit('del-model', {
-              classId: this.state.classId
-            })
             this.props.navigation.navigate('Check')
           }}>
             <Text style={styles.textCancel}>Camera</Text>
@@ -125,18 +126,15 @@ class CameraScreen extends React.Component {
             borderBottomWidth: 1,
           }}
         />
-
         <View style={styles.containerCamera}>
           <Camera
             ref={this.setCamera}
             style={{ flex: 1 }}
             type={this.state.type}
             onFacesDetected={this.handleFaceDetected}
-            faceDetectorSetting={faceDetectorSetting}
-          >
+            faceDetectorSetting={faceDetectorSetting}>
           </Camera>
         </View>
-
         <View style={styles.containerMessage}>
           <Text>{this.state.test}</Text>
         </View>

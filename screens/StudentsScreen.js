@@ -32,7 +32,6 @@ export default class StudentsScreen extends React.Component {
       toggleMajor:false,
       filterMajor:false,
       majorList:[],
-      facultyList:[],
       dataStudent: [
         { key: '1', studentID: 5905100025, studentName: 'Chanathip Nobnom',faculty:'School of Science and Technology',major:'Computer Science'},
         { key: '2', studentID: 5905100026, studentName: 'Champ Nobnom',faculty:'School of Science and Technology',major:'Financial engineering'},
@@ -49,13 +48,14 @@ export default class StudentsScreen extends React.Component {
     this.setState({ 
       filterMajor:true,
       faculty: data,
-      test:this.state.search+' '+data })
+      test:this.state.search+' '+data,
+      major:'',
+    })
+    this.setMajorList(data)
   }
 
   setMajor(data) {
     this.setState({ major: data,test:this.state.search+' '+this.state.faculty+' '+data})
-      if(data === ''){}
-
   }
 
   toggleFaculty(){
@@ -65,6 +65,118 @@ export default class StudentsScreen extends React.Component {
     this.setState({toggleMajor:!this.state.toggleMajor})
   }
 
+  setMajorList(data){
+    var major=[];
+
+    if(data == 'School of Business'){
+      major = ['Default',
+               'Marketing',
+               'International Business Management',
+               'Finance',
+               'Management',
+               'Business Computer',
+               'Logistics Management',
+               'Game and eSports',
+               'Innovation Driven Entrepreneurship'
+              ]
+    }
+    if (data == 'School of Accountancy' ){
+      major = ['Default',
+               'Accountancy',
+               'Accountancy (International Program)',
+              ]
+    }
+
+    if (data == 'School of Science and Technology' ){
+      major = ['Default',
+               'Computer Science',
+               'Computer Animation',
+               'Information and Communication Technology',
+               'Financial Engineering',
+               'Food Science and Technology',
+               'Food Business Management',
+               'Food Innovation',
+               'Digital Technology',
+               'Big Data Management',
+               'Interdisciplinary'
+              ]
+    }
+
+    if (data == 'School of Economics' ){
+      major = ['Default',
+               'Economics',
+              ]
+    }
+    
+    if (data == 'School of Humanities and Applied Arts' ){
+      major = ['Default',
+               'Business English (Bilingual Program)',
+               'English for Business Communication',
+               'Japanese',
+               'English and Translation',
+               'Thai Language for Communication',
+               'Chinese',
+               'Performing Arts',
+               'Korean',
+               'Interdisciplinary Studies',
+
+              ]
+    }
+    
+    if (data == 'School of Communication of Arts' ){
+      major = ['Default',
+               'Communication Arts Program',
+              ]
+    }
+
+    if (data == 'School of Engineering' ){
+      major = ['Default',
+               'Electrical and Energy Engineering',
+               'Logistics Engineering',
+               'Computer Engineering and Artificial Intelligence',
+               'Rail Business Innovation Engineering',
+               'Automotion Innovation Engineering',
+              ]
+    }
+
+    if (data == 'School of Tourism and Services' ){
+      major = ['Default',
+               'Tourism',
+               'Hotel Management',
+               'Tourism Management',
+               'Airline Business Management',
+               'Event Management',
+               'Tourism Management (International Program)'
+              ]
+    }
+
+    if (data == 'School of Law' ){
+      major = ['Default',
+               'Laws',
+              ]
+    }
+
+    if (data == 'School of Early Childhood Education' ){
+      major = ['Default',
+               'Early Childhood Education',
+              ]
+    }
+
+    if (data == 'College of Entrepreneurship' ){
+      major = ['Default',
+               'Entrepreneurship',
+              ]
+    }
+
+    if (data == 'International School of Management' ){
+      major = ['Default',
+               'Accountancy (International Program)',
+               'Business Administration (International Program)'
+              ]
+    }
+
+    this.setState({majorList:major})
+  }
 
   render() {
 
@@ -206,7 +318,6 @@ export default class StudentsScreen extends React.Component {
         <Picker.Item label='School of Early Childhood Education' value='School of Early Childhood Education' />
         <Picker.Item label='College of Entrepreneurship' value='College of Entrepreneurship' />
         <Picker.Item label='International School of Management' value='International School of Management' />
-        <Picker.Item label='Extension School' value='Extension School' />
         </Picker>
         
           </TouchableHighlight>
@@ -222,20 +333,9 @@ export default class StudentsScreen extends React.Component {
           selectedValue={this.state.major}
           style={{bottom:0,left:0,right:0,position:'absolute',backgroundColor:'#f3f3f3'}}
           onValueChange={(itemValue, itemIndex) => this.setMajor(itemValue)}>
-        <Picker.Item label='Default' value='' />
-        <Picker.Item label='School of Business' value='School of Business' />
-        <Picker.Item label='School of Accountancy' value='School of Accountancy' />
-        <Picker.Item label='School of Science and Technology' value='School of Science and Technology' />
-        <Picker.Item label='School of Economics' value='School of Economics' />
-        <Picker.Item label='School of Humanities and Applied Arts' value='School of Humanities and Applied Arts' />
-        <Picker.Item label='School of Communication of Arts' value='School of Communication of Arts' />
-        <Picker.Item label='School of Law' value='School of Law' />
-        <Picker.Item label='School of Tourism and Services' value='School of Tourism and Services' />
-        <Picker.Item label='School of Engineering' value='School of Engineering' />
-        <Picker.Item label='School of Early Childhood Education' value='School of Early Childhood Education' />
-        <Picker.Item label='College of Entrepreneurship' value='College of Entrepreneurship' />
-        <Picker.Item label='International School of Management' value='International School of Management' />
-        <Picker.Item label='Extension School' value='Extension School' />
+          {Object.keys(this.state.majorList).map((key) => {
+            return (<Picker.Item label={this.state.majorList[key]} value={this.state.majorList[key]} key={key}/>)
+          })}
         </Picker>
         
           </TouchableHighlight>
