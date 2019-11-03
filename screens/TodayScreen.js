@@ -27,7 +27,7 @@ class TodayScreen extends React.Component {
   componentWillMount() {
     const { semester, course, Class } = this.props
     toDate = new Date()
-    toDay = toDate.getDay() - 1
+    toDay = (toDate.getDay() == 0 ? 6 : toDate.getDay() - 1)
 
     semesterNow = semester.filter(i => toDate >= new Date(i.startDate) && toDate <= new Date(i.endDate))
     semesterId = []
