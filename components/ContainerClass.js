@@ -43,13 +43,13 @@ const ContainerClass = props => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    margin:10,
+    margin:5,
     borderRadius:10,
   },
   containerClass: {
     backgroundColor: '#fff',
     flexDirection: 'row',
-    margin: 10,
+    margin:10
   },
   section1: {
     flex: 8,

@@ -68,7 +68,7 @@ class StudentsScreen extends React.Component {
     var major=[];
 
     if(data == 'School of Business'){
-      major = ['Default',
+      major = [
                'Marketing',
                'International Business Management',
                'Finance',
@@ -80,14 +80,14 @@ class StudentsScreen extends React.Component {
               ]
     }
     if (data == 'School of Accountancy' ){
-      major = ['Default',
+      major = [
                'Accountancy',
                'Accountancy (International Program)',
               ]
     }
 
     if (data == 'School of Science and Technology' ){
-      major = ['Default',
+      major = [
                'Computer Science',
                'Computer Animation',
                'Information and Communication Technology',
@@ -102,13 +102,13 @@ class StudentsScreen extends React.Component {
     }
 
     if (data == 'School of Economics' ){
-      major = ['Default',
+      major = [
                'Economics',
               ]
     }
     
     if (data == 'School of Humanities and Applied Arts' ){
-      major = ['Default',
+      major = [
                'Business English (Bilingual Program)',
                'English for Business Communication',
                'Japanese',
@@ -123,13 +123,13 @@ class StudentsScreen extends React.Component {
     }
     
     if (data == 'School of Communication of Arts' ){
-      major = ['Default',
+      major = [
                'Communication Arts Program',
               ]
     }
 
     if (data == 'School of Engineering' ){
-      major = ['Default',
+      major = [
                'Electrical and Energy Engineering',
                'Logistics Engineering',
                'Computer Engineering and Artificial Intelligence',
@@ -139,7 +139,7 @@ class StudentsScreen extends React.Component {
     }
 
     if (data == 'School of Tourism and Services' ){
-      major = ['Default',
+      major = [
                'Tourism',
                'Hotel Management',
                'Tourism Management',
@@ -150,25 +150,25 @@ class StudentsScreen extends React.Component {
     }
 
     if (data == 'School of Law' ){
-      major = ['Default',
+      major = [
                'Laws',
               ]
     }
 
     if (data == 'School of Early Childhood Education' ){
-      major = ['Default',
+      major = [
                'Early Childhood Education',
               ]
     }
 
     if (data == 'College of Entrepreneurship' ){
-      major = ['Default',
+      major = [
                'Entrepreneurship',
               ]
     }
 
     if (data == 'International School of Management' ){
-      major = ['Default',
+      major = [
                'Accountancy (International Program)',
                'Business Administration (International Program)'
               ]
@@ -333,6 +333,7 @@ class StudentsScreen extends React.Component {
           selectedValue={this.state.major}
           style={{bottom:0,left:0,right:0,position:'absolute',backgroundColor:'#f3f3f3'}}
           onValueChange={(itemValue, itemIndex) => this.setMajor(itemValue)}>
+                    <Picker.Item label='Default' value='' />
           {Object.keys(this.state.majorList).map((key) => {
             return (<Picker.Item label={this.state.majorList[key]} value={this.state.majorList[key]} key={key}/>)
           })}

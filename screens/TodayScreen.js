@@ -46,6 +46,13 @@ class TodayScreen extends React.Component {
       now: ClassNow
     })
   }
+
+  ListViewItemSeparator = () => {
+    return (
+      <View style={{ backgroundColor: '#000' }} />
+    );
+  };
+
   render() {
     return (
 
@@ -77,7 +84,7 @@ class TodayScreen extends React.Component {
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <View style={styles.containerSemesterList}>
+              <View>
                 <ContainerClass
                   course={item.name}
                   group={item.group}

@@ -1,50 +1,63 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  View,
+  FlatList
+} from 'react-native';
 import ContainerClass from '../components/ContainerClass';
 import { Header } from 'react-native-elements';
+import { getDayOfWeek, formatTime } from "../src/actions/date"
 
 export default class CheckScreen extends React.Component {
   constructor(props) {
     super(props);
 
       this.state = {
-        course:'Course',
-        group:'Group',
-        location:'Location',
-        day:'Day',
-        timeStart:'Start',
-        timeEnd:'End',
-        students:'Total Student',
-      
+       class:[{course:'Course',group:'Group',location:'Location',day:'Day',startTime:'Start',endTime:'End',studentList:null}],
     }
   }
+
+  ListViewItemSeparator = () => {
+    return (
+      <View style={{ backgroundColor: '#000' }} />
+    );
+  };
 
   render() {
   return (
     <View style = {styles.container}>
+      <View>
       <Header
         centerComponent={({ text: 'Check-in', style:{color: '#fff', fontSize:36, fontWeight:'bold'} })}
-        containerStyle={{
-          backgroundColor: '#fd4176',
-          height:120,
-          justifyContent: 'space-around',
-          borderBottomColor: '#be5f7a',
-          borderBottomWidth: 1,
-        }}
-      />     
+        containerStyle={styles.containerStyle}
+      />
+      </View>
+    
       <ScrollView>
-        <ContainerClass
-          course={this.state.course}
-          group={this.state.group}
-          location={this.state.location}
-          day={this.state.day}
-          timeStart={this.state.timeStart}
-          timeEnd={this.state.timeEnd}
-          students={this.state.students}
-          navigateCamera={() => this.props.navigation.navigate('Camera')}
-          navigateClassDetails={() => this.props.navigation.navigate('ClassDetails')}
-        />
+      <FlatList
+            ItemSeparatorComponent={this.ListViewItemSeparator}
+            data={this.state.class}
+            refreshing={true}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View>
+                <ContainerClass
+                  course={item.course}
+                  group={item.group}
+                  location={item.location}
+                  day={getDayOfWeek(item.day)}
+                  timeStart={formatTime(item.startTime)}
+                  timeEnd={formatTime(item.endTime)}
+                  students={item.studentList.length}
+                  navigateCamera={() => this.props.navigation.navigate('Camera')}
+                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{ classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
+                />
+              </View>
+            )}
+          />
         </ScrollView>
+
     </View>
   );
 }
@@ -60,4 +73,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f3f3f3',
   },
+  containerStyle: {
+    backgroundColor: '#fd4176',
+    height:120,
+    justifyContent: 'space-around',
+    borderBottomColor: '#be5f7a',
+    borderBottomWidth: 1,
+  },
+
 });

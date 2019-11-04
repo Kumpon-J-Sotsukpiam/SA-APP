@@ -5,25 +5,31 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  Image,
-  Button
+  Button,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, } from 'react-native-elements';
 import { add_student } from '../src/actions/student'
 import { connect } from 'react-redux'
+import { getFaculty, getMajor } from '../src/actions/studentID'
 
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
+import { Video } from 'expo-av';
 class Add_StudentScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       image: null,
+      video: null,
       studentID: '',
       studentName: '',
+      faculty:'Faculty',
+      major:'Major'
     }
     this.handleOnSave = this.handleOnSave.bind(this);
   }
@@ -34,7 +40,7 @@ class Add_StudentScreen extends React.Component {
 
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL,Permissions.CAMERA,);
       if (status !== 'granted') {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
@@ -43,8 +49,6 @@ class Add_StudentScreen extends React.Component {
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      allowsEditing: true,
-      aspect: [4, 3],
     });
 
     console.log(result);
@@ -53,12 +57,30 @@ class Add_StudentScreen extends React.Component {
       this.setState({ image: result.uri });
     }
   };
+
+  _recordVideo = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ video: result.uri });
+    }
+  };
+
+
   setStudentID(data) {
-    this.setState({ studentID: data });
+
+    this.setState({ studentID: data,faculty:getFaculty(data),major:getMajor(data)});
+
+    
   }
   setStudentName(data) {
     this.setState({ studentName: data });
   }
+
   handleOnSave = (data,props) => {
     dataReq = {
       stuId : this.state.studentID,
@@ -69,9 +91,10 @@ class Add_StudentScreen extends React.Component {
   }
   render() {
 
-    let { image } = this.state;
+    let { video } = this.state;
 
     return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <View>
           <Header
@@ -91,6 +114,7 @@ class Add_StudentScreen extends React.Component {
         <View style={styles.containerTextInput}>
           <TextInput
             placeholder='Student ID'
+            maxLength = {13}
             style={styles.textInput}
             onChangeText={(data) => this.setStudentID(data)}
           />
@@ -102,15 +126,38 @@ class Add_StudentScreen extends React.Component {
             onChangeText={(data) => this.setStudentName(data)}
           />
         </View>
+        <View style={styles.containerTextInput}>
+          <Text style={styles.textInput}>{this.state.faculty}</Text>
+        </View>
+        <View style={styles.containerTextInput}>
+          <Text style={styles.textInput}>{this.state.major}</Text>
+        </View>
 
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
           <Button
-            title="Pick an image from camera roll"
+            title="Pick an video from camera roll"
             onPress={this._pickImage}
           />
+          <Button
+            title="Record video"
+            onPress={this._recordVideo}
+          />
+          {video &&
+          <Video
+            source={{ uri: video }}
+            rate={1.0}
+            volume={1.0}
+            isMuted={true}
+            resizeMode="cover"
+            shouldPlay
+            isLooping
+            style={{ width: 300, height: 300 }}
+          />
+          }
         </View>
 
       </View>
+      </TouchableWithoutFeedback>
 
     );
 
