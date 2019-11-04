@@ -1,4 +1,4 @@
-import { ADD_CLASS,DELETE_CLASS,SET_CLASS,GET_CLASS,CLEAR_CLASS,GET_TODAY,PUSH_STUDENT_IN_CLASS} from './types'
+import { ADD_CLASS,DELETE_CLASS,SET_CLASS,GET_CLASS,CLEAR_CLASS,GET_TODAY,PUSH_STUDENT_IN_CLASS,PULL_STUDENT_IN_CLASS} from './types'
 import { get_errors } from './errors'
 import api from '../modules/api'
 // action Backend 
@@ -43,6 +43,12 @@ export const pushStudentInClass = data => {
         payload:data
     }
 }
+export const pullStudentInClass = data => {
+    return {
+        type:PULL_STUDENT_IN_CLASS,
+        payload:data
+    }
+}
 // action FrontEnd
 export const get_class = (id,props) => {
     const { dispatch } = props
@@ -82,6 +88,14 @@ export const push_student_in_class = (data,props) => {
     const {dispatch} = props
     api.put(`clas/stu/${data.classId}`,{stuList:data.stuList}).then(res => {
         dispatch(pushStudentInClass(data))
+    }).catch(err => {
+        console.log(err);   
+    })
+}
+export const pull_student_in_class = (data,props) => {
+    const {dispatch} = props
+    api.put(`clas/stu/${data.classId}/${data.stuId}`).then(res => {
+        dispatch(pullStudentInClass(data))
     }).catch(err => {
         console.log(err);   
     })

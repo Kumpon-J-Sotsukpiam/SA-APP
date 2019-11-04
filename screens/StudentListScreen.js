@@ -11,7 +11,7 @@ import { Header, Button, SearchBar } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import { createFilter } from 'react-native-search-filter';
 import { connect } from 'react-redux'
-
+import { pull_student_in_class } from '../src/actions/class'
 const KEYS_TO_FILTERS = ['studentID', 'studentName'];
 
 class StudentListScreen extends React.Component {
@@ -40,7 +40,9 @@ class StudentListScreen extends React.Component {
   searchUpdated(data) {
     this.setState({ search: data })
   }
-
+  handleOnDelete (data,props){
+  
+  }
   render() {
     const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
     const { dataStudent } = this.state;
@@ -106,6 +108,7 @@ class StudentListScreen extends React.Component {
                 <Swipeout left={[{
                   text: 'Delete',
                   backgroundColor: 'red',
+                  onPress: () => { pull_student_in_class({classId:this.state.class._id,stuId:_id}, this.props) }
                 }]}
                   style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                   autoClose={this.state.autoClose}
