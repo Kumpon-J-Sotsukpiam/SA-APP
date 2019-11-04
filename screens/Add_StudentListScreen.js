@@ -20,16 +20,16 @@ class Add_StudentListScreen extends React.Component {
     super(props);
 
     this.state = {
-
       search: '',
-
       dataStudent: [],
     }
 
   }
 
   onCheckChanged(id,checked) {
+    console.log('====================================');
     console.log(id,checked);
+    console.log('====================================');
     if(checked){
       this.setState({
         dataStudent:this.state.dataStudent.filter(i => i != id)
@@ -39,11 +39,6 @@ class Add_StudentListScreen extends React.Component {
         dataStudent:[...this.state.dataStudent,id]
       })
     }
-
-    // const dataStudent = this.state.dataStudent;
-    // const index = dataStudent.findIndex(x => x.studentID === studentID);
-    // dataStudent[index].checked = !dataStudent[index].checked;
-    // this.setState(dataStudent);
   }
 
   ListViewItemSeparator = () => {
@@ -58,12 +53,10 @@ class Add_StudentListScreen extends React.Component {
 
 
   render() {
-
+    console.log(this.state);
+    
     const filteredStudent = this.props.student.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
     const { dataStudent } = this.state;
-    console.log('====================================');
-    console.log(this.state.dataStudent);
-    console.log('====================================');
     return (
       <View style={styles.container}>
         <Header
@@ -104,6 +97,9 @@ class Add_StudentListScreen extends React.Component {
 
         <ScrollView>
           {filteredStudent.map(dataStudent => {
+            console.log(this.state.dataStudent.indexOf(dataStudent._id) != -1)
+            console.log(this.state.dataStudent.indexOf(dataStudent._id))
+            
             return (
               <TouchableOpacity onPress={() => alert(dataStudent.stuId)} key={dataStudent._id}>
                 <View style={{ flexDirection: 'row', padding: 2, backgroundColor: '#f3f3f3', height: 55, borderRadius: 10, margin: 3 }}>
@@ -115,18 +111,15 @@ class Add_StudentListScreen extends React.Component {
                   </View>
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <CheckBox
-                      checked={this.state.dataStudent.indexOf(dataStudent._id) == 0}
-                      onPress={e => this.onCheckChanged(dataStudent._id,this.state.dataStudent.indexOf(dataStudent._id) == 0)}
+                      checked={this.state.dataStudent.indexOf(dataStudent._id) != -1}
+                      onPress={e => this.onCheckChanged(dataStudent._id,this.state.dataStudent.indexOf(dataStudent._id) != -1)}
                     />
                   </View>
                 </View>
               </TouchableOpacity>
             )
           })}
-
         </ScrollView>
-
-
       </View>
     );
   }
