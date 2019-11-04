@@ -13,12 +13,11 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Button, SearchBar,Icon } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
+import {connect} from 'react-redux'
 import { createFilter } from 'react-native-search-filter';
-
-
+import { del_student } from '../src/actions/student'
 const KEYS_TO_FILTERS = ['studentID', 'studentName','faculty','major'];
-
-export default class StudentsScreen extends React.Component {
+class StudentsScreen extends React.Component {
   constructor(props) {
     super(props);
 
@@ -179,7 +178,8 @@ export default class StudentsScreen extends React.Component {
   }
 
   render() {
-
+    console.log(this.props.student);
+    
     const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.test,KEYS_TO_FILTERS))
     const { dataStudent } = this.state;
     return (
@@ -262,27 +262,27 @@ export default class StudentsScreen extends React.Component {
         </View>
 
         <ScrollView>
-          {filteredStudent.map(dataStudent => {
+          {(this.props.student).map(dataStudent => {
             return (
 
-              <View key={dataStudent.key} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>
+              <View key={dataStudent._id} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>
                 <Swipeout left={[{
                   text: 'Delete',
                   backgroundColor: 'red',
-
+                  onPress: () => { del_student(dataStudent._id, this.props)}
                 }]}
                   style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
 
-                  <TouchableOpacity onPress={() => alert(dataStudent.studentID)}
+                  <TouchableOpacity onPress={() => alert(dataStudent.stuId)}
                     style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
 
                     <View style={{ flex: 2, justifyContent: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{dataStudent.studentID}</Text>
+                      <Text style={{ fontSize: 16 }}>{dataStudent.stuId}</Text>
                     </View>
                     <View style={{ flex: 2.5, justifyContent: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{dataStudent.studentName}</Text>
+                      <Text style={{ fontSize: 16 }}>{dataStudent.name}</Text>
                     </View>
                   </TouchableOpacity>
                 </Swipeout>
@@ -378,3 +378,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
+const mapStateToProps = state => ({
+  student: state.student
+})
+export default connect(mapStateToProps)(StudentsScreen)

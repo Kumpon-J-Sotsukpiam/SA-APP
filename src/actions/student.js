@@ -14,6 +14,12 @@ export const addStudent = data => {
         payload: data
     }
 }
+export const delStudnet= (id) => {
+    return {
+        type: DELETE_STUDENT,
+        id: id
+    }
+}
 // action FrontEnd
 export const get_student = (props) => {
     const { dispatch } = props
@@ -23,16 +29,17 @@ export const get_student = (props) => {
         dispatch(get_errors(err.response.data))
     })
 }
-export const add_student = (student,props) => {
-    const { dispatch,navigation } = props
-    // format data
-    data = {
-        // name:semester.semesterID,
-        // startDate:semester.dateStarts,
-        // endDate:semester.dateEnds
-    }
+export const add_student = (data,props) => {
+    const { dispatch } = props
     api.post('stu/',data).then(res => {
         dispatch(addStudent(res.data))
-        //navigation.navigate('Semesters')
+    })
+}
+export const del_student = (id,props) => {
+    const { dispatch } = props
+    api.delete(`stu/${id}`).then(res => {
+        dispatch(delStudnet(id))
+    }).catch(err => {
+        dispatch(get_errors(err.response.data))
     })
 }
