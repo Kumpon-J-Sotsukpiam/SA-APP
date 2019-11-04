@@ -23,22 +23,12 @@ class Add_StudentListScreen extends React.Component {
       search: '',
       dataStudent: [],
     }
-
   }
 
   onCheckChanged(id,checked) {
-    console.log('====================================');
-    console.log(id,checked);
-    console.log('====================================');
-    if(checked){
-      this.setState({
-        dataStudent:this.state.dataStudent.filter(i => i != id)
-      })
-    }else{
-      this.setState({
-        dataStudent:[...this.state.dataStudent,id]
-      })
-    }
+    this.setState({
+      dataStudent: (checked ? this.state.dataStudent.filter(i => i != id) : [...this.state.dataStudent,id])
+    })
   }
 
   ListViewItemSeparator = () => {
@@ -97,9 +87,6 @@ class Add_StudentListScreen extends React.Component {
 
         <ScrollView>
           {filteredStudent.map(dataStudent => {
-            console.log(this.state.dataStudent.indexOf(dataStudent._id) != -1)
-            console.log(this.state.dataStudent.indexOf(dataStudent._id))
-            
             return (
               <TouchableOpacity onPress={() => alert(dataStudent.stuId)} key={dataStudent._id}>
                 <View style={{ flexDirection: 'row', padding: 2, backgroundColor: '#f3f3f3', height: 55, borderRadius: 10, margin: 3 }}>
