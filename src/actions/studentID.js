@@ -1,16 +1,18 @@
 var facultyList = new Array(12);
-facultyList[0] = 'School of ';
-facultyList[1] = 'School of ';
-facultyList[2] = 'School of ';
-facultyList[3] = 'School of ';
+facultyList[0] = 'School of Business';
+facultyList[1] = 'School of School of Accountancy';
+facultyList[2] = 'School of Economics';
+facultyList[3] = 'School of Humanities and Applied Arts';
 facultyList[4] = 'School of Science and Technology';
-facultyList[5] = 'School of';
+facultyList[5] = 'School of Communication of Arts';
 facultyList[6] = 'School of Engineering';
 facultyList[7] = 'School of ';
-facultyList[8] = 'School of ';
+facultyList[8] = 'School of School of Tourism and Services';
 facultyList[9] = 'School of ';
 facultyList[10] = 'School of ';
 facultyList[12] = 'School of ';
+
+
 
 var science = new Array(9);
 science[0] = 'Computer Science';
@@ -22,6 +24,7 @@ science[5] = 'Information and Communication Technology';
 science[6] = 'Digital Technology';
 science[7] = 'Food Innovation';
 science[8] = 'Interdisciplinary Studies';
+
 
 
 

@@ -16,7 +16,8 @@ import Swipeout from 'react-native-swipeout';
 import {connect} from 'react-redux'
 import { createFilter } from 'react-native-search-filter';
 import { del_student } from '../src/actions/student'
-const KEYS_TO_FILTERS = ['studentID', 'studentName','faculty','major'];
+const KEYS_TO_FILTERS = ['name', 'stuId'];
+
 class StudentsScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -26,35 +27,30 @@ class StudentsScreen extends React.Component {
       search: '',
       faculty:'',
       major:'',
-      test:'',
+      resultFilter:'',
       toggleFaculty:false,
       toggleMajor:false,
       filterMajor:false,
       majorList:[],
-      dataStudent: [
-        { key: '1', studentID: 5905100025, studentName: 'Chanathip Nobnom',faculty:'School of Science and Technology',major:'Computer Science'},
-        { key: '2', studentID: 5905100026, studentName: 'Champ Nobnom',faculty:'School of Science and Technology',major:'Financial engineering'},
-        { key: '3', studentID: 5915100026, studentName: 'Chanathip Moochamp',faculty:'School of Law',major:'Food Science'},
-        { key: '4', studentID: 1100500589302, studentName: 'Champ Iix',faculty:'School of Communication OF Arts',major:'Advertise'},
-      ],
     };
   }
   searchUpdated(data) {
-    this.setState({ search: data,test:data+' '+this.state.faculty+' '+this.state.major })
+    //this.setState({ search: data,resultFilter:data+' '+this.state.faculty+' '+this.state.major })
+    this.setState({ search:data})
   }
 
   setFaculty(data) {
     this.setState({ 
       filterMajor:true,
       faculty: data,
-      test:this.state.search+' '+data,
+      resultFilter:this.state.search+' '+data,
       major:'',
     })
     this.setMajorList(data)
   }
 
   setMajor(data) {
-    this.setState({ major: data,test:this.state.search+' '+this.state.faculty+' '+data})
+    this.setState({ major: data,resultFilter:this.state.search+' '+this.state.faculty+' '+data})
   }
 
   toggleFaculty(){
@@ -178,10 +174,10 @@ class StudentsScreen extends React.Component {
   }
 
   render() {
-    console.log(this.props.student);
     
-    const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.test,KEYS_TO_FILTERS))
-    const { dataStudent } = this.state;
+    //const filteredStudent = this.props.student.filter(createFilter(this.state.resultFilter,KEYS_TO_FILTERS))
+    const filteredStudent = this.props.student.filter(createFilter(this.state.search,KEYS_TO_FILTERS))
+    
     return (
       <View style={styles.container}>
         
@@ -262,7 +258,7 @@ class StudentsScreen extends React.Component {
         </View>
 
         <ScrollView>
-          {(this.props.student).map(dataStudent => {
+          {filteredStudent.map(dataStudent => {
             return (
 
               <View key={dataStudent._id} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>

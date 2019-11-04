@@ -10,10 +10,11 @@ import {
 import { Header } from 'react-native-elements';
 import { connect } from 'react-redux'
 //action
-import { currentDay, currentMonth, currentDate, currentYear } from "../src/actions/currentdate"
+import { currentDay, currentMonth, currentDate, currentYear } from '../src/actions/currentdate'
 // Component
 import ContainerClass from '../components/ContainerClass';
-import { getDayOfWeek, formatTime } from "../src/actions/date"
+import { getDayOfWeek, formatTime } from '../src/actions/date'
+
 
 class TodayScreen extends React.Component {
   constructor(props) {
@@ -21,10 +22,12 @@ class TodayScreen extends React.Component {
 
     this.state = {
       now: [],
-      next: []
+      next: [],
     }
   }
+
   componentWillMount() {
+
     const { semester, course, Class } = this.props
     toDate = new Date()
     toDay = (toDate.getDay() == 0 ? 6 : toDate.getDay() - 1)
@@ -46,6 +49,7 @@ class TodayScreen extends React.Component {
       now: ClassNow
     })
   }
+
 
   ListViewItemSeparator = () => {
     return (
@@ -96,6 +100,7 @@ class TodayScreen extends React.Component {
                   navigateCamera={() => this.props.navigation.navigate('Camera')}
                   navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{ classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
                 />
+                
               </View>
             )}
           />

@@ -1,3 +1,5 @@
+import { formatTime } from '../actions/date'
+
 export const calDurationsDate = (x,y) => {
     var DateStart = new Date(x);
     var DateEnd = new Date(y);
