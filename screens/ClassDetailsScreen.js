@@ -38,8 +38,6 @@ class ClassDetailsScreen extends React.Component {
         {_id : '3',date:'Date 3',total:'total'},
         {_id : '4',date:'Date 4',total:'total'},
       ]
-
-
     })
   }
   render() {
@@ -78,7 +76,7 @@ class ClassDetailsScreen extends React.Component {
           containerStyle={styles.containerStyle}
         />
 
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentList')}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentList',{classId:this.state.class._id})}>
           <View style={styles.containerStudentList}>
             <View style={styles.headleftSection1}>
               <Text style={styles.textHead}>Student List</Text>

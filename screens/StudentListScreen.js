@@ -10,16 +10,18 @@ import { Ionicons } from '@expo/vector-icons';
 import { Header, Button, SearchBar } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import { createFilter } from 'react-native-search-filter';
+import { connect } from 'react-redux'
 
 const KEYS_TO_FILTERS = ['studentID', 'studentName'];
 
-export default class StudentListScreen extends React.Component {
+class StudentListScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       autoClose: true,
       search: '',
+      class: [],
       dataStudent: [
         { key: '1', studentID: 5905100025, studentName: 'Chanathip Nobnom', percentage: '100%' },
         { key: '2', studentID: 5905100026, studentName: 'Champ Nobnom', percentage: '100%' },
@@ -28,12 +30,18 @@ export default class StudentListScreen extends React.Component {
       ],
     };
   }
+  componentWillMount() {
+    const { classId } = this.props.navigation.state.params
+    log = this.props.class.filter((i) => i._id === classId)
+    this.setState({
+      class: log[0]
+    })
+  }
   searchUpdated(data) {
     this.setState({ search: data })
   }
 
   render() {
-
     const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
     const { dataStudent } = this.state;
     return (
@@ -54,7 +62,7 @@ export default class StudentListScreen extends React.Component {
             <Ionicons name='ios-add'
               size={60}
               color={'#fff'}
-              onPress={() => { this.props.navigation.navigate('AddStudentList') }}
+              onPress={() => { this.props.navigation.navigate('AddStudentList', { classId: this.state.class._id }) }}
             />)}
           rightContainerStyle={{ flex: 1 }}
           centerComponent={(
@@ -91,10 +99,10 @@ export default class StudentListScreen extends React.Component {
         </View>
 
         <ScrollView>
-          {filteredStudent.map(dataStudent => {
+          {this.state.class.studentList.map(dataStudent => {
+            const { _id, name, stuId } = this.props.student.filter(i => i._id == dataStudent)[0]
             return (
-
-              <View key={dataStudent.key} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>
+              <View key={_id} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>
                 <Swipeout left={[{
                   text: 'Delete',
                   backgroundColor: 'red',
@@ -104,31 +112,25 @@ export default class StudentListScreen extends React.Component {
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
 
-                  <TouchableOpacity onPress={() => alert(dataStudent.studentID)}
+                  <TouchableOpacity onPress={() => alert(_id)}
                     style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
 
                     <View style={{ flex: 2, justifyContent: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{dataStudent.studentID}</Text>
+                      <Text style={{ fontSize: 16 }}>{stuId}</Text>
                     </View>
                     <View style={{ flex: 2.5, justifyContent: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{dataStudent.studentName}</Text>
+                      <Text style={{ fontSize: 16 }}>{name}</Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{dataStudent.percentage}</Text>
+                      <Text style={{ fontSize: 16 }}>{100}</Text>
                     </View>
 
                   </TouchableOpacity>
                 </Swipeout>
               </View>
-
             )
           })}
-
         </ScrollView>
-
-
-
-
         <View style={styles.buttonButtom}>
           <Button
             title="Training Model"
@@ -177,3 +179,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
+
+const mapStateToProps = state => ({
+  class: state.class,
+  student: state.student
+})
+export default connect(mapStateToProps)(StudentListScreen)

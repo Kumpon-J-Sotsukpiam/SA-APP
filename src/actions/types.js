@@ -28,6 +28,7 @@ export const DELETE_CLASS = 'DELETE_CLASS'
 export const SET_CLASS= 'SET_CLASS'
 export const GET_CLASS = 'GET_CLASS'
 export const CLEAR_CLASS = 'CLEAR_CLASS'
+export const PUSH_STUDENT_IN_CLASS = 'PUSH_STUDENT_IN_CLASS'
 
 // Check-Student Even Type
 export const ADD_CHECKIN = 'ADD_CHECKIN'

@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux'
 import { Header, CheckBox, SearchBar } from 'react-native-elements';
 import { createFilter } from 'react-native-search-filter';
-
+import { push_student_in_class } from '../src/actions/class'
 
 const KEYS_TO_FILTERS = ['studentID', 'studentName'];
 class Add_StudentListScreen extends React.Component {
@@ -21,30 +21,41 @@ class Add_StudentListScreen extends React.Component {
 
     this.state = {
       search: '',
+      classId: null,
       dataStudent: [],
     }
+    this.handleOnSave = this.handleOnSave.bind(this)
   }
-
-  onCheckChanged(id,checked) {
+  componentWillMount() {
+    const { classId } = this.props.navigation.state.params
     this.setState({
-      dataStudent: (checked ? this.state.dataStudent.filter(i => i != id) : [...this.state.dataStudent,id])
+      classId: classId
     })
   }
-
+  onCheckChanged(id, checked) {
+    this.setState({
+      dataStudent: (checked ? this.state.dataStudent.filter(i => i != id) : [...this.state.dataStudent, id])
+    })
+  }
   ListViewItemSeparator = () => {
     return (
       <View style={{ backgroundColor: '#000' }} />
     );
   };
-
   searchUpdated(data) {
     this.setState({ search: data })
   }
-
-
+  handleOnSave = (data, props) => {
+    dataReq = {
+      classId:this.state.classId,
+      stuList:this.state.dataStudent
+    }
+    push_student_in_class(dataReq,this.props)
+    this.props.navigation.navigate('StudentList') 
+  }
   render() {
     console.log(this.state);
-    
+
     const filteredStudent = this.props.student.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
     const { dataStudent } = this.state;
     return (
@@ -55,7 +66,9 @@ class Add_StudentListScreen extends React.Component {
           </TouchableOpacity>
           )}
           centerComponent={({ text: 'Add Student', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
-          rightComponent={(<TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentList') }}>
+          rightComponent={(<TouchableOpacity onPress={() => {
+            this.handleOnSave(this.state,this.props)
+          }}>
             <Text style={styles.textSave}>Save</Text>
           </TouchableOpacity>
           )}
@@ -99,7 +112,7 @@ class Add_StudentListScreen extends React.Component {
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <CheckBox
                       checked={this.state.dataStudent.indexOf(dataStudent._id) != -1}
-                      onPress={e => this.onCheckChanged(dataStudent._id,this.state.dataStudent.indexOf(dataStudent._id) != -1)}
+                      onPress={e => this.onCheckChanged(dataStudent._id, this.state.dataStudent.indexOf(dataStudent._id) != -1)}
                     />
                   </View>
                 </View>
