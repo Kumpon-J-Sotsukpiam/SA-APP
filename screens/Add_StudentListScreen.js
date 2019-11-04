@@ -14,22 +14,23 @@ import { Header, CheckBox, SearchBar } from 'react-native-elements';
 import { createFilter } from 'react-native-search-filter';
 import { push_student_in_class } from '../src/actions/class'
 
-const KEYS_TO_FILTERS = ['studentID', 'studentName'];
+const KEYS_TO_FILTERS = ['stuId', 'name'];
 class Add_StudentListScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       search: '',
-      classId: null,
+      class: null,
       dataStudent: [],
     }
     this.handleOnSave = this.handleOnSave.bind(this)
   }
   componentWillMount() {
     const { classId } = this.props.navigation.state.params
+    log = this.props.class.filter((i) => i._id === classId)
     this.setState({
-      classId: classId
+      class: log[0]
     })
   }
   onCheckChanged(id, checked) {
@@ -47,17 +48,16 @@ class Add_StudentListScreen extends React.Component {
   }
   handleOnSave = (data, props) => {
     dataReq = {
-      classId:this.state.classId,
+      classId:this.state.class._id,
       stuList:this.state.dataStudent
     }
     push_student_in_class(dataReq,this.props)
-    this.props.navigation.navigate('StudentList') 
+    this.props.navigation.navigate('StudentList')
   }
   render() {
-    console.log(this.state);
+    const propsStudent = this.props.student.filter(i => this.state.class.studentList.indexOf(i._id) < 0)
+    const filteredStudent = propsStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
 
-    const filteredStudent = this.props.student.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
-    const { dataStudent } = this.state;
     return (
       <View style={styles.container}>
         <Header

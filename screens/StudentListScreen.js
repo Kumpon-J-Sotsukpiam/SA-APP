@@ -106,7 +106,6 @@ class StudentListScreen extends React.Component {
                 <Swipeout left={[{
                   text: 'Delete',
                   backgroundColor: 'red',
-
                 }]}
                   style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                   autoClose={this.state.autoClose}
