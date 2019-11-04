@@ -12,51 +12,52 @@ import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux'
 import { Header, CheckBox, SearchBar } from 'react-native-elements';
 import { createFilter } from 'react-native-search-filter';
+import { push_student_in_class } from '../src/actions/class'
 
-
-const KEYS_TO_FILTERS = ['studentID', 'studentName'];
+const KEYS_TO_FILTERS = ['stuId', 'name'];
 class Add_StudentListScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       search: '',
+      class: null,
       dataStudent: [],
     }
-
+    this.handleOnSave = this.handleOnSave.bind(this)
   }
-
-  onCheckChanged(id,checked) {
-    console.log('====================================');
-    console.log(id,checked);
-    console.log('====================================');
-    if(checked){
-      this.setState({
-        dataStudent:this.state.dataStudent.filter(i => i != id)
-      })
-    }else{
-      this.setState({
-        dataStudent:[...this.state.dataStudent,id]
-      })
-    }
+  componentWillMount() {
+    const { classId } = this.props.navigation.state.params
+    log = this.props.class.filter((i) => i._id === classId)
+    this.setState({
+      class: log[0]
+    })
   }
-
+  onCheckChanged(id, checked) {
+    this.setState({
+      dataStudent: (checked ? this.state.dataStudent.filter(i => i != id) : [...this.state.dataStudent, id])
+    })
+  }
   ListViewItemSeparator = () => {
     return (
       <View style={{ backgroundColor: '#000' }} />
     );
   };
-
   searchUpdated(data) {
     this.setState({ search: data })
   }
-
-
+  handleOnSave = (data, props) => {
+    dataReq = {
+      classId:this.state.class._id,
+      stuList:this.state.dataStudent
+    }
+    push_student_in_class(dataReq,this.props)
+    this.props.navigation.navigate('StudentList')
+  }
   render() {
-    console.log(this.state);
-    
-    const filteredStudent = this.props.student.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
-    const { dataStudent } = this.state;
+    const propsStudent = this.props.student.filter(i => this.state.class.studentList.indexOf(i._id) < 0)
+    const filteredStudent = propsStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
+
     return (
       <View style={styles.container}>
         <Header
@@ -65,7 +66,9 @@ class Add_StudentListScreen extends React.Component {
           </TouchableOpacity>
           )}
           centerComponent={({ text: 'Add Student', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
-          rightComponent={(<TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentList') }}>
+          rightComponent={(<TouchableOpacity onPress={() => {
+            this.handleOnSave(this.state,this.props)
+          }}>
             <Text style={styles.textSave}>Save</Text>
           </TouchableOpacity>
           )}
@@ -97,9 +100,6 @@ class Add_StudentListScreen extends React.Component {
 
         <ScrollView>
           {filteredStudent.map(dataStudent => {
-            console.log(this.state.dataStudent.indexOf(dataStudent._id) != -1)
-            console.log(this.state.dataStudent.indexOf(dataStudent._id))
-            
             return (
               <TouchableOpacity onPress={() => alert(dataStudent.stuId)} key={dataStudent._id}>
                 <View style={{ flexDirection: 'row', padding: 2, backgroundColor: '#f3f3f3', height: 55, borderRadius: 10, margin: 3 }}>
@@ -112,7 +112,7 @@ class Add_StudentListScreen extends React.Component {
                   <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <CheckBox
                       checked={this.state.dataStudent.indexOf(dataStudent._id) != -1}
-                      onPress={e => this.onCheckChanged(dataStudent._id,this.state.dataStudent.indexOf(dataStudent._id) != -1)}
+                      onPress={e => this.onCheckChanged(dataStudent._id, this.state.dataStudent.indexOf(dataStudent._id) != -1)}
                     />
                   </View>
                 </View>
