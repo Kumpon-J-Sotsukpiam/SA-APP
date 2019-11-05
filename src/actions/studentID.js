@@ -6,13 +6,8 @@ facultyList[3] = 'School of Humanities and Applied Arts';
 facultyList[4] = 'School of Science and Technology';
 facultyList[5] = 'School of Communication of Arts';
 facultyList[6] = 'School of Engineering';
-facultyList[7] = 'School of ';
+facultyList[7] = 'School of Law';
 facultyList[8] = 'School of School of Tourism and Services';
-facultyList[9] = 'School of ';
-facultyList[10] = 'School of ';
-facultyList[12] = 'School of ';
-
-
 
 var science = new Array(9);
 science[0] = 'Computer Science';

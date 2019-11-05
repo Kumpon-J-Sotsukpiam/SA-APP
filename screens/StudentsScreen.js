@@ -16,7 +16,9 @@ import Swipeout from 'react-native-swipeout';
 import {connect} from 'react-redux'
 import { createFilter } from 'react-native-search-filter';
 import { del_student } from '../src/actions/student'
-const KEYS_TO_FILTERS = ['name', 'stuId'];
+import { school } from '../constants'
+const KEYS_TO_FILTERS_STUDENT = ['name', 'stuId'];
+const KEYS_TO_FILTERS_SCHOOL = ['faculty.name'];
 
 class StudentsScreen extends React.Component {
   constructor(props) {
@@ -36,7 +38,7 @@ class StudentsScreen extends React.Component {
   }
   searchUpdated(data) {
     //this.setState({ search: data,resultFilter:data+' '+this.state.faculty+' '+this.state.major })
-    this.setState({ search:data})
+    this.setState({search:data})
   }
 
   setFaculty(data) {
@@ -46,7 +48,11 @@ class StudentsScreen extends React.Component {
       resultFilter:this.state.search+' '+data,
       major:'',
     })
-    this.setMajorList(data)
+    
+    setMajor = school.filter(createFilter(data,KEYS_TO_FILTERS_SCHOOL))
+    this.setState({majorList : setMajor})
+    console.log(setMajor)
+
   }
 
   setMajor(data) {
@@ -60,123 +66,10 @@ class StudentsScreen extends React.Component {
     this.setState({toggleMajor:!this.state.toggleMajor})
   }
 
-  setMajorList(data){
-    var major=[];
-
-    if(data == 'School of Business'){
-      major = [
-               'Marketing',
-               'International Business Management',
-               'Finance',
-               'Management',
-               'Business Computer',
-               'Logistics Management',
-               'Game and eSports',
-               'Innovation Driven Entrepreneurship'
-              ]
-    }
-    if (data == 'School of Accountancy' ){
-      major = [
-               'Accountancy',
-               'Accountancy (International Program)',
-              ]
-    }
-
-    if (data == 'School of Science and Technology' ){
-      major = [
-               'Computer Science',
-               'Computer Animation',
-               'Information and Communication Technology',
-               'Financial Engineering',
-               'Food Science and Technology',
-               'Food Business Management',
-               'Food Innovation',
-               'Digital Technology',
-               'Big Data Management',
-               'Interdisciplinary'
-              ]
-    }
-
-    if (data == 'School of Economics' ){
-      major = [
-               'Economics',
-              ]
-    }
-    
-    if (data == 'School of Humanities and Applied Arts' ){
-      major = [
-               'Business English (Bilingual Program)',
-               'English for Business Communication',
-               'Japanese',
-               'English and Translation',
-               'Thai Language for Communication',
-               'Chinese',
-               'Performing Arts',
-               'Korean',
-               'Interdisciplinary Studies',
-
-              ]
-    }
-    
-    if (data == 'School of Communication of Arts' ){
-      major = [
-               'Communication Arts Program',
-              ]
-    }
-
-    if (data == 'School of Engineering' ){
-      major = [
-               'Electrical and Energy Engineering',
-               'Logistics Engineering',
-               'Computer Engineering and Artificial Intelligence',
-               'Rail Business Innovation Engineering',
-               'Automotion Innovation Engineering',
-              ]
-    }
-
-    if (data == 'School of Tourism and Services' ){
-      major = [
-               'Tourism',
-               'Hotel Management',
-               'Tourism Management',
-               'Airline Business Management',
-               'Event Management',
-               'Tourism Management (International Program)'
-              ]
-    }
-
-    if (data == 'School of Law' ){
-      major = [
-               'Laws',
-              ]
-    }
-
-    if (data == 'School of Early Childhood Education' ){
-      major = [
-               'Early Childhood Education',
-              ]
-    }
-
-    if (data == 'College of Entrepreneurship' ){
-      major = [
-               'Entrepreneurship',
-              ]
-    }
-
-    if (data == 'International School of Management' ){
-      major = [
-               'Accountancy (International Program)',
-               'Business Administration (International Program)'
-              ]
-    }
-
-    this.setState({majorList:major})
-  }
-
   render() {
     
-    //const filteredStudent = this.props.student.filter(createFilter(this.state.resultFilter,KEYS_TO_FILTERS))
-    const filteredStudent = this.props.student.filter(createFilter(this.state.search,KEYS_TO_FILTERS))
+    //const filteredStudent = this.props.student.filter(createFilter(this.state.resultFilter,KEYS_TO_FILTERS_STUDENT))
+    const filteredStudent = this.props.student.filter(createFilter(this.state.search,KEYS_TO_FILTERS_STUDENT))
     
     return (
       <View style={styles.container}>
@@ -301,19 +194,10 @@ class StudentsScreen extends React.Component {
           selectedValue={this.state.faculty}
           style={{bottom:0,left:0,right:0,position:'absolute',backgroundColor:'#f3f3f3'}}
           onValueChange={(itemValue, itemIndex) => this.setFaculty(itemValue)}>
-        <Picker.Item label='Default' value='' />
-        <Picker.Item label='School of Business' value='School of Business' />
-        <Picker.Item label='School of Accountancy' value='School of Accountancy' />
-        <Picker.Item label='School of Science and Technology' value='School of Science and Technology' />
-        <Picker.Item label='School of Economics' value='School of Economics' />
-        <Picker.Item label='School of Humanities and Applied Arts' value='School of Humanities and Applied Arts' />
-        <Picker.Item label='School of Communication of Arts' value='School of Communication of Arts' />
-        <Picker.Item label='School of Law' value='School of Law' />
-        <Picker.Item label='School of Tourism and Services' value='School of Tourism and Services' />
-        <Picker.Item label='School of Engineering' value='School of Engineering' />
-        <Picker.Item label='School of Early Childhood Education' value='School of Early Childhood Education' />
-        <Picker.Item label='College of Entrepreneurship' value='College of Entrepreneurship' />
-        <Picker.Item label='International School of Management' value='International School of Management' />
+          <Picker.Item label='Default' value='' />
+          {school.map(item => {
+            return (<Picker.Item label={item.faculty.name} value={item.faculty.name} key={item.faculty.name}/>)
+          })}
         </Picker>
         
           </TouchableHighlight>
@@ -330,9 +214,13 @@ class StudentsScreen extends React.Component {
           style={{bottom:0,left:0,right:0,position:'absolute',backgroundColor:'#f3f3f3'}}
           onValueChange={(itemValue, itemIndex) => this.setMajor(itemValue)}>
                     <Picker.Item label='Default' value='' />
-          {Object.keys(this.state.majorList).map((key) => {
-            return (<Picker.Item label={this.state.majorList[key]} value={this.state.majorList[key]} key={key}/>)
-          })}
+          {this.state.majorList.map((item) =>  
+                Object.keys(item.faculty.major).map((key) => {
+                  console.log(item.faculty.major)
+                  return (<Picker.Item label={item.faculty.major[key]} value={item.faculty.major[key]} key={key}/>)
+          })
+          )
+          }
         </Picker>
         
           </TouchableHighlight>
