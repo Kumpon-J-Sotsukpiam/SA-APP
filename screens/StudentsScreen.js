@@ -11,7 +11,7 @@ import {
   Platform
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Header, Button, SearchBar,Icon } from 'react-native-elements';
+import { Header, Button, SearchBar} from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import {connect} from 'react-redux'
 import { createFilter } from 'react-native-search-filter';
@@ -51,7 +51,6 @@ class StudentsScreen extends React.Component {
     
     setMajor = school.filter(createFilter(data,KEYS_TO_FILTERS_SCHOOL))
     this.setState({majorList : setMajor})
-    console.log(setMajor)
 
   }
 
@@ -216,7 +215,6 @@ class StudentsScreen extends React.Component {
                     <Picker.Item label='Default' value='' />
           {this.state.majorList.map((item) =>  
                 Object.keys(item.faculty.major).map((key) => {
-                  console.log(item.faculty.major)
                   return (<Picker.Item label={item.faculty.major[key]} value={item.faculty.major[key]} key={key}/>)
           })
           )
