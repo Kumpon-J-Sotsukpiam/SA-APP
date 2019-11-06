@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  ScrollView,
   StyleSheet,
   View,
   Text,
@@ -14,8 +13,6 @@ import { getDayOfWeek, formatTime } from "../src/actions/date"
 import ContainerCheckinList from '../components/ContainerCheckinList';
 import { connect } from 'react-redux'
 var getDate = new Date();
-var getTimeStarts = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 8, 0, 0);
-var getTimeEnds = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 11, 0, 0);
 class ClassDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -34,12 +31,6 @@ class ClassDetailsScreen extends React.Component {
       class: log[0],
       semesterId: semesterId,
       courseId: courseId,
-      dataTest:[
-        {_id : '1',date:'Date 1',total:'total'},
-        {_id : '2',date:'Date 2',total:'total'},
-        {_id : '3',date:'Date 3',total:'total'},
-        {_id : '4',date:'Date 4',total:'total'},
-      ]
     })
   }
   render() {
@@ -108,7 +99,7 @@ class ClassDetailsScreen extends React.Component {
             <ContainerCheckinList
                 dateCheckin={item.date}
                 student={item.total}
-                navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails')}
+                navigateCheckinList={() => this.props.navigation.navigate('StudentLog')}
             />
             </View>
              )}
