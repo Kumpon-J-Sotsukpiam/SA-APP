@@ -4,20 +4,21 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList
+  FlatList,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { Header } from 'react-native-elements';
+import HeaderCheckinLog from '../components/HeaderCheckinLog';
 import { connect } from 'react-redux'
+import StudentDetailsCheckinLog from '../components/StudentDetailsCheckinLog copy';
 
 class StudentLogScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      studentID:'',
-      name:'',
-      faculty:'',
-      major:'',
+      studentID:'5905100025',
+      name:'Jiraphat Asavagunchorn',
+      faculty:'School of Science and Technology',
+      major:'Computer Science',
+      percentage:'100%',
       dataTest:[{id:'1',date:'6/11/2019',time:''}]
     };
   }
@@ -26,38 +27,28 @@ class StudentLogScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Header
-          leftComponent={(
-            <View style={styles.containerLeftHeader}>
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentList')}>
-                <View style={styles.leftSection1}>
-                  <Ionicons
-                    name='ios-arrow-back'
-                    size={35}
-                    color='#fff'
-                  />
-                </View>
-              </TouchableOpacity>
-              <View style={styles.leftSection2}>
-                <Text style={styles.textHeader}>{this.state.studentID}</Text>
-                <Text style={styles.textHeader}>{this.state.name}</Text>
-                <Text style={styles.textHeader}>{this.state.faculty}</Text>
-                <Text style={styles.textHeader}>{this.major}</Text>
-              </View>
-            </View>
-
-          )}
-          leftContainerStyle={{ flex: 8 }}
-          rightComponent={(<Text>89%</Text>)}
-          containerStyle={styles.containerStyle}
+        
+        <HeaderCheckinLog
+          backBtn = {() => this.props.navigation.navigate('StudentList')}
+          name = {'Check-in Log'}
         />
+
+        <StudentDetailsCheckinLog
+          stdId = {this.state.studentID}
+          name = {this.state.name}
+          faculty = {this.state.faculty}
+          major = {this.state.major}
+          percentage = {this.state.percentage}
+        />
+
+              
 
       </View>
     );
   }
 }
 
-ClassDetailsScreen.navigationOptions = {
+StudentLogScreen.navigationOptions = {
   header: null
 };
 
@@ -77,11 +68,6 @@ const styles = StyleSheet.create({
   containerLeftHeader: {
     flex: 1,
     flexDirection: 'row'
-  },
-  textHeader: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold'
   },
   leftSection1: {
     flex: 1,
@@ -107,13 +93,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginRight: 10
   },
-  containerStyle:{
-    backgroundColor: '#fd4176',
-    height: 140,
-    justifyContent: 'space-around',
-    borderBottomColor: '#be5f7a',
-    borderBottomWidth: 1,
-  },
   containerCheckinList: {
     backgroundColor: '#fff',
     marginTop:5,
@@ -123,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect (StudentLogScreen)
+export default StudentLogScreen

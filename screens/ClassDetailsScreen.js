@@ -29,6 +29,7 @@ class ClassDetailsScreen extends React.Component {
       class: log[0],
       semesterId: semesterId,
       courseId: courseId,
+      dataTest:[{date:'18 January 2019',total:'Total : 18'},{date:'29 March 2019',total:'Total : 15'}]
     })
   }
   render() {
@@ -100,7 +101,7 @@ class ClassDetailsScreen extends React.Component {
             <ContainerCheckinList
                 dateCheckin={item.date}
                 student={item.total}
-                navigateCheckinList={() => this.props.navigation.navigate('StudentLog')}
+                navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails')}
             />
             </View>
              )}
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold'
   },
   leftSection1: {

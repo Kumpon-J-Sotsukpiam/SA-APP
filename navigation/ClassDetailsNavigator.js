@@ -13,11 +13,12 @@ import StudentLogScreen from '../screens/StudentLogScreen';
 const ClassDetailsStack = createStackNavigator({
   ClassDetails: { screen: ClassDetailsScreen },
   StudentList: { screen: StudentListScreen },
+  StudentLog: { screen: StudentLogScreen},
   TraingingModel: { screen: TrainingModelScreen },
   AddStudentList: { screen: Add_StudentListScreen },
   CheckinDetails: { screen: CheckinDetailsScreen},
-  AddCheckin: { screen: Add_CheckinScreen },
-  StudentLog: { screen: StudentLogScreen}
+  AddCheckin: { screen: Add_CheckinScreen }
+  
 });
 
 ClassDetailsStack.navigationOptions = {

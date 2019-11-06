@@ -13,7 +13,7 @@ import { createFilter } from 'react-native-search-filter';
 import { connect } from 'react-redux'
 import { pull_student_in_class } from '../src/actions/class'
 import { train_model } from '../src/actions/model'
-const KEYS_TO_FILTERS = ['studentID', 'studentName'];
+const KEYS_TO_FILTERS = ['name', 'stuId'];
 
 class StudentListScreen extends React.Component {
   constructor(props) {
@@ -113,7 +113,7 @@ class StudentListScreen extends React.Component {
                   style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
-                  <TouchableOpacity onPress={() => alert(_id)}
+                  <TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentLog')}}
                     style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
                     <View style={{ flex: 2, justifyContent: 'center' }}>
                       <Text style={{ fontSize: 16 }}>{stuId}</Text>

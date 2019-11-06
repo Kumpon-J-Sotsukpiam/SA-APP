@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   section1: {
-    flex: 4,
+    flex: 5,
     backgroundColor: '#fff',
     justifyContent: 'center',
     
   },
   section2: {
-    flex: 5,
+    flex: 2,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header:{
-    fontSize:20,
+    fontSize:18,
     fontWeight: 'bold',
   },
   classDetails:{
