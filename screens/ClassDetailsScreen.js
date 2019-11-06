@@ -42,7 +42,10 @@ class ClassDetailsScreen extends React.Component {
   }
   render() {
     const { _id, courseId, day, endTime, group, location, startTime, studentList } = this.state.class
-
+    console.log('====================================');
+    console.log(this.props.checkIn);
+    console.log(this.state.class._id);
+    console.log('====================================');
     return (
       <View style={styles.container}>
         <Header
@@ -99,7 +102,7 @@ class ClassDetailsScreen extends React.Component {
 
         <FlatList
         ItemSeparatorComponent={this.ListViewItemSeparator}
-        data={this.state.dataTest}
+        data={(this.props.checkIn.filter(i => i.classId == this.state.class._id).studentList)}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
             <View style={styles.containerCheckinList}>  
@@ -193,6 +196,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = state => ({
   class: state.class,
-  errors: state.errors
+  errors: state.errors,
+  checkIn: state.checkIn
 })
 export default connect(mapStateToProps)(ClassDetailsScreen)
