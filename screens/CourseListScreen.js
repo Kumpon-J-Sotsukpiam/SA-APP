@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
   },
   durationsHeader: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: 'bold'
   },
   containerStyle: {

@@ -19,9 +19,9 @@ const ContainerMenu = props => {
     </View>
     <View style={styles.section3}>
       <Ionicons
-        name={Platform.OS === 'ios' ? 'ios-arrow-forward' : 'md-arrow-forward'}
+        name={'ios-arrow-forward'}
         size={35}
-        color='#979797'
+        color='red'
         />
     </View>
     </TouchableOpacity>
@@ -32,42 +32,35 @@ const ContainerMenu = props => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f3f3f3',
     margin:10,
     borderRadius:10,
     
   },
   ContainerMenu: {
-    backgroundColor: '#fff',
     flexDirection: 'row',
     margin: 10,
   },
   section1: {
     flex: 4,
-    backgroundColor: '#fff',
     justifyContent: 'center',
     
   },
   section2: {
     flex: 5,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   section3: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
   header:{
     fontSize:20,
     fontWeight: 'bold',
-  },
-  classDetails:{
-    fontSize:16
+    color:'red'
   }
-
 });
 
 export default ContainerMenu;
