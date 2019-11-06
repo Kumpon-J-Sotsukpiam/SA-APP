@@ -7,10 +7,11 @@ import {
   TextInput,
   Button,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
+  Modal
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Header, } from 'react-native-elements';
+import { Header,Input } from 'react-native-elements';
 import { add_student } from '../src/actions/student'
 import { connect } from 'react-redux'
 import { getFaculty, getMajor } from '../src/actions/studentID'
@@ -28,8 +29,9 @@ class Add_StudentScreen extends React.Component {
       video: null,
       studentID: '',
       studentName: '',
-      faculty:'Faculty',
-      major:'Major'
+      faculty:' ',
+      major:' ',
+      toggleVideo:false
     }
     this.handleOnSave = this.handleOnSave.bind(this);
   }
@@ -47,6 +49,7 @@ class Add_StudentScreen extends React.Component {
     }
   }
   _pickImage = async () => {
+    
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
     });
@@ -54,11 +57,14 @@ class Add_StudentScreen extends React.Component {
     console.log(result);
 
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ image: result.uri});
     }
+
+   
   };
 
   _recordVideo = async () => {
+
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
     });
@@ -66,19 +72,34 @@ class Add_StudentScreen extends React.Component {
     console.log(result);
 
     if (!result.cancelled) {
-      this.setState({ video: result.uri });
+      this.setState({ toggleVideo:false});
+      this.setState({ video: result.uri});
     }
+    
   };
-
 
   setStudentID(data) {
 
-    this.setState({ studentID: data,faculty:getFaculty(data),major:getMajor(data)});
+    this.setState({ studentID: data,
+                    faculty:getFaculty(data),
+                    major:getMajor(data)
+    });
 
-    
   }
   setStudentName(data) {
     this.setState({ studentName: data });
+  }
+
+  setStudentFaculty(data) {
+    this.setState({ faculty: data });
+  }
+
+  setStudentMajor(data) {
+    this.setState({ major: data });
+  }
+
+  deleteVideo() {
+    this.setState({ toggleVideo:false,video:null });
   }
 
   handleOnSave = (data,props) => {
@@ -89,6 +110,11 @@ class Add_StudentScreen extends React.Component {
     add_student(dataReq,this.props)
     this.props.navigation.navigate('Students')
   }
+
+  toggleVideo(){
+    this.setState({toggleVideo:!this.state.toggleVideo})
+  }
+
   render() {
 
     let { video } = this.state;
@@ -111,8 +137,53 @@ class Add_StudentScreen extends React.Component {
           />
         </View>
 
+        <View style={{flexDirection:'row',margin: 5,height:115,}}>
+
+        <View style={{
+          flex:2,
+          justifyContent:'center',
+          alignItems:'center'}}>
+
+        <TouchableOpacity onPress={()=> this.toggleVideo()}>
+        <View style={{
+          borderRadius:55,
+          borderColor:'gray',
+          borderWidth:5,
+          height:110,
+          width:110,
+          justifyContent:'center',
+          alignItems:'center'}}>
+
+        <View style= {{ position: 'absolute'}}>
+        <Ionicons name='ios-videocam'
+              size={60}
+              color={'#000'}
+              onPress={()=> this.toggleVideo()}
+        />
+        </View>
+        
+        {video &&
+          (<Video
+            source={{ uri: video }}
+            rate={1.0}
+            volume={1.0}
+            isMuted={true}
+            resizeMode="cover"
+            shouldPlay
+            isLooping
+            style={{ width: 100, height: 100,borderRadius:50 }}
+          />)
+          }
+          </View>
+          </TouchableOpacity>
+
+          </View>
+
+        </View>
+
         <View style={styles.containerTextInput}>
           <TextInput
+            placeholderTextColor='gray'
             placeholder='Student ID'
             maxLength = {13}
             style={styles.textInput}
@@ -121,40 +192,81 @@ class Add_StudentScreen extends React.Component {
         </View>
         <View style={styles.containerTextInput}>
           <TextInput
+            placeholderTextColor='gray'
             placeholder='Student Name'
             style={styles.textInput}
             onChangeText={(data) => this.setStudentName(data)}
           />
         </View>
         <View style={styles.containerTextInput}>
-          <Text style={styles.textInput}>{this.state.faculty}</Text>
-        </View>
-        <View style={styles.containerTextInput}>
-          <Text style={styles.textInput}>{this.state.major}</Text>
+          <Text style={styles.textInput}>Faculty {this.state.faculty}</Text>
+          <Text style={styles.textInput}>Major {this.state.major}</Text>
         </View>
 
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+
+
+      
+        <Modal visible={this.state.toggleVideo}
+        transparent={true}
+        animationType={'slide'}
+        onRequestClose={()=> console.log('Close')}>
+          <TouchableOpacity style={{flex:1}} onPress={()=>this.toggleVideo()}>
+          <View style={{
+            margin:10,
+            bottom:0,
+            left:0,
+            right:0,
+            position:'absolute',
+
+          }}>
+
+          <View style={{
+            borderColor:'#f3f3f3',
+            borderWidth:0.5,
+            borderRadius:15,
+            backgroundColor:'#fff',}}>   
+
+          <View style={{height:50,justifyContent:'center',borderBottomColor:'#f3f3f3',borderBottomWidth:1}}>
           <Button
-            title="Pick an video from camera roll"
+            title="Choose Video"
             onPress={this._pickImage}
           />
+          </View>
+
+          <View style={{height:50,justifyContent:'center',borderBottomColor:'#f3f3f3',borderBottomWidth:1}}>
           <Button
             title="Record video"
             onPress={this._recordVideo}
           />
-          {video &&
-          <Video
-            source={{ uri: video }}
-            rate={1.0}
-            volume={1.0}
-            isMuted={true}
-            resizeMode="cover"
-            shouldPlay
-            isLooping
-            style={{ width: 300, height: 300 }}
+          </View>
+
+          <View style={{height:50,justifyContent:'center'}}>
+          <Button
+            title="Delete"
+            color='red'
+            onPress={()=>this.deleteVideo()}
           />
-          }
-        </View>
+          </View>
+
+          </View>
+
+          <View style={{
+            marginTop:8,
+            borderRadius:15,
+            backgroundColor:'#fff',
+            height:60,
+            justifyContent:'center'}}>
+          <Button
+            title="Cancel"
+            fontWeight='bold'
+            onPress={()=>this.toggleVideo()}
+          />
+          </View>
+            
+          </View>
+          </TouchableOpacity>
+        </Modal>
+
 
       </View>
       </TouchableWithoutFeedback>
@@ -189,7 +301,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   textInput: {
-    backgroundColor: '#fff',
+    backgroundColor: '#424242',
     height: 50,
     padding: 10,
     fontSize: 18,
@@ -220,6 +332,8 @@ const styles = StyleSheet.create({
   },
   containerTextInput: {
     marginTop: 10,
+    marginLeft: 7,
+    marginRight:7
   },
 });
 const mapStateToProps = state => ({
