@@ -33,7 +33,10 @@ class ClassDetailsScreen extends React.Component {
   }
   render() {
     const { _id, courseId, day, endTime, group, location, startTime, studentList } = this.state.class
-
+    console.log('====================================');
+    console.log(this.props.checkIn);
+    console.log(this.state.class._id);
+    console.log('====================================');
     return (
       <View style={styles.container}>
         <Header
@@ -184,6 +187,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = state => ({
   class: state.class,
-  errors: state.errors
+  errors: state.errors,
+  checkIn: state.checkIn
 })
 export default connect(mapStateToProps)(ClassDetailsScreen)
