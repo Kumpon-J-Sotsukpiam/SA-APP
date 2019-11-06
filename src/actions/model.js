@@ -15,7 +15,7 @@ export const delModel = () => {
     }
 }
 // action FrontEnd
-export const get_model = async (id,props) => {
+export const get_model = async (id, props) => {
     const { dispatch } = props
     await api.get(`deep_server/model/${id}`).then(res => {
         dispatch(getModel(res.data))
@@ -32,4 +32,12 @@ export const del_model = async (id, props) => {
     // .catch(err => {
     //     dispatch(get_errors(err.response.data))
     // })
+}
+export const train_model = async (id) => {
+    data = { classId: id }
+    await api.post(`deep_server/model`, data).then(res => {
+        console.log(res);
+    }).catch(err => {
+        console.error(err);
+    })
 }

@@ -22,6 +22,7 @@ export default (state = initialState, actions) => {
             stateClass = state.filter(i => i._id == actions.payload.classId)[0]
             stateClass.studentList = stateClass.studentList.concat(actions.payload.stuList)
             return [...stateFilter,stateClass]
+            
         case PULL_STUDENT_IN_CLASS:
             stateFilter = state.filter(i => i._id != actions.payload.classId)
             stateClass = state.filter(i => i._id == actions.payload.classId)[0]

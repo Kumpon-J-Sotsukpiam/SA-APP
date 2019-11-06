@@ -17,7 +17,7 @@ import {connect} from 'react-redux'
 import { createFilter } from 'react-native-search-filter';
 import { del_student } from '../src/actions/student'
 import { school } from '../constants'
-const KEYS_TO_FILTERS_STUDENT = ['name', 'stuId'];
+const KEYS_TO_FILTERS_STUDENT = ['name', 'stuId','major','faculty'];
 const KEYS_TO_FILTERS_SCHOOL = ['faculty.name'];
 
 class StudentsScreen extends React.Component {
@@ -37,8 +37,7 @@ class StudentsScreen extends React.Component {
     };
   }
   searchUpdated(data) {
-    //this.setState({ search: data,resultFilter:data+' '+this.state.faculty+' '+this.state.major })
-    this.setState({search:data})
+    this.setState({ search: data,resultFilter:data+' '+this.state.faculty+' '+this.state.major })
   }
 
   setFaculty(data) {
@@ -49,6 +48,9 @@ class StudentsScreen extends React.Component {
       major:'',
     })
     
+    if(data === ''){
+      this.setState({filterMajor:false})
+    }
     setMajor = school.filter(createFilter(data,KEYS_TO_FILTERS_SCHOOL))
     this.setState({majorList : setMajor})
 
@@ -67,8 +69,8 @@ class StudentsScreen extends React.Component {
 
   render() {
     
-    //const filteredStudent = this.props.student.filter(createFilter(this.state.resultFilter,KEYS_TO_FILTERS_STUDENT))
-    const filteredStudent = this.props.student.filter(createFilter(this.state.search,KEYS_TO_FILTERS_STUDENT))
+    const filteredStudent = this.props.student.filter(createFilter(this.state.resultFilter,KEYS_TO_FILTERS_STUDENT))
+    
     
     return (
       <View style={styles.container}>

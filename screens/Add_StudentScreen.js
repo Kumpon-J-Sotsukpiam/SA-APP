@@ -52,6 +52,7 @@ class Add_StudentScreen extends React.Component {
     
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      base64:true
     });
 
     console.log(result);
@@ -67,6 +68,7 @@ class Add_StudentScreen extends React.Component {
 
     let result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
+      base64:true
     });
 
     console.log(result);
@@ -105,7 +107,9 @@ class Add_StudentScreen extends React.Component {
   handleOnSave = (data,props) => {
     dataReq = {
       stuId : this.state.studentID,
-      name : this.state.studentName
+      name : this.state.studentName,
+      faculty:this.state.faculty,
+      major:this.state.major
     }
     add_student(dataReq,this.props)
     this.props.navigation.navigate('Students')
