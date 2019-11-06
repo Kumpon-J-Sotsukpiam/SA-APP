@@ -125,7 +125,7 @@ class StudentListScreen extends React.Component {
                       <Text style={{ fontSize: 16 }}>{100}</Text>
                     </View>
 
-                  </TouchableOpacity>
+                  </T+ouchableOpacity>
                 </Swipeout>
               </View>
             )

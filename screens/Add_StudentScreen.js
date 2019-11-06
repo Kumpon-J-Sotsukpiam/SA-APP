@@ -105,7 +105,9 @@ class Add_StudentScreen extends React.Component {
   handleOnSave = (data,props) => {
     dataReq = {
       stuId : this.state.studentID,
-      name : this.state.studentName
+      name : this.state.studentName,
+      faculty:this.state.faculty,
+      major:this.state.major
     }
     add_student(dataReq,this.props)
     this.props.navigation.navigate('Students')
