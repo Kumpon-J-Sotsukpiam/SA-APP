@@ -12,6 +12,7 @@ import Swipeout from 'react-native-swipeout';
 import { createFilter } from 'react-native-search-filter';
 import { connect } from 'react-redux'
 import { pull_student_in_class } from '../src/actions/class'
+import { train_model } from '../src/actions/model'
 const KEYS_TO_FILTERS = ['studentID', 'studentName'];
 
 class StudentListScreen extends React.Component {
@@ -29,6 +30,7 @@ class StudentListScreen extends React.Component {
         { key: '4', studentID: 1100500589302, studentName: 'Champ Iix', percentage: '100%' },
       ],
     };
+    this.trainModel = this.trainModel.bind(this)
   }
   componentWillMount() {
     const { classId } = this.props.navigation.state.params
@@ -40,8 +42,8 @@ class StudentListScreen extends React.Component {
   searchUpdated(data) {
     this.setState({ search: data })
   }
-  handleOnDelete (data,props){
-  
+  trainModel(){
+    train_model(this.state.class._id)
   }
   render() {
     const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
@@ -77,7 +79,6 @@ class StudentListScreen extends React.Component {
           centerContainerStyle={{ flex: 9 }}
           containerStyle={styles.containerStyle}
         />
-
         <SearchBar
           containerStyle={{ backgroundColor: '#fff', marginBottom: 3 }}
           placeholder="Search"
@@ -86,7 +87,6 @@ class StudentListScreen extends React.Component {
           autoCorrect={false}
           value={this.state.search}
         />
-
         <View style={{ flexDirection: 'row', padding: 2, backgroundColor: '#fff', height: 30, margin: 3 }}>
           <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Student ID</Text>
@@ -108,15 +108,13 @@ class StudentListScreen extends React.Component {
                 <Swipeout left={[{
                   text: 'Delete',
                   backgroundColor: 'red',
-                  onPress: () => { pull_student_in_class({classId:this.state.class._id,stuId:_id}, this.props) }
+                  onPress: () => { pull_student_in_class({ classId: this.state.class._id, stuId: _id }, this.props) }
                 }]}
                   style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
-
                   <TouchableOpacity onPress={() => alert(_id)}
                     style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
-
                     <View style={{ flex: 2, justifyContent: 'center' }}>
                       <Text style={{ fontSize: 16 }}>{stuId}</Text>
                     </View>
@@ -137,7 +135,10 @@ class StudentListScreen extends React.Component {
           <Button
             title="Training Model"
             buttonStyle={{ backgroundColor: '#fd4176', height: 50 }}
-            onPress={() => { this.props.navigation.navigate('TraingingModel') }}
+            onPress={() => {
+              this.trainModel()
+              //this.props.navigation.navigate('TraingingModel')
+          }}
           />
         </View>
 
