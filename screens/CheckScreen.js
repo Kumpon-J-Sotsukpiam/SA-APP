@@ -69,7 +69,7 @@ class CheckScreen extends React.Component {
                   timeStart={formatTime(item.startTime)}
                   timeEnd={formatTime(item.endTime)}
                   students={item.studentList.length}
-                  navigateCamera={() => this.props.navigation.navigate('Camera')}
+                  navigateCamera={() => this.props.navigation.navigate('Camera',{classId:item._id})}
                   navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{ classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
                 />
               </View>
