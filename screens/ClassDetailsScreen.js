@@ -102,7 +102,7 @@ class ClassDetailsScreen extends React.Component {
 
         <FlatList
         ItemSeparatorComponent={this.ListViewItemSeparator}
-        data={(this.props.checkIn.filter(i => i.classId == this.state.class._id).studentList)}
+        data={this.state.dataTest}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item}) => (
             <View style={styles.containerCheckinList}>  
