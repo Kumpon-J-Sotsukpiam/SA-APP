@@ -22,12 +22,14 @@ class ClassDetailsScreen extends React.Component {
     this.state = {
       courseId: '',
       semesterId: '',
-      class: []
+      class: [],
+      checkIn:[]
     };
   }
   async componentWillMount() {
     const { classId, courseId, semesterId } = this.props.navigation.state.params
     log = this.props.class.filter((i) => i._id === classId)
+
     this.setState({
       class: log[0],
       semesterId: semesterId,
@@ -42,10 +44,7 @@ class ClassDetailsScreen extends React.Component {
   }
   render() {
     const { _id, courseId, day, endTime, group, location, startTime, studentList } = this.state.class
-    console.log('====================================');
-    console.log(this.props.checkIn);
-    console.log(this.state.class._id);
-    console.log('====================================');
+
     return (
       <View style={styles.container}>
         <Header
