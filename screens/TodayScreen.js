@@ -21,8 +21,7 @@ class TodayScreen extends React.Component {
     super(props);
 
     this.state = {
-      now: [],
-      next: [],
+      Class: [],
     }
   }
 
@@ -30,7 +29,10 @@ class TodayScreen extends React.Component {
 
     const { semester, course, Class } = this.props
     toDate = new Date()
+    thisTime = toDate.getTime()
     toDay = (toDate.getDay() == 0 ? 6 : toDate.getDay() - 1)
+    thisNow = []
+    next = []
 
     semesterNow = semester.filter(i => toDate >= new Date(i.startDate) && toDate <= new Date(i.endDate))
     semesterId = []
@@ -46,7 +48,7 @@ class TodayScreen extends React.Component {
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
     this.setState({
-      now: ClassNow
+      Class: ClassNow
     })
   }
 
@@ -84,7 +86,7 @@ class TodayScreen extends React.Component {
           </View>
           <FlatList
             ItemSeparatorComponent={this.ListViewItemSeparator}
-            data={this.state.now}
+            data={this.state.Class.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)}
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
@@ -107,6 +109,28 @@ class TodayScreen extends React.Component {
           <View style={styles.containerClassHeader}>
             <Text style={styles.textClassHeader}>NEXT</Text>
           </View>
+          <FlatList
+            ItemSeparatorComponent={this.ListViewItemSeparator}
+            data={this.state.Class.filter(i => new Date(i.startTime).getTime() > thisTime)}
+            refreshing={true}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View>
+                <ContainerClass
+                  course={item.name}
+                  group={item.group}
+                  location={item.location}
+                  day={getDayOfWeek(item.day)}
+                  timeStart={formatTime(item.startTime)}
+                  timeEnd={formatTime(item.endTime)}
+                  students={item.studentList.length}
+                  navigateCamera={() => this.props.navigation.navigate('Camera')}
+                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{ classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
+                />
+                
+              </View>
+            )}
+          />
         </ScrollView>
 
       </View>
