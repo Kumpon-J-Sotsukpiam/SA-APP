@@ -7,6 +7,7 @@ import TrainingModelScreen from '../screens/TrainingModelScreen';
 import Add_StudentListScreen from '../screens/Add_StudentListScreen';
 import CheckinDetailsScreen from '../screens/CheckinDetailsScreen';
 import Add_CheckinScreen from '../screens/Add_CheckinScreen';
+import StudentLogScreen from '../screens/StudentLogScreen';
 
 
 const ClassDetailsStack = createStackNavigator({
@@ -16,6 +17,7 @@ const ClassDetailsStack = createStackNavigator({
   AddStudentList: { screen: Add_StudentListScreen },
   CheckinDetails: { screen: CheckinDetailsScreen},
   AddCheckin: { screen: Add_CheckinScreen },
+  StudentLog: { screen: StudentLogScreen}
 });
 
 ClassDetailsStack.navigationOptions = {
