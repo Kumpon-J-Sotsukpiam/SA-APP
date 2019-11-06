@@ -99,10 +99,11 @@ class Add_StudentListScreen extends React.Component {
 
 
         <ScrollView>
+          <View>
           {filteredStudent.map(dataStudent => {
             return (
-              <TouchableOpacity onPress={() => alert(dataStudent.stuId)} key={dataStudent._id}>
-                <View style={{ flexDirection: 'row', padding: 2, backgroundColor: '#f3f3f3', height: 55, borderRadius: 10, margin: 3 }}>
+              
+                <View key={dataStudent._id} style={{ flexDirection: 'row', padding: 2, backgroundColor: '#f3f3f3', height: 55, borderRadius: 10, margin: 3 }}>
                   <View style={{ flex: 2, justifyContent: 'center' }}>
                     <Text style={{ fontSize: 16 }}>{dataStudent.stuId}</Text>
                   </View>
@@ -115,10 +116,10 @@ class Add_StudentListScreen extends React.Component {
                       onPress={e => this.onCheckChanged(dataStudent._id, this.state.dataStudent.indexOf(dataStudent._id) != -1)}
                     />
                   </View>
-                </View>
-              </TouchableOpacity>
+                </View> 
             )
           })}
+          </View>
         </ScrollView>
       </View>
     );

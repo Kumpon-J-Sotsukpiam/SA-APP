@@ -12,6 +12,7 @@ import Swipeout from 'react-native-swipeout';
 
 import { Header, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
+import Heading from '../components/Heading';
 import ContainerSemester from '../components/ContainerSemester';
 import { del_semester } from '../src/actions/semester'
 import { connect } from "react-redux"
@@ -47,9 +48,8 @@ class SemestersScreen extends React.Component {
           containerStyle={styles.containerStyle}
         />
         <ScrollView>
-          <View style={styles.containerSemester}>
-            <Text style={styles.header}>CURRENT</Text>
-          </View>
+          
+          <Heading name={'CURRENT'}/>
 
           <View style={{ paddingBottom: 5 }}>
             <FlatList
@@ -77,10 +77,8 @@ class SemestersScreen extends React.Component {
             />
           </View>
           
+          <Heading name={'PAST'}/>
 
-          <View style={styles.containerSemester}>
-            <Text style={styles.header}>PAST</Text>
-          </View>
             <View style={{ paddingBottom: 5 }}>
             <FlatList
               ItemSeparatorComponent={this.ListViewItemSeparator}

@@ -204,17 +204,6 @@ render() {
       </TouchableOpacity>
 
     <View style={styles.containerInputTime}>
-    {this.state.timepickerEnds &&
-        (
-        <DatePickerIOS
-          date={this.state.setTimeEnds}
-          onDateChange={this.setTimeEnds}
-          mode='time'
-          minuteInterval='10'
-          minimumDate={this.state.setTimeStarts}
-        />
-    )}
-
       {Platform.OS === 'ios' ? this.state.timepickerEnds &&
         (
           <DatePickerIOS

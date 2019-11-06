@@ -1,11 +1,7 @@
 import * as FaceDetector from 'expo-face-detector'
  //kumpon df if = 192.168.43.216
  //champ 192.168.1.39
-<<<<<<< HEAD
 export const ip_server = '192.168.1.39' // my ip address
-=======
-export const ip_server = '192.168.42.196' // my ip address
->>>>>>> a82255044f20a3f8ce83c9d48b64a8b2206f2278
 export const port = 3001
 export const server_url = `http://${ip_server}:${port}`
 

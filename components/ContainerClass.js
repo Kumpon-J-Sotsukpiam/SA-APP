@@ -12,7 +12,6 @@ const ContainerClass = props => {
   return (
 
     <View style={styles.container}>
-
       <TouchableOpacity style={styles.containerClass} onPress={props.navigateClassDetails}>
         <View style={styles.section1}>
           <Text style={styles.headerClass}>{props.course}</Text>
@@ -33,7 +32,6 @@ const ContainerClass = props => {
       </View>
     
     </TouchableOpacity>
-
   </View>
 
    );
@@ -43,8 +41,10 @@ const ContainerClass = props => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    margin:5,
-    borderRadius:10,
+    marginTop:5,
+    marginLeft:5,
+    marginRight:5,
+    borderRadius:10, 
   },
   containerClass: {
     backgroundColor: '#fff',

@@ -13,6 +13,8 @@ import { connect } from 'react-redux'
 import { currentDay, currentMonth, currentDate, currentYear } from '../src/actions/currentdate'
 // Component
 import ContainerClass from '../components/ContainerClass';
+import HeaderToday from '../components/HeaderToday';
+import Heading from '../components/Heading';
 import { getDayOfWeek, formatTime } from '../src/actions/date'
 
 
@@ -51,11 +53,13 @@ class TodayScreen extends React.Component {
       Class: ClassNow
     })
   }
-
-
+  
   ListViewItemSeparator = () => {
     return (
-      <View style={{ backgroundColor: '#000' }} />
+      <View style={{ 
+        marginTop:5,
+        marginLeft:5,
+        marginRight:5,}} />
     );
   };
 
@@ -64,30 +68,18 @@ class TodayScreen extends React.Component {
 
       <View style={styles.container}>
 
-        <Header
-          centerComponent={(<View style={styles.containerHeader}>
-            <View style={styles.containerTextHeader}>
-              <Text style={styles.textHeader}>Today</Text>
-            </View>
-            <View style={styles.containerCurrentDateHeader}>
-              <Text style={styles.dayHeader}>{currentDay()}</Text>
-            </View>
-            <View style={styles.containerDateHeader}>
-              <Text style={styles.dateHeader}>{currentDate()} {currentMonth()} {currentYear()}</Text>
-            </View>
-          </View>
-          )}
-          containerStyle={styles.containerStyle}
+        <HeaderToday
+          name={'Today'}
+          day={currentDay()}
+          date={currentDate()+' '+currentMonth()+' '+currentYear()}
         />
 
+
         <ScrollView>
-          <View style={styles.containerClassHeader}>
-            <Text style={styles.textClassHeader}>NOW</Text>
-          </View>
+          <Heading name={'NOW'}/>
           <FlatList
             ItemSeparatorComponent={this.ListViewItemSeparator}
             data={this.state.Class.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)}
-            refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
@@ -106,13 +98,12 @@ class TodayScreen extends React.Component {
               </View>
             )}
           />
-          <View style={styles.containerClassHeader}>
-            <Text style={styles.textClassHeader}>NEXT</Text>
-          </View>
+
+          <Heading name={'NEXT'}/>
+
           <FlatList
             ItemSeparatorComponent={this.ListViewItemSeparator}
             data={this.state.Class.filter(i => new Date(i.startTime).getTime() > thisTime)}
-            refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
@@ -148,44 +139,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f3f3f3',
-  },
-
-  /* Container Header */
-  containerHeader: {
-    flexDirection: 'column',
-  },
-  containerTextHeader: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  containerCurrentDateHeader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  textHeader: {
-    color: '#fff',
-    fontSize: 36,
-    fontWeight: 'bold'
-  },
-  dayHeader: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  dateHeader: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 3
-  },
-  containerStyle: {
-    backgroundColor: '#fd4176',
-    height: 120,
-    justifyContent: 'space-around',
-    borderBottomColor: '#be5f7a',
-    borderBottomWidth: 1,
   },
 
   /* Container Class */
