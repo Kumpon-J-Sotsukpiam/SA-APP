@@ -3,7 +3,6 @@ import { ScrollView, StyleSheet, View, Text, Platform, TouchableOpacity, TextInp
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 
-
 export default class TrainingModelScreen extends React.Component {
   constructor(props) {
     super(props);

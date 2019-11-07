@@ -47,25 +47,24 @@ class ClassListScreen extends React.Component {
             <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList', { semesterID: this.state.semesterID })}>
               <Ionicons
                 name='ios-arrow-back'
-                size={35}
+                size={45}
                 color='#fff'
               />
             </TouchableOpacity>
           )}
-          leftContainerStyle={{ flex: 2 }}
-          rightComponent={(<Ionicons name='ios-add'
-            size={60}
-            color={'#fff'}
-            onPress={() => { this.props.navigation.navigate('AddClass', { courseId: this.state.course._id, semesterID: this.state.semesterID }) }}
-          />)}
-          rightContainerStyle={{ flex: 1 }}
+         
+          rightComponent={(
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddClass', { courseId: this.state.course._id, semesterID: this.state.semesterID })}>
+              <Ionicons name='ios-add'
+                size={50}
+                color={'#fff'}
+              />
+            </TouchableOpacity>
+          )}
+          
           centerComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse', { courseID: this.state.courseID })}>
-              <View style={styles.containerHeader}>
-                <View style={styles.containerTextHeader}>
-                  <Text style={styles.textHeader}>{this.state.course.name}</Text>
-                </View>
-              </View>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse', { courseID: this.state.courseID })}>  
+                  <Text style={styles.textCourse}>{this.state.course.name}</Text>
             </TouchableOpacity>
           )}
           centerContainerStyle={{ flex: 9 }}
@@ -95,7 +94,7 @@ class ClassListScreen extends React.Component {
                       day={getDayOfWeek(item.day)}
                       startTime={formatTime(item.startTime)}
                       endTime={formatTime(item.endTime)}
-                      students={'Total'}
+                      students={item.studentList.length}
                       navigateCamera={() => this.props.navigation.navigate('Camera', { classID: 'ClassId' })}
                       navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterID })}
                     />
@@ -120,27 +119,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f3f3f3',
   },
-  containerHeader: {
-    flexDirection: 'column',
-  },
-  containerTextHeader: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  textHeader: {
+  textCourse: {
     color: '#fff',
-    fontSize: 36,
-    fontWeight: 'bold'
-  },
-  containerDurationsHeader: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  durationsHeader: {
-    color: '#fff',
-    fontSize: 14,
+    fontSize: 20,
     fontWeight: 'bold'
   },
   containerStyle: {
@@ -151,6 +132,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
 });
+
 const mapStateToProps = state => ({
   class: state.class,
   course: state.course

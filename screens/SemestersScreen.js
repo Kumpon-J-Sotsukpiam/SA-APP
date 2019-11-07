@@ -37,14 +37,15 @@ class SemestersScreen extends React.Component {
       <View style={styles.container}>
         <Header
           centerComponent={({ text: 'Semester', style: { color: '#fff', fontSize: 36, fontWeight: 'bold' } })}
-          rightComponent={(<View style={styles.containerRightHeader}>
-            <Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
-              size={60}
+          rightComponent={(
+            <Ionicons name={'ios-add'}
+              size={50}
               color={'#fff'}
               onPress={() => { this.props.navigation.navigate('AddSemester') }}
             />
-          </View>
+          
           )}
+          rightContainerStyle={{justifyContent:'center'}}
           containerStyle={styles.containerStyle}
         />
         <ScrollView>
@@ -68,7 +69,7 @@ class SemestersScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerSemester
                       semester={item.name}
-                      students={'total is'+this.state.students}
+                      students={'Total Course'+this.state.students}
                       navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
                     />
                   </Swipeout>
@@ -96,7 +97,7 @@ class SemestersScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerSemester
                       semester={item.name}
-                      students={'total is'+this.state.students}
+                      totalCourse={'Total Course'}
                       navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
                       />
                       </Swipeout>

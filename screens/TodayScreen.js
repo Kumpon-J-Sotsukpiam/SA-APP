@@ -54,15 +54,6 @@ class TodayScreen extends React.Component {
     })
   }
   
-  ListViewItemSeparator = () => {
-    return (
-      <View style={{ 
-        marginTop:5,
-        marginLeft:5,
-        marginRight:5,}} />
-    );
-  };
-
   render() {
     return (
 
@@ -78,7 +69,6 @@ class TodayScreen extends React.Component {
         <ScrollView>
           <Heading name={'NOW'}/>
           <FlatList
-            ItemSeparatorComponent={this.ListViewItemSeparator}
             data={this.state.Class.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (

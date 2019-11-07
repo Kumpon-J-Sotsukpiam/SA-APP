@@ -98,7 +98,7 @@ class StudentsScreen extends React.Component {
 
 
         <View>
-        {Platform.OS === 'ios' ? (<Button
+        <Button
           title={(' Filter Faculty '+this.state.faculty)}
           type='clear'
           titleStyle={{color:'#000',fontSize:14}}
@@ -108,26 +108,24 @@ class StudentsScreen extends React.Component {
               size={20}
               color='black'
             />}
-            onPress={()=> this.toggleFaculty()}
-        />) : (<Text>Test</Text>)}
+          onPress={()=> this.toggleFaculty()}
+        />
 
 
-        {Platform.OS === 'ios' ? 
-        this.state.filterMajor &&(
-                  <Button
-                  title={(' Filter Major '+this.state.major)}
-                  type='clear'
-                  titleStyle={{color:'#000',fontSize:14}}
-                  icon= {
-                    <Ionicons
-                      name='ios-add'
-                      size={20}
-                      color='black'
-                    />}
-                    onPress={()=> this.toggleMajor()}
-                />) : (<Text>Test</Text>
+        <Button
+          title={(' Filter Major '+this.state.major)}
+          type='clear'
+          titleStyle={{color:'#000',fontSize:14}}
+          icon= {
+            <Ionicons
+              name='ios-add'
+              size={20}
+              color='black'
+            />}
+          onPress={()=> this.toggleMajor()}
+        />
                 
-                )}
+              
         
         </View>    
 

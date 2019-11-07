@@ -41,32 +41,36 @@ class ClassDetailsScreen extends React.Component {
       <View style={styles.container}>
         <Header
           leftComponent={(
-            <View style={styles.containerLeftHeader}>
+            
               <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList', { courseId: this.state.courseId, semesterID: this.state.semesterId })}>
-                <View style={styles.leftSection1}>
                   <Ionicons
                     name='ios-arrow-back'
-                    size={35}
+                    size={45}
                     color='#fff'
                   />
-                </View>
               </TouchableOpacity>
-              <View style={styles.leftSection2}>
-                <Text style={styles.textHeader}>{group}</Text>
-                <Text style={styles.textHeader}>{location}</Text>
-                <Text style={styles.textHeader}>{getDayOfWeek(day)} , {formatTime(startTime)} - {formatTime(endTime)}</Text>
-                <Text style={styles.textHeader}>{'totalStudent'}</Text>
-                <Text style={styles.textHeader}>Durations : {calDurationsTime(startTime, endTime)}</Text>
-              </View>
-            </View>
-
           )}
-          leftContainerStyle={{ flex: 8 }}
-          rightComponent={(<Ionicons name='ios-settings'
-            size={30}
-            color={'#fff'}
-            onPress={() => { this.props.navigation.navigate('EditClass', { classID: 'Class ID' }) }}
-          />)}
+
+          centerComponent={(
+            <View>
+            <Text style={styles.textGroup}>{group}</Text>
+            <Text style={styles.textLocation}>{location}</Text>
+            <Text style={styles.textDetails}>Total Student {studentList.length}</Text>
+            <Text style={styles.textDetails}>{getDayOfWeek(day)} , {formatTime(startTime)} - {formatTime(endTime)}</Text>
+            <Text style={styles.textDetails}>Durations : {calDurationsTime(startTime, endTime)}</Text>
+            </View>
+          )}
+          centerContainerStyle={{flex: 8,alignItems:'flex-start'}}
+
+          rightComponent={(
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditClass', { classID: 'Class ID' })}>
+              <Ionicons name='ios-settings'
+                size={30}
+                color={'#fff'}
+              />
+            </TouchableOpacity>
+          )}
+
           containerStyle={styles.containerStyle}
         />
 
@@ -129,24 +133,6 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row'
   },
-  containerLeftHeader: {
-    flex: 1,
-    flexDirection: 'row'
-  },
-  textHeader: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  leftSection1: {
-    flex: 1,
-    justifyContent: 'center',
-    marginRight: 10
-  },
-  leftSection2: {
-    flex: 2,
-    justifyContent: 'center'
-  },
   textHead: {
     fontWeight: 'bold',
     marginLeft: 10,
@@ -184,6 +170,20 @@ const styles = StyleSheet.create({
     marginLeft:10,
     borderRadius:10,
   },
+  textGroup: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold'
+  },
+  textLocation: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  textDetails: {
+    color: '#fff',
+    fontSize: 16,
+  }
 });
 const mapStateToProps = state => ({
   class: state.class,

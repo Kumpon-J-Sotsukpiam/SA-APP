@@ -18,7 +18,7 @@ const ContainerClass = props => {
           <Text style={styles.textClass}>{props.group}</Text>
           <Text style={styles.textClass}>{props.location}</Text>
           <Text style={styles.textClassDetails}>{props.day} , {props.timeStart} - {props.timeEnd}</Text>
-          <Text style={styles.textClass}>{props.students}</Text>
+          <Text style={styles.textClass}>Total Student {props.students}</Text>
         </View>
     
       <View style={styles.section2}>
@@ -41,10 +41,10 @@ const ContainerClass = props => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
+    borderRadius:10,
     marginTop:5,
     marginLeft:5,
-    marginRight:5,
-    borderRadius:10, 
+    marginRight:5
   },
   containerClass: {
     backgroundColor: '#fff',

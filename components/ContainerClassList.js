@@ -21,7 +21,7 @@ const ContainerClassList = props => {
           <Text style={styles.headerClassDetails}>{props.group}</Text>
           <Text style={styles.textClassDetails}>{props.location}</Text>
           <Text style={styles.textClassDetails}>{props.day} , {props.startTime} - {props.endTime}</Text>
-          <Text style={styles.textClassDetails}>{props.students}</Text>
+          <Text style={styles.textClassDetails}>Total Student {props.students}</Text>
         </View>
         
       <View style={styles.section2}>

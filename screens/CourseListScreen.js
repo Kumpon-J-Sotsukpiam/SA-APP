@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView, StyleSheet, View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
-import ContainerSemester from '../components/ContainerSemester';
+import ContainerCourse from '../components/ContainerCourse';
 import { calDurationsSemesterLeft } from "../src/actions/durations"
 import Swipeout from 'react-native-swipeout';
 import { connect } from 'react-redux'
@@ -42,18 +42,22 @@ class CourseListScreen extends React.Component {
             <TouchableOpacity onPress={() => this.props.navigation.navigate('Semesters')}>
               <Ionicons
                 name='ios-arrow-back'
-                size={35}
+                size={45}
                 color='#fff'
               />
             </TouchableOpacity>
           )}
-          leftContainerStyle={{ flex: 2 }}
-          rightComponent={(<Ionicons name={'ios-add'}
-            size={60}
-            color={'#fff'}
-            onPress={() => { this.props.navigation.navigate('AddCourse', { semesterID: this.state.semester._id }) }}
-          />)}
-          rightContainerStyle={{ flex: 1 }}
+
+          rightComponent={(
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddCourse', { semesterID: this.state.semester._id })}>
+            <Ionicons name={'ios-add'}
+              size={50}
+              color={'#fff'}
+              />
+            </TouchableOpacity>
+          )}
+          
+
           centerComponent={(
             <TouchableOpacity onPress={() => { this.props.navigation.navigate('EditSemester', { semesterID: this.state.semester.semesterID }) }}>
               <View style={styles.containerHeader}>
@@ -66,6 +70,7 @@ class CourseListScreen extends React.Component {
               </View>
             </TouchableOpacity>
           )}
+
           centerContainerStyle={{ flex: 10 }}
           containerStyle={styles.containerStyle}
         />
@@ -88,9 +93,9 @@ class CourseListScreen extends React.Component {
                     style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                     autoClose={this.state.autoClose}
                     backgroundColor='transparent'>
-                    <ContainerSemester
-                      semester={item.name}
-                      students={'Total Student in course  '}
+                    <ContainerCourse
+                      course={item.name}
+                      totalClass={'Classes'}
                       navigateCourseList={() => this.props.navigation.navigate('ClassList', { courseId: item._id, semesterID: this.state.semester._id })}
                     />
                   </Swipeout>

@@ -7,18 +7,18 @@ import {
   View,  
 } from 'react-native';
 
-const ContainerSemester = props => {
+const ContainerCourse = props => {
   
   return (
 
     <TouchableOpacity style={styles.container} onPress={props.navigateCourseList}>
 
     <View style={styles.section1}>
-    <Text style={styles.textSemester}>{props.semester}</Text>
+    <Text style={styles.textCourse}>{props.course}</Text>
     </View>
 
     <View style={styles.section2}>
-    <Text style={styles.textTotal}>{props.totalCourse}</Text>
+    <Text style={styles.texTotal}>{props.totalClass}</Text>
     </View>
 
     <View style={styles.section3}>
@@ -39,16 +39,19 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     flexDirection: 'row',
-    margin: 10,
-    padding:3
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
+    padding:3,
+    borderRadius:10
   },
   section1: {
-    flex: 4,
-    backgroundColor: '#fff',
-    justifyContent:'center'
+    flex: 5,
+    justifyContent: 'center',
+    
   },
   section2: {
-    flex: 5,
+    flex: 1,
     justifyContent: 'center',
   },
   section3: {
@@ -56,16 +59,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textSemester:{
-    fontSize:20,
-    fontWeight: 'bold',
-    color:'#000',
-  },
-  textTotal:{
+  textCourse:{
     fontSize:16,
-    color:'#000',
+    fontWeight: 'bold',
+  },
+  texTotal:{
+    fontSize:12
   }
 
 });
 
-export default ContainerSemester;
+export default ContainerCourse;

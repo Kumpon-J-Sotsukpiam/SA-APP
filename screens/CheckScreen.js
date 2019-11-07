@@ -37,11 +37,7 @@ class CheckScreen extends React.Component {
       class:ClassNow
     })
   }
-  ListViewItemSeparator = () => {
-    return (
-      <View style={{ backgroundColor: '#000' }} />
-    );
-  };
+  
 
   render() {
     return (
@@ -55,12 +51,11 @@ class CheckScreen extends React.Component {
 
         <ScrollView>
           {<FlatList
-            ItemSeparatorComponent={this.ListViewItemSeparator}
             data={this.state.class}q
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <View>
+                
                 <ContainerClass
                   course={item.name}
                   group={item.group}
@@ -72,7 +67,8 @@ class CheckScreen extends React.Component {
                   navigateCamera={() => this.props.navigation.navigate('Camera',{classId:item._id})}
                   navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{ classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
                 />
-              </View>
+                
+              
             )}
           />}
         </ScrollView>

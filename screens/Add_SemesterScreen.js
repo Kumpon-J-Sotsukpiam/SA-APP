@@ -9,8 +9,7 @@ import {
   TouchableWithoutFeedback, 
   Keyboard,
   DatePickerAndroid,
-  Platform
-
+  Platform,
 } from 'react-native';
 
 import { Header } from 'react-native-elements';
@@ -33,12 +32,15 @@ class Add_SemesterScreen extends React.Component {
       dateEnds:addDays(getDate, 120),
       datepickerStarts:false,
       datepickerEnds:false,
+      spinnerDate: new Date(2020, 4, 5),
+   
     }
 
      this.setDateStarts = this.setDateStarts.bind(this);
      this.setDateEnds = this.setDateEnds.bind(this);
      this.handleOnSave = this.handleOnSave.bind(this);
      this.setSemesterName = this.setSemesterName.bind(this);
+
   }
 
   setSemesterName(name){
@@ -51,6 +53,8 @@ class Add_SemesterScreen extends React.Component {
    setDateEnds(newDate) {
     this.setState({ dateEnds: newDate });
   }
+
+
 
   showDatePickerStarts(){
     this.setState({
@@ -90,6 +94,25 @@ class Add_SemesterScreen extends React.Component {
     }
 
   }
+
+  
+  showPicker = async (stateKey, options, state) => {
+    try {
+      
+      const {action, year, month, day} = await DatePickerAndroid.open(options);
+      if (action === DatePickerAndroid.dateSetAction) {
+        var date = new Date(year, month, day);
+        if (state === 'start'){
+            this.setDateStarts(date)
+        } else {
+            this.setDateEnds(date)
+        }
+      }
+      
+    } catch ({code, message}) {
+      console.warn(`Error in example '${stateKey}': `, message);
+    }
+  };
 
   async handleOnSave(semester,props) {
     await add_semester(semester,props)
@@ -133,8 +156,8 @@ class Add_SemesterScreen extends React.Component {
         />
       
       </View>
-
-      <TouchableOpacity onPress={()=>this.showDatePickerStarts()}>
+        {Platform.OS === 'ios' ? 
+        (<TouchableOpacity onPress={()=>this.showDatePickerStarts()}>
       <View style={styles.containerDate}>
           <View style={styles.containerTextDate}>
           <Text style={styles.dateInput}>Starts</Text>
@@ -144,23 +167,34 @@ class Add_SemesterScreen extends React.Component {
         </View>
       </View>
       </TouchableOpacity>
-
+      )
+      :
+      (<TouchableOpacity
+        onPress={this.showPicker.bind(this, 'spinner',{date: this.state.dateStarts, mode: 'spinner'},'start')}>
+              <View style={styles.containerDate}>
+          <View style={styles.containerTextDate}>
+          <Text style={styles.dateInput}>Starts</Text>
+          
+          </View>
+          <View style={styles.containerShowDate}>
+          <Text style={styles.showDate}>{format(this.state.dateStarts,'dd MMM yyyy')}</Text>
+        </View>
+      </View>
+      </TouchableOpacity>
+      )}
+      
+      {this.state.datepickerStarts &&
       <View style={styles.containerInputDate}>
-        {Platform.OS === 'ios' ? this.state.datepickerStarts &&
-        (
         <DatePickerIOS
           date={this.state.dateStarts}
           onDateChange={this.setDateStarts}
           mode='date'
         />
-        ) : 
-        this.state.datepickerStarts && 
-        ( 
-          <Text>Wait</Text>
-        ) 
-        }
       </View>
-
+      }
+      
+      
+      {Platform.OS === 'ios' ? (
       <TouchableOpacity onPress={()=>this.showDatePickerEnds()}>
       <View style={styles.containerDate}>
           <View style={styles.containerTextDate}>
@@ -171,25 +205,36 @@ class Add_SemesterScreen extends React.Component {
         </View>
       </View>
       </TouchableOpacity>
+      )
+      :
+      (
+        <TouchableOpacity
+        onPress={this.showPicker.bind(this, 'spinner',
+        {date: this.state.dateStarts, mode: 'spinner',minDate:this.state.dateStarts},'end')}>
+        <View style={styles.containerDate}>
+            <View style={styles.containerTextDate}>
+            <Text style={styles.dateInput}>Ends</Text>
+            </View>
+            <View style={styles.containerShowDate}>
+            <Text style={styles.showDate}>{format(this.state.dateEnds,'dd MMM yyyy')}</Text>
+          </View>
+        </View>
+        </TouchableOpacity>
 
+      )}
+
+      {this.state.datepickerEnds &&
       <View style={styles.containerInputDate}>
-
-      {Platform.OS === 'ios' ? this.state.datepickerEnds &&
-        (
         <DatePickerIOS
           date={this.state.dateEnds}
           onDateChange={this.setDateEnds}
           mode='date'
           minimumDate={this.state.dateStarts}
         />
-        ) :
-        this.state.datepickerEnds &&
-        (
-            <Text>Wait</Text>
-        )
-        }
-
       </View>
+      }
+
+      
       <View style={styles.containerDurations}>
       <Text>Durations : {calDurationsDate(this.state.dateStarts,this.state.dateEnds)}</Text>
       </View>
