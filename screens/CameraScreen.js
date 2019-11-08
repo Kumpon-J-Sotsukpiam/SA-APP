@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView
 } from 'react-native';
+import AddCheckinDialogBox from '../components/AddCheckinDialogBox';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { connect } from "react-redux"
@@ -28,6 +29,7 @@ class CameraScreen extends React.Component {
       hasCameraPermission: null,
       type: Camera.Constants.Type.front,
       isConnect: false,
+      addToggle:false,
       dataTest:[{_id:'1',stuId:'5905100025',name:'Chanathip Nobnom'},
                 {_id:'2',stuId:'1910511101025',name:'Jiraphat Asavagunchorn'},
                 {_id:'3',stuId:'5905100025',name:'Tanaboon Chutisakkage'},
@@ -129,7 +131,7 @@ class CameraScreen extends React.Component {
           )}
          
           rightComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('CheckScreen')}>
+            <TouchableOpacity  onPress = {() => this.setState({ addToggle: true })}>
               <Ionicons name='ios-add'
                 size={50}
                 color={'#fff'}
@@ -171,6 +173,13 @@ class CameraScreen extends React.Component {
           })}
           </View>
           </ScrollView>
+
+          <AddCheckinDialogBox
+          visible={this.state.addToggle}
+          onTouchOutside = {() => this.setState({ addToggle: false })}
+          cancelBtn = {() => this.setState({ addToggle: false })}
+          confirmBtn ={()=>{}}
+          />
 
       </View>
     );

@@ -13,8 +13,6 @@ const DialogBox = props => {
 
     <Dialog
     containerStyle={{
-      zIndex: 10,
-      elevation: 10,
       borderColor:'#f3f3f3',
       borderWidth:1
                    }}
