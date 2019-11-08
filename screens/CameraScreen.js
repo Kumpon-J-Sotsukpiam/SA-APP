@@ -1,5 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button, Platform, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { connect } from "react-redux"
@@ -21,7 +27,13 @@ class CameraScreen extends React.Component {
       classId: 'vgg_face',
       hasCameraPermission: null,
       type: Camera.Constants.Type.front,
-      isConnect: false
+      isConnect: false,
+      dataTest:[{_id:'1',stuId:'5905100025',name:'Chanathip Nobnom'},
+                {_id:'2',stuId:'1910511101025',name:'Jiraphat Asavagunchorn'},
+                {_id:'3',stuId:'5905100025',name:'Tanaboon Chutisakkage'},
+                {_id:'4',stuId:'5905100025',name:'Kumpom Sodsukpiem'},
+                {_id:'5',stuId:'5905100025',name:'Arisa koonchawa'},
+                {_id:'6',stuId:'5905100025',name:'Chanathip Nobnom'},]
     };
   }
   async componentWillMount() {
@@ -102,42 +114,64 @@ class CameraScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+
+        <View>
         <Header
-          leftComponent={(<TouchableOpacity onPress={() => {
-            this.props.navigation.navigate('Check')
-          }}>
-            <Text style={styles.textCancel}>Camera</Text>
+          leftComponent=
+          {(
+          <TouchableOpacity onPress={() => {this.props.navigation.navigate('Check')}}>
+            <Ionicons
+              name='ios-arrow-back'
+              size={45}
+              color='#fff'
+            />
           </TouchableOpacity>
           )}
-          centerComponent={({ text: 'Camera', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
-          rightComponent={(<View style={styles.containerRightHeader}>
-            <Ionicons name={Platform.OS === 'ios' ? 'ios-add' : 'md-add'}
-              size={60}
-              color={'#fff'}
-              onPress={() => { this.props.navigation.navigate('CheckScreen') }}
-            />
-          </View>
+         
+          rightComponent={(
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('CheckScreen')}>
+              <Ionicons name='ios-add'
+                size={50}
+                color={'#fff'}
+              />
+            </TouchableOpacity>
           )}
-          containerStyle={{
-            backgroundColor: '#fd4176',
-            height: 80,
-            justifyContent: 'space-around',
-            borderBottomColor: '#be5f7a',
-            borderBottomWidth: 1,
-          }}
+          centerComponent={({ text: 'Camera', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
+          containerStyle={styles.containerStyle}
         />
+        </View>
+        
         <View style={styles.containerCamera}>
           <Camera
             ref={this.setCamera}
-            style={{ flex: 1 }}
+            style={{height:250}}
             type={this.state.type}
             onFacesDetected={this.handleFaceDetected}
             faceDetectorSetting={faceDetectorSetting}>
           </Camera>
         </View>
-        <View style={styles.containerMessage}>
-          <Text>{this.state.test}</Text>
-        </View>
+
+          
+        <ScrollView>
+          <View>
+          {this.state.dataTest.map(dataStudent => {
+            return (
+                <View key={dataStudent._id} style={{ flexDirection: 'row', padding: 2, backgroundColor: '#fff', height: 55, borderRadius: 10, margin: 5 }}>
+                  <View style={{ flex: 1.5, justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 16 }}>{dataStudent.stuId}</Text>
+                  </View>
+                  <View style={{ flex: 2.5, justifyContent: 'center' }}>
+                    <Text style={{ fontSize: 16 }}>{dataStudent.name}</Text>
+                  </View>
+                  <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text style={{ fontSize: 16 }}>33.33</Text>
+                  </View>
+                </View> 
+            )
+          })}
+          </View>
+          </ScrollView>
+
       </View>
     );
   }
@@ -150,26 +184,23 @@ CameraScreen.navigationOptions = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'column'
+    backgroundColor: '#f3f3f3',
   },
   containerCamera: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#000000',
+    padding:5,
+    backgroundColor: '#000',
   },
   containerMessage: {
-    flex: 1,
-    paddingTop: 15,
+    padding: 5,
     backgroundColor: '#fff',
   },
-  containerRightHeader: {
-    flex: 1,
-  },
-  textCancel: {
-    fontSize: 18,
-    color: '#fff'
-  },
+  containerStyle: {
+    backgroundColor: '#fd4176',
+    height: 80,
+    justifyContent: 'space-around',
+    borderBottomColor: '#be5f7a',
+    borderBottomWidth: 1,
+},
 });
 
 const mapStatetoProps = state => ({
