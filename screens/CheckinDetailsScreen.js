@@ -19,6 +19,7 @@ export default class CheckinDetailsScreen extends React.Component {
 
       this.state = {
         search:'',
+        date:'18 January 2019',
         dataStudentPresent: [
           { key:'1',studentID: 5905100025, studentName:'Chanathip Nobnom',type:'Face',time:'09.00' },
           { key:'2',studentID: 5905100026, studentName:'Champ Nobnom',type: 'Manual',time:'09.25' },
@@ -41,41 +42,36 @@ export default class CheckinDetailsScreen extends React.Component {
 
   const filteredStudentAbsence = this.state.dataStudentAbsence.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
   const filteredStudentPresent = this.state.dataStudentPresent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
-  const {dataStudent} = this.state;
+ 
 
   return (
     <View style = {styles.container}>
-        <Header
 
-leftComponent={(
-  <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassDetails')}>
-    <Ionicons
-      name='ios-arrow-back'
-      size={35}
-      color='#fff'
-    />
-  </TouchableOpacity>
-)}
-leftContainerStyle={{ flex: 2 }}
-rightComponent={(<Ionicons name='ios-add'
-  size={60}
-  color={'#fff'}
-  onPress={() => { this.props.navigation.navigate('AddCheckin')}}
-/>)}
-rightContainerStyle={{ flex: 1 }}
-centerComponent={(
-    <View style={styles.containerHeader}>
-      <View style={styles.containerTextHeader}>
-        <Text style={styles.textHeader}>Date</Text>
-      </View>
-    </View>
+      <Header
 
-)}
-centerContainerStyle={{ flex: 9 }}
-containerStyle={styles.containerStyle}
-/>
-
-
+          leftComponent={(
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassDetails')}>
+              <Ionicons
+                name='ios-arrow-back'
+                size={45}
+                color='#fff'
+              />
+            </TouchableOpacity>
+          )}
+          rightComponent={(
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddCheckin')}>
+              <Ionicons name='ios-add'
+                size={50}
+                color={'#fff'}
+              />
+            </TouchableOpacity>
+              )}
+    
+          centerComponent={(
+              ({ text: this.state.date, style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })
+          )}
+          containerStyle={styles.containerStyle}
+        />
 
       <SearchBar
       containerStyle={{backgroundColor:'#fff',marginBottom:3}}   
@@ -162,22 +158,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  containerHeader: {
-    flexDirection: 'column',
-  },
-  containerTextHeader: {
-    flex: 2,
-    justifyContent:'center',
-    alignItems: 'center'
-  },
-  textHeader:{
-      color: '#fff',
-      fontSize:36,
-      fontWeight:'bold'
-  },
   containerStyle: {
     backgroundColor: '#fd4176',
-    height:120,
+    height:80,
     justifyContent: 'space-around',
     borderBottomColor: '#be5f7a',
     borderBottomWidth: 1,

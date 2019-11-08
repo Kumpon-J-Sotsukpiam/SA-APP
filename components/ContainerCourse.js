@@ -43,7 +43,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 5,
     padding:3,
-    borderRadius:10
+    borderRadius:10,
+    justifyContent:'center'
   },
   section1: {
     flex: 5,

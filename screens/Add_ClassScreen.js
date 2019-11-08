@@ -36,6 +36,7 @@ class Add_ClassScreen extends React.Component {
       timepickerEnds:false,
       setTimeStarts:getTimeStarts,
       setTimeEnds:getTimeEnds,
+      test:''
     };
     this.updateIndex = this.updateIndex.bind(this)
     this.setTimeStarts = this.setTimeStarts.bind(this);
@@ -59,7 +60,6 @@ updateIndex (selectedWeek) {
 }
 setTimeStarts(newTime) {
   this.setState({ setTimeStarts: newTime });
-  console.log(newTime)
 }
 setTimeEnds(newTime) {
   this.setState({ setTimeEnds: newTime });
@@ -109,7 +109,7 @@ handleOnSave(props) {
     location:location,
     day:selectedWeek,
     startTime:setTimeStarts,
-    endTime:setTimeEnds
+    endTime:setTimeEnds,
   }
   add_class(data,props)
   this.handleNavigationBack()
@@ -120,9 +120,9 @@ showPicker = async (stateKey, options, state) => {
     
     const {action, hour, minute } = await TimePickerAndroid.open(options);
     if (action === TimePickerAndroid.timeSetAction) {
-      var time = new Date(hour , minute);
+      var time = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), hour, minute, 0);
+      console.log(time)
       if (state === 'start'){
-          console.log(time)
           this.setTimeStarts(time)
       } else {
           this.setTimeEnds(time)
@@ -203,7 +203,7 @@ render() {
       onPress={this.showPicker.bind(this, 'spinner', {
         mode: 'spinner',
         hour: 8,
-        minute: 30,
+        minute: 0,
         is24Hour: true,},'start')}>
       <View style={styles.containerDate}>
           <View style={styles.containerTextTime}>
@@ -245,7 +245,11 @@ render() {
       :
       (
         <TouchableOpacity 
-        onPress={this.showPicker.bind(this, 'spinner',{date: this.state.setTimeEnds, mode: 'spinner',hour:8,minute:30,is24Hour: true},'end')}>
+        onPress={this.showPicker.bind(this, 'spinner', {
+          mode: 'spinner',
+          hour: 11,
+          minute: 0,
+          is24Hour: true,},'end')}>
         <View style={styles.containerDate}>
             <View style={styles.containerTextTime}>
             <Text style={styles.timeInput}>Ends</Text>

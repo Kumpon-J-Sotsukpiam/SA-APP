@@ -33,7 +33,7 @@ TodayStack.navigationOptions = {
   tabBarIcon: ({focused}) => (
       <TabBarIcon 
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'}
+      name={'ios-calendar' }
       size={35}
       /> 
   ),
@@ -53,7 +53,7 @@ SemestersStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon 
     focused={focused}
-    name={Platform.OS === 'ios' ? 'ios-book' : 'md-book'}
+    name={'ios-book'}
     />
   ),
 };
@@ -69,9 +69,9 @@ CheckStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
 
     <Ionicons
-    name={Platform.OS === 'ios' ? 'ios-camera' : 'md-camera'}
-    size={77}
-    style={{ marginTop: -5,position:'absolute'}}
+    name={'ios-camera'}
+    size={80}
+    style={{position:'absolute'}}
     color={focused ? '#fd4176' : 'gray'}
     
   />
@@ -92,7 +92,7 @@ StudentsStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
     focused={focused}
-    name={Platform.OS === 'ios' ? 'ios-school' : 'md-school'}
+    name={'ios-school'}
     />
   ),
 };
@@ -110,7 +110,7 @@ SettingsStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon 
     focused={focused}
-    name={Platform.OS === 'ios' ? 'ios-settings' : 'md-settings'}
+    name={'ios-settings'}
     />
   ),
 };

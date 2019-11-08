@@ -55,15 +55,17 @@ export default class Add_StudentListScreen extends React.Component {
   return (
     <View style = {styles.container}>
       <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CheckinDetails')}}>
-                          <Text style={styles.textCancel}>Cancel</Text>
-                        </TouchableOpacity>
-                        )}
-        centerComponent={({ text: 'Add Checkin', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('CheckinDetails')}}>
-                          <Text style={styles.textSave}>Save</Text>
-                        </TouchableOpacity>
-                        )}
+        leftComponent={(
+          <TouchableOpacity onPress={()=>{this.props.navigation.navigate('CheckinDetails')}}>
+            <Text style={styles.textCancel}>Cancel</Text>
+          </TouchableOpacity>
+                      )}
+        centerComponent={({ text: 'Add Check-in', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
+        rightComponent={(
+          <TouchableOpacity onPress={()=>{this.props.navigation.navigate('CheckinDetails')}}>
+            <Text style={styles.textSave}>Save</Text>
+          </TouchableOpacity>
+                       )}
         containerStyle={styles.containerStyle}
       />
         

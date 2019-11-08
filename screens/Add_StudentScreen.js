@@ -5,13 +5,13 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  Button,
   TouchableWithoutFeedback,
   Keyboard,
-  Modal
+  Modal,
+
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Header,Input } from 'react-native-elements';
+import { Header, Button} from 'react-native-elements';
 import { add_student } from '../src/actions/student'
 import { connect } from 'react-redux'
 import { getFaculty, getMajor } from '../src/actions/studentID'
@@ -128,12 +128,14 @@ class Add_StudentScreen extends React.Component {
       <View style={styles.container}>
         <View>
           <Header
-            leftComponent={(<TouchableOpacity onPress={() => { this.props.navigation.navigate('Students') }}>
+            leftComponent={(
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Students') }}>
               <Text style={styles.textCancel}>Cancel</Text>
             </TouchableOpacity>
             )}
             centerComponent={({ text: 'New Student', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
-            rightComponent={(<TouchableOpacity onPress={() => { this.handleOnSave(this.state,this.props) }}>
+            rightComponent={(
+            <TouchableOpacity onPress={() => { this.handleOnSave(this.state,this.props) }}>
               <Text style={styles.textSave}>Save</Text>
             </TouchableOpacity>
             )}
@@ -141,14 +143,10 @@ class Add_StudentScreen extends React.Component {
           />
         </View>
 
-        <View style={{flexDirection:'row',margin: 5,height:115,}}>
 
-        <View style={{
-          flex:2,
-          justifyContent:'center',
-          alignItems:'center'}}>
+      
 
-        <TouchableOpacity onPress={()=> this.toggleVideo()}>
+        <TouchableOpacity style={{justifyContent:'center',margin:10,alignItems:'center'}} onPress={()=> this.toggleVideo()}>
         <View style={{
           borderRadius:55,
           borderColor:'gray',
@@ -170,7 +168,6 @@ class Add_StudentScreen extends React.Component {
           (<Video
             source={{ uri: video }}
             rate={1.0}
-            volume={1.0}
             isMuted={true}
             resizeMode="cover"
             shouldPlay
@@ -180,10 +177,7 @@ class Add_StudentScreen extends React.Component {
           }
           </View>
           </TouchableOpacity>
-
-          </View>
-
-        </View>
+        
 
         <View style={styles.containerTextInput}>
           <TextInput
@@ -230,42 +224,65 @@ class Add_StudentScreen extends React.Component {
             borderRadius:15,
             backgroundColor:'#fff',}}>   
 
-          <View style={{height:50,justifyContent:'center',borderBottomColor:'#f3f3f3',borderBottomWidth:1}}>
+          
           <Button
-            title="Choose Video"
+            title='Choose Video'
+            type='clear'
             onPress={this._pickImage}
+            containerStyle={{
+              backgroundColor:'#fff',
+              height:50,
+              borderTopLeftRadius:15,
+              borderTopRightRadius:15,
+              borderBottomColor:'#f3f3f3',
+              borderBottomWidth:1,
+              justifyContent:'center',
+              justifyContent:'center'
+            }}
           />
-          </View>
+          
 
-          <View style={{height:50,justifyContent:'center',borderBottomColor:'#f3f3f3',borderBottomWidth:1}}>
+          
           <Button
-            title="Record video"
+            title='Record video'
+            type='clear'
             onPress={this._recordVideo}
+            containerStyle={{
+              backgroundColor:'#fff',
+              borderBottomColor:'#f3f3f3',
+              borderBottomWidth:1,
+              height:50,
+              justifyContent:'center'
+            }}
           />
-          </View>
+         
 
           <View style={{height:50,justifyContent:'center'}}>
           <Button
             title="Delete"
-            color='red'
+            type='clear'
             onPress={()=>this.deleteVideo()}
+            containerStyle={{
+              backgroundColor:'#fff',
+              borderBottomLeftRadius:15,
+              borderBottomRightRadius:15,
+              height:50}}
+            titleStyle={{color:'red'}}
           />
           </View>
 
           </View>
 
-          <View style={{
-            marginTop:8,
-            borderRadius:15,
-            backgroundColor:'#fff',
-            height:60,
-            justifyContent:'center'}}>
+      
+
           <Button
             title="Cancel"
-            fontWeight='bold'
+            type='clear'
             onPress={()=>this.toggleVideo()}
+            containerStyle={{backgroundColor:'#fff',borderRadius:15,height:60,justifyContent:'center',marginTop:8}}
+            titleStyle={{fontWeight:'bold'}}
           />
-          </View>
+          
             
           </View>
           </TouchableOpacity>
@@ -290,19 +307,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f3f3f3',
-  },
-  containerHeader: {
-    flexDirection: 'column',
-  },
-  containerTextHeader: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  textHeader: {
-    color: '#fff',
-    fontSize: 36,
-    fontWeight: 'bold'
   },
   textInput: {
     backgroundColor: '#424242',

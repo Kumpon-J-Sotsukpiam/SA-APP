@@ -50,29 +50,26 @@ class StudentListScreen extends React.Component {
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassDetails')}>
               <Ionicons
                 name='ios-arrow-back'
-                size={35}
+                size={45}
                 color='#fff'
               />
             </TouchableOpacity>
           )}
-          leftContainerStyle={{ flex: 2 }}
           rightComponent={(
-            <Ionicons name='ios-add'
-              size={60}
-              color={'#fff'}
-              onPress={() => { this.props.navigation.navigate('AddStudentList', { classId: this.state.class._id }) }}
-            />)}
-          rightContainerStyle={{ flex: 1 }}
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddStudentList', { classId: this.state.class._id })}>
+              <Ionicons name='ios-add'
+                size={50}
+                color={'#fff'}
+              />
+            </TouchableOpacity>
+              )}
+    
           centerComponent={(
-            <View style={styles.containerHeader}>
-              <View style={styles.containerTextHeader}>
-                <Text style={styles.textHeader}>Student List</Text>
-              </View>
-            </View>
+              ({ text: 'Student List', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })
           )}
-          centerContainerStyle={{ flex: 9 }}
           containerStyle={styles.containerStyle}
         />
+
         <SearchBar
           containerStyle={{ backgroundColor: '#fff', marginBottom: 3 }}
           placeholder="Search"
@@ -150,19 +147,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  containerHeader: {
-    flexDirection: 'column',
-  },
-  containerTextHeader: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  textHeader: {
-    color: '#fff',
-    fontSize: 36,
-    fontWeight: 'bold'
-  },
+
   buttonButtom: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -170,7 +155,7 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     backgroundColor: '#fd4176',
-    height: 120,
+    height: 80,
     justifyContent: 'space-around',
     borderBottomColor: '#be5f7a',
     borderBottomWidth: 1,

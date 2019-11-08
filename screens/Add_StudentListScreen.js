@@ -5,16 +5,14 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
-  FlatList,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux'
 import { Header, CheckBox, SearchBar } from 'react-native-elements';
 import { createFilter } from 'react-native-search-filter';
 import { push_student_in_class } from '../src/actions/class'
 
-const KEYS_TO_FILTERS = ['stuId', 'name'];
+const KEYS_TO_FILTERS = ['stuId', 'name','faculty','major'];
+
 class Add_StudentListScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -61,14 +59,14 @@ class Add_StudentListScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          leftComponent={(<TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentList') }}>
-            <Text style={styles.textCancel}>Cancel</Text>
-          </TouchableOpacity>
+          leftComponent={(
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentList') }}>
+              <Text style={styles.textCancel}>Cancel</Text>
+            </TouchableOpacity>
           )}
           centerComponent={({ text: 'Add Student', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
-          rightComponent={(<TouchableOpacity onPress={() => {
-            this.handleOnSave(this.state,this.props)
-          }}>
+          rightComponent={(
+          <TouchableOpacity onPress={() => {this.handleOnSave(this.state,this.props)}}>
             <Text style={styles.textSave}>Save</Text>
           </TouchableOpacity>
           )}
@@ -135,27 +133,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  containerHeader: {
-    flexDirection: 'column',
-  },
-  containerTextHeader: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   textHeader: {
     color: '#fff',
     fontSize: 36,
     fontWeight: 'bold'
-  },
-  textInput: {
-    backgroundColor: '#fff',
-    height: 50,
-    padding: 10,
-    fontSize: 18,
-    color: 'gray',
-    marginTop: 10,
-    textAlign: 'center'
   },
   containerStyle: {
     backgroundColor: '#fd4176',
