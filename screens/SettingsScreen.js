@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Header } from 'react-native-elements';
 import ContainerMenu from '../components/ContainerMenu';
 import DialogBox from '../components/DialogBox';
@@ -18,6 +18,8 @@ class SettingsScreen extends React.Component{
   handleLogout = () => {
     logoutUser(this.props)
   }
+
+
   render(){
     return (
       <View style = {styles.container}>
