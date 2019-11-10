@@ -10,12 +10,14 @@ import { connect } from 'react-redux'
 import { Header } from 'react-native-elements';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
 import { push_model } from '../src/actions/model'
+import DialogBoxAlert from '../components/DialogBoxAlert';
 
 class CheckScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       class: [],
+      alertToggle:false,
       loadingModel:false
     }
     this.handlePushModel = this.handlePushModel.bind(this)
@@ -81,6 +83,15 @@ class CheckScreen extends React.Component {
             )}
           />}
         </ScrollView>
+
+        
+        <DialogBoxAlert
+          visible={this.state.alertToggle}
+          onTouchOutside = {() => this.setState({ alertToggle: false })}
+          okayBtn = {() => this.setState({ alertToggle: false })}
+          alertText={'wow'}
+        />
+
       </View>
     );
   }

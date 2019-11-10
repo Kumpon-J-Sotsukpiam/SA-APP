@@ -5,7 +5,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform
 } from 'react-native';
 
 const ContainerMenu = props => {

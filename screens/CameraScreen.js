@@ -30,6 +30,7 @@ class CameraScreen extends React.Component {
       type: Camera.Constants.Type.front,
       isConnect: false,
       addToggle:false,
+      search:'',
       dataTest:[{_id:'1',stuId:'5905100025',name:'Chanathip Nobnom'},
                 {_id:'2',stuId:'1910511101025',name:'Jiraphat Asavagunchorn'},
                 {_id:'3',stuId:'5905100025',name:'Tanaboon Chutisakkage'},
@@ -179,6 +180,8 @@ class CameraScreen extends React.Component {
           onTouchOutside = {() => this.setState({ addToggle: false })}
           cancelBtn = {() => this.setState({ addToggle: false })}
           confirmBtn ={()=>{}}
+          search={'Test'}
+          onTextChange={{}}
           />
 
       </View>
