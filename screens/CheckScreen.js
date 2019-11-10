@@ -9,15 +9,22 @@ import ContainerClass from '../components/ContainerClass';
 import { connect } from 'react-redux'
 import { Header } from 'react-native-elements';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
+import { push_model } from '../src/actions/model'
 
 class CheckScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      class:[]
+      class: []
     }
+
+    this.handlePushModel = this.handlePushModel.bind(this)
   }
-  componentWillMount(){
+  handlePushModel(_id) {
+    push_model(_id,this.prop)
+    //this.props.navigation.navigate('Camera', { classId: item._id })
+  }
+  componentWillMount() {
     const { semester, course, Class } = this.props
     toDate = new Date()
     semesterNow = semester.filter(i => toDate >= new Date(i.startDate) && toDate <= new Date(i.endDate))
@@ -34,10 +41,10 @@ class CheckScreen extends React.Component {
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
     this.setState({
-      class:ClassNow
+      class: ClassNow
     })
   }
-  
+
 
   render() {
     return (
@@ -51,38 +58,32 @@ class CheckScreen extends React.Component {
 
         <ScrollView>
           {<FlatList
-            data={this.state.class}q
+            data={this.state.class} q
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-                
-                <ContainerClass
-                  course={item.name}
-                  group={item.group}
-                  location={item.location}
-                  day={getDayOfWeek(item.day)}
-                  timeStart={formatTime(item.startTime)}
-                  timeEnd={formatTime(item.endTime)}
-                  students={item.studentList.length}
-                  navigateCamera={() => this.props.navigation.navigate('Camera',{classId:item._id})}
-                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{ classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
-                />
-                
-              
+
+              <ContainerClass
+                course={item.name}
+                group={item.group}
+                location={item.location}
+                day={getDayOfWeek(item.day)}
+                timeStart={formatTime(item.startTime)}
+                timeEnd={formatTime(item.endTime)}
+                students={item.studentList.length}
+                navigateCamera={() => this.handlePushModel(item._id)}
+                navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
+              />
             )}
           />}
         </ScrollView>
-
       </View>
     );
   }
 }
-
-
 CheckScreen.navigationOptions = {
   header: null
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

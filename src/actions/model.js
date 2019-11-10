@@ -1,37 +1,34 @@
-import { LOAD_MODEL, DELETE_MODEL } from './types'
+import { PUSH_MODEL,PULL_MODEL } from './types'
 import { get_erors } from './errors'
 import api from '../modules/api'
 // action Backend 
-export const getModel = data => {
+export const pushModel = data => {
     return {
-        type: LOAD_MODEL,
+        type: PUSH_MODEL,
         payload: data
     }
 }
 
-export const delModel = () => {
+export const pullModel = () => {
     return {
-        type: DELETE_MODEL
+        type: PULL_MODEL
     }
 }
 // action FrontEnd
-export const get_model = async (id, props) => {
-    const { dispatch } = props
-    await api.get(`deep_server/model/${id}`).then(res => {
-        dispatch(getModel(res.data))
+export const push_model = async (id, props) => {
+    //const { dispatch,navigation } = props
+    api.get(`deep_server/model/${id}`).then(res => {
+        console.log(res);
+        //dispatch(getModel(res.data))
+    }).catch(err => {
+        console.log(err.response.data);
     })
-    // .catch(err => {
-    //     dispatch(get_errors(err.response.data))
-    // })
 }
-export const del_model = async (id, props) => {
+export const pull_model = async (id, props) => {
     const { dispatch } = props
     await api.delete(`deep_server/model/${id}`).then(res => {
         dispatch(delModel())
     })
-    // .catch(err => {
-    //     dispatch(get_errors(err.response.data))
-    // })
 }
 export const train_model = async (id) => {
     data = { classId: id }

@@ -1,22 +1,22 @@
-import { LOAD_MODEL,DELETE_MODEL } from '../actions/types'
+import { PUSH_MODEL,PULL_MODEL } from '../actions/types'
 import isEmpty from '../modules/is-empty'
 
 const initialState = {
     semester: {
         status:false,
-        name:''
+        _id:null
     }
 }
 
 export default (state = initialState, actions) => {
     switch (actions.type) {
-        case LOAD_MODEL:
+        case PUSH_MODEL:
             return {
                 status:true,
-                name:actions.payload
+                _id:actions.payload
             }
 
-        case DELETE_MODEL:
+        case PULL_MODEL:
             return initialState.semester
 
         default: return state
