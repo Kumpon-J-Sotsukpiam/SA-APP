@@ -15,13 +15,15 @@ export const pullModel = () => {
     }
 }
 // action FrontEnd
-export const push_model = async (id, props) => {
+export const push_model = async (id, props,cb) => {
     //const { dispatch,navigation } = props
     api.get(`deep_server/model/${id}`).then(res => {
-        console.log(res);
+        cb(res.data)
         //dispatch(getModel(res.data))
     }).catch(err => {
-        console.log(err.response.data);
+        // console.log("this errors")
+        // console.log(err.response.data);
+        cb(err.response.data)
     })
 }
 export const pull_model = async (id, props) => {

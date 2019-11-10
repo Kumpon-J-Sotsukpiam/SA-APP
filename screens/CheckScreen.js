@@ -15,13 +15,20 @@ class CheckScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      class: []
+      class: [],
+      loadingModel:false
     }
-
     this.handlePushModel = this.handlePushModel.bind(this)
   }
   handlePushModel(_id) {
-    push_model(_id,this.prop)
+    this.setState({
+      loadingModel:true
+    })
+    push_model(_id, this.prop,res => {
+      console.log('====================================');
+      console.log(res);
+      console.log('====================================');
+    })
     //this.props.navigation.navigate('Camera', { classId: item._id })
   }
   componentWillMount() {
@@ -44,8 +51,6 @@ class CheckScreen extends React.Component {
       class: ClassNow
     })
   }
-
-
   render() {
     return (
       <View style={styles.container}>
@@ -62,7 +67,6 @@ class CheckScreen extends React.Component {
             refreshing={true}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-
               <ContainerClass
                 course={item.name}
                 group={item.group}
