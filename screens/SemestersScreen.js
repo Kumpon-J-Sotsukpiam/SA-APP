@@ -50,7 +50,7 @@ class SemestersScreen extends React.Component {
           <View style={{ paddingBottom: 5 }}>
             <FlatList
               data={this.props.semester.filter( i => toDate < new Date(i.endDate))}
-              extraData={this.props}
+              extraData={this.props.semester}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={styles.containerSemesterList}>
@@ -77,8 +77,8 @@ class SemestersScreen extends React.Component {
 
             <View style={{ paddingBottom: 5 }}>
             <FlatList
-              ItemSeparatorComponent={this.ListViewItemSeparator}
               data={this.props.semester.filter( i => toDate > new Date(i.endDate))}
+              extraData={this.props.semester}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={styles.containerSemesterList}>

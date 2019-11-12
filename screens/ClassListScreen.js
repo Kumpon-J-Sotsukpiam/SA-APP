@@ -69,7 +69,7 @@ class ClassListScreen extends React.Component {
           <ScrollView>
             <FlatList
               data={this.props.class.filter(i => i.courseId == this.state.course._id)}
-              extraData={this.props}
+              extraData={this.props.class}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={{ margin: 5, backgroundColor: '#fff' }}>

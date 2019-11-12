@@ -96,7 +96,7 @@ class TodayScreen extends React.Component {
           <Heading name={'NOW'}/>
           <FlatList
             data={this.state.Class.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)}
-            extraData={this.state}
+            extraData={this.state.Class}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
@@ -121,7 +121,7 @@ class TodayScreen extends React.Component {
 
           <FlatList
             data={this.state.Class.filter(i => new Date(i.startTime).getTime() > thisTime)}
-            extraData={this.state}
+            extraData={this.state.Class}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>

@@ -27,11 +27,6 @@ class CourseListScreen extends React.Component {
     })
     // await get_course(id,this.props)
   }
-  ListViewItemSeparator = () => {
-    return (
-      <View style={{ backgroundColor: '#000' }} />
-    );
-  };
 
   render() {
     return (
@@ -79,9 +74,8 @@ class CourseListScreen extends React.Component {
           </View>
           <View style={{ paddingBottom: 5 }}>
             <FlatList
-              ItemSeparatorComponent={this.ListViewItemSeparator}
               data={this.props.course.filter(i => i.semesterId == this.state.semester._id)}
-              refreshing={true}
+              extraData={this.props.course}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={styles.containerSemesterList}>
