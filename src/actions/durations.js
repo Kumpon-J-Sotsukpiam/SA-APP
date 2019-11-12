@@ -145,3 +145,38 @@ export const calDurationsDate = (x,y) => {
   }
 
 };
+
+export const diff = (x,y) => {
+  var TimeStart = new Date(x);
+  var TimeEnd = new Date(y);
+
+
+  var diff = TimeEnd.getTime() - TimeStart.getTime();
+  var hours = Math.floor(diff / (1000 * 60 * 60)).toString().padStart(2, '0');
+  diff -= hours * (1000 * 60 * 60);
+  var mins = Math.floor(diff / (1000 * 60)).toString().padStart(2, '0');
+  diff -= mins * (1000 * 60);
+  var sec = Math.floor((diff / (1000 * 60)) / 1000).toString().padStart(2, '0')
+  diff -= sec * (1000 * 60);
+return hours+':'+mins+':'+sec;
+
+};
+
+export const exp = (x,y) => {
+  var TimeStart = new Date(x);
+  var TimeEnd = new Date(y);
+  const currentTime = new Date().getTime()
+
+  var diff = TimeEnd.getTime() - currentTime
+  var hours = Math.floor(diff / (1000 * 60 * 60))
+  diff -= hours * (1000 * 60 * 60);
+  var mins = Math.floor(diff / (1000 * 60))
+  diff -= mins * (1000 * 60);
+  var sec = Math.floor((diff / (1000 * 60)) / 1000)
+  diff -= sec * (1000 * 60);
+
+  var d = hours * 60 * 60 + mins * 60 + sec;
+
+return d;
+
+};

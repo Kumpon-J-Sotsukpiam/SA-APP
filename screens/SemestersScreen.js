@@ -25,11 +25,6 @@ class SemestersScreen extends React.Component {
       students:''
     }
   }
-  ListViewItemSeparator = () => {
-    return (
-      <View style={{ backgroundColor: '#000' }} />
-    );
-  };
 
   render() {
     const toDate = new Date()
@@ -54,8 +49,8 @@ class SemestersScreen extends React.Component {
 
           <View style={{ paddingBottom: 5 }}>
             <FlatList
-              ItemSeparatorComponent={this.ListViewItemSeparator}
               data={this.props.semester.filter( i => toDate < new Date(i.endDate))}
+              extraData={this.props}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={styles.containerSemesterList}>

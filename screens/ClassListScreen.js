@@ -32,11 +32,6 @@ class ClassListScreen extends React.Component {
       semesterID: semesterID,
     })
   }
-  ListViewItemSeparator = () => {
-    return (
-      <View style={{ backgroundColor: '#000' }} />
-    );
-  };
 
   render() {
     return (
@@ -70,12 +65,11 @@ class ClassListScreen extends React.Component {
           centerContainerStyle={{ flex: 9 }}
           containerStyle={styles.containerStyle}
         />
-        <View>
+        
           <ScrollView>
             <FlatList
-              ItemSeparatorComponent={this.ListViewItemSeparator}
               data={this.props.class.filter(i => i.courseId == this.state.course._id)}
-              refreshing={true}
+              extraData={this.props}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <View style={{ margin: 5, backgroundColor: '#fff' }}>
@@ -103,7 +97,7 @@ class ClassListScreen extends React.Component {
               )}
             />
           </ScrollView>
-        </View>
+       
 
       </View>
     );
