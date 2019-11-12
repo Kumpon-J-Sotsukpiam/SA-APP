@@ -19,24 +19,40 @@ export const push_model = async (id, props,cb) => {
     //const { dispatch,navigation } = props
     api.get(`deep_server/model/${id}`).then(res => {
         cb(res.data)
-        //dispatch(getModel(res.data))
     }).catch(err => {
-        // console.log("this errors")
-        // console.log(err.response.data);
         cb(err.response.data)
     })
 }
-export const pull_model = async (id, props) => {
+export const pull_model = async (props,cb) => {
     const { dispatch } = props
-    await api.delete(`deep_server/model/${id}`).then(res => {
-        dispatch(delModel())
+    api.delete(`deep_server/model/${id}`).then(res => {
+        cb(res.data)
     })
 }
-export const train_model = async (id) => {
-    data = { classId: id }
-    await api.post(`deep_server/model`, data).then(res => {
-        console.log(res);
+export const train_model = async (id,cb) => {
+    data = { id: id }
+    api.post(`deep_server/model`, data).then(res => {
+        cb(res.data)
     }).catch(err => {
         console.error(err);
     })
+}
+export const check_status_model = async (_id,cb) => {
+    api.get(`deep_server/model/check/${_id}`).then(res => {
+        cb(res.data)
+    })
+    // .catch(err => {
+        
+    // })
+}
+export const popQueue = async (_id,cb) => {
+    api.delete(`deep_server/model/pop/${_id}`).then(res => {
+        console.log('====================================');
+        console.log(res);
+        console.log('====================================');
+        cb(res.data)
+    })
+    // .catch(err => {
+        
+    // })
 }

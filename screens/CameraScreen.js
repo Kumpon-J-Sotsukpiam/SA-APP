@@ -16,7 +16,7 @@ import * as FaceDetector from 'expo-face-detector'
 import * as ImageManipulator from 'expo-image-manipulator'
 import * as FileSystem from 'expo-file-system'
 import { ip_server, port, server_url } from '../src/config'
-import { get_model, del_model } from '../src/actions/model'
+import { pull_model } from '../src/actions/model'
 import { predict_face, predicted_face } from '../src/actions/predict'
 import { faceDetectorSetting } from '../src/config'
 
@@ -25,22 +25,25 @@ class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      classId: 'vgg_face',
+      classId: null,
       hasCameraPermission: null,
       type: Camera.Constants.Type.front,
       isConnect: false,
-      addToggle:false,
-      search:'',
-      dataTest:[{_id:'1',stuId:'5905100025',name:'Chanathip Nobnom'},
-                {_id:'2',stuId:'1910511101025',name:'Jiraphat Asavagunchorn'},
-                {_id:'3',stuId:'5905100025',name:'Tanaboon Chutisakkage'},
-                {_id:'4',stuId:'5905100025',name:'Kumpom Sodsukpiem'},
-                {_id:'5',stuId:'5905100025',name:'Arisa koonchawa'},
-                {_id:'6',stuId:'5905100025',name:'Chanathip Nobnom'},]
+      addToggle: false,
+      search: '',
+      dataTest: [{ _id: '1', stuId: '5905100025', name: 'Chanathip Nobnom' },
+      { _id: '2', stuId: '1910511101025', name: 'Jiraphat Asavagunchorn' },
+      { _id: '3', stuId: '5905100025', name: 'Tanaboon Chutisakkage' },
+      { _id: '4', stuId: '5905100025', name: 'Kumpom Sodsukpiem' },
+      { _id: '5', stuId: '5905100025', name: 'Arisa koonchawa' },
+      { _id: '6', stuId: '5905100025', name: 'Chanathip Nobnom' },]
     };
   }
   async componentWillMount() {
-    get_model(this.state.classId, this.props)
+    id = this.props.navigation.state.params.classId
+    this.setState({
+      classId: id
+    })
   }
   async componentDidMount() {
     // check permissions camera
@@ -53,11 +56,14 @@ class CameraScreen extends React.Component {
       })
       this.socket.on('connect', () => {
         this.setState({ isConnect: true })
-        predicted_face(this.props,this.socket)
+        predicted_face(this.props, this.socket)
       })
     } else {
       alert('camera permission not granted')
     }
+  }
+  componentWillUnmount(){
+    pull_model(this.props)
   }
   setCamera = (ref) => {
     this.camera = ref
@@ -107,7 +113,7 @@ class CameraScreen extends React.Component {
         classId: this.state.classId,
         authId: this.props.auth.user.id
       }
-      predict_face(data,this.socket)
+      predict_face(data, this.socket)
     }).then(() => {
       FileSystem.deleteAsync(uri).then(e => {
         console.log('delete Success...');
@@ -117,48 +123,43 @@ class CameraScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-
         <View>
-        <Header
-          leftComponent=
-          {(
-          <TouchableOpacity onPress={() => {this.props.navigation.navigate('Check')}}>
-            <Ionicons
-              name='ios-arrow-back'
-              size={45}
-              color='#fff'
-            />
-          </TouchableOpacity>
-          )}
-         
-          rightComponent={(
-            <TouchableOpacity  onPress = {() => this.setState({ addToggle: true })}>
-              <Ionicons name='ios-add'
-                size={50}
-                color={'#fff'}
-              />
-            </TouchableOpacity>
-          )}
-          centerComponent={({ text: 'Camera', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
-          containerStyle={styles.containerStyle}
-        />
+          <Header
+            leftComponent=
+            {(
+              <TouchableOpacity onPress={() => { this.props.navigation.navigate('Check') }}>
+                <Ionicons
+                  name='ios-arrow-back'
+                  size={45}
+                  color='#fff'
+                />
+              </TouchableOpacity>
+            )}
+            rightComponent={(
+              <TouchableOpacity onPress={() => this.setState({ addToggle: true })}>
+                <Ionicons name='ios-add'
+                  size={50}
+                  color={'#fff'}
+                />
+              </TouchableOpacity>
+            )}
+            centerComponent={({ text: 'Camera', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
+            containerStyle={styles.containerStyle}
+          />
         </View>
-        
         <View style={styles.containerCamera}>
           <Camera
             ref={this.setCamera}
-            style={{height:250}}
+            style={{ height: 250 }}
             type={this.state.type}
             onFacesDetected={this.handleFaceDetected}
             faceDetectorSetting={faceDetectorSetting}>
           </Camera>
         </View>
-
-          
         <ScrollView>
           <View>
-          {this.state.dataTest.map(dataStudent => {
-            return (
+            {this.state.dataTest.map(dataStudent => {
+              return (
                 <View key={dataStudent._id} style={{ flexDirection: 'row', padding: 2, backgroundColor: '#fff', height: 55, borderRadius: 10, margin: 5 }}>
                   <View style={{ flex: 1.5, justifyContent: 'center' }}>
                     <Text style={{ fontSize: 16 }}>{dataStudent.stuId}</Text>
@@ -169,20 +170,20 @@ class CameraScreen extends React.Component {
                   <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ fontSize: 16 }}>33.33</Text>
                   </View>
-                </View> 
-            )
-          })}
+                </View>
+              )
+            })}
           </View>
-          </ScrollView>
+        </ScrollView>
 
-          <AddCheckinDialogBox
+        <AddCheckinDialogBox
           visible={this.state.addToggle}
-          onTouchOutside = {() => this.setState({ addToggle: false })}
-          cancelBtn = {() => this.setState({ addToggle: false })}
-          confirmBtn ={()=>{}}
+          onTouchOutside={() => this.setState({ addToggle: false })}
+          cancelBtn={() => this.setState({ addToggle: false })}
+          confirmBtn={() => { }}
           search={'Test'}
           onTextChange={{}}
-          />
+        />
 
       </View>
     );
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f3f3f3',
   },
   containerCamera: {
-    padding:5,
+    padding: 5,
     backgroundColor: '#000',
   },
   containerMessage: {
@@ -212,7 +213,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderBottomColor: '#be5f7a',
     borderBottomWidth: 1,
-},
+  },
 });
 
 const mapStatetoProps = state => ({

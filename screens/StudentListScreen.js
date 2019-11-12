@@ -12,36 +12,73 @@ import Swipeout from 'react-native-swipeout';
 import { createFilter } from 'react-native-search-filter';
 import { connect } from 'react-redux'
 import { pull_student_in_class } from '../src/actions/class'
-import { train_model } from '../src/actions/model'
+import { train_model, check_status_model } from '../src/actions/model'
 const KEYS_TO_FILTERS = ['name', 'stuId'];
-
+class ButtonTrain extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      status: {
+        "-1": { "message": "Train Model" },
+        "0": { "message": "Cancel Train Model" },
+        "1": { "message": "Training Model" },
+        "2": { "message": "Have Model" }
+      }
+    }
+  }
+  render() {
+    const { status, disabled } = this.props
+    return (
+      <Button
+        title={this.state.status[status == undefined ? -1 : status].message}
+        buttonStyle={{ backgroundColor: '#fd4176', height: 50 }}
+        onPress={this.props.onPress}
+        disabled={disabled ? true : status == 1}
+      />
+    )
+  }
+}
 class StudentListScreen extends React.Component {
   constructor(props) {
-    super(props);
-
+    super(props)
     this.state = {
       autoClose: true,
       search: '',
       class: [],
+      status: -1,
     };
     this.trainModel = this.trainModel.bind(this)
   }
-  componentWillMount() {
+  async componentWillMount() {
     const { classId } = this.props.navigation.state.params
     log = this.props.class.filter((i) => i._id === classId)
     this.setState({
       class: log[0]
     })
+    await check_status_model(classId, res => {
+      this.setState({
+        status: res.status
+      })
+    })
   }
   searchUpdated(data) {
     this.setState({ search: data })
   }
-  trainModel(){
-    train_model(this.state.class._id)
+  trainModel(id) {
+    train_model(id,res => {
+      this.setState({
+        status:res.status
+      })
+      console.log('====================================');
+      console.log(this.state);
+      console.log('====================================');
+    })
+  }
+  cancelQueue() {
+    console.log('this cancel train');
   }
   render() {
     //const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
-    
     return (
       <View style={styles.container}>
         <Header
@@ -62,10 +99,10 @@ class StudentListScreen extends React.Component {
                 color={'#fff'}
               />
             </TouchableOpacity>
-              )}
-    
+          )}
+
           centerComponent={(
-              ({ text: 'Student List', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })
+            ({ text: 'Student List', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })
           )}
           containerStyle={styles.containerStyle}
         />
@@ -104,7 +141,7 @@ class StudentListScreen extends React.Component {
                   style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
-                  <TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentLog')}}
+                  <TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentLog') }}
                     style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
                     <View style={{ flex: 2, justifyContent: 'center' }}>
                       <Text style={{ fontSize: 16 }}>{stuId}</Text>
@@ -123,16 +160,25 @@ class StudentListScreen extends React.Component {
           })}
         </ScrollView>
         <View style={styles.buttonButtom}>
-          <Button
-            title="Training Model"
-            buttonStyle={{ backgroundColor: '#fd4176', height: 50 }}
+          <ButtonTrain
+            status={this.state.status}
+            disabled={this.state.class.studentList.length == 0}
             onPress={() => {
-              this.trainModel()
-              //this.props.navigation.navigate('TraingingModel')
-          }}
+              _id = this.state.class._id
+              switch (this.state.status) {
+                case -1:
+                  this.trainModel(_id)
+                  break;
+                case 0:
+                  this.cancelQueue(_id)
+                  break;
+                case 2:
+                  this.trainModel(_id)
+                  break;
+              }
+            }}
           />
         </View>
-
       </View>
     );
   }

@@ -8,18 +8,14 @@ import { logoutUser } from "../src/actions/authentication"
 class SettingsScreen extends React.Component{
   constructor(props){
     super(props)
-
     this.state = {
       resetToggle:false
     }
-
     this.handleLogout = this.handleLogout.bind(this)
   }
   handleLogout = () => {
     logoutUser(this.props)
   }
-
-
   render(){
     return (
       <View style = {styles.container}>

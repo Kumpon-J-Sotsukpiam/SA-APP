@@ -3,6 +3,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  Text,
   FlatList
 } from 'react-native';
 import ContainerClass from '../components/ContainerClass';
@@ -10,28 +11,66 @@ import { connect } from 'react-redux'
 import { Header } from 'react-native-elements';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
 import { push_model } from '../src/actions/model'
-import DialogBoxAlert from '../components/DialogBoxAlert';
-
+import Dialog, { DialogContent, DialogFooter, DialogButton } from 'react-native-popup-dialog';
+class DialogMessage extends React.Component {
+  render() {
+    return (
+      <Dialog
+        containerStyle={{
+          borderColor: '#f3f3f3',
+          borderWidth: 1
+        }}
+        overlayBackgroundColor={'pink'}
+        overlayOpacity={0.8}
+        visible={this.props.visible}
+        onTouchOutside={this.props.onTouchOutside}
+      >
+        <DialogContent style={{
+          backgroundColor: '#ffffff',
+          height: 100,
+          width: "100%",
+          borderColor: '#f3f3f3',
+          borderWidth: 3
+        }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+            <Text style={{ fontSize: 20 }}>{this.props.message}</Text>
+          </View>
+        </DialogContent>
+      </Dialog>
+    )
+  }
+}
 class CheckScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       class: [],
-      alertToggle:false,
-      loadingModel:false
+      alertToggle: false,
+      loading:false,
+      message:""
     }
     this.handlePushModel = this.handlePushModel.bind(this)
   }
   handlePushModel(_id) {
     this.setState({
-      loadingModel:true
+      alertToggle: true,
+      loading:true,
+      message:"Check and Loading Model"
     })
-    push_model(_id, this.prop,res => {
-      console.log('====================================');
-      console.log(res);
-      console.log('====================================');
+    push_model(_id, this.prop, res => {
+      this.setState({
+        message:res.message,
+        loading:false
+      })
+      setTimeout(() => {
+        this.setState({
+          alertToggle:false
+        })
+        if(res.ok){
+          this.props.navigation.navigate('Camera', { classId: _id })
+        }
+      },1000)
     })
-    //this.props.navigation.navigate('Camera', { classId: item._id })
   }
   componentWillMount() {
     const { semester, course, Class } = this.props
@@ -84,14 +123,17 @@ class CheckScreen extends React.Component {
           />}
         </ScrollView>
 
-        
-        <DialogBoxAlert
+        <DialogMessage
           visible={this.state.alertToggle}
-          onTouchOutside = {() => this.setState({ alertToggle: false })}
-          okayBtn = {() => this.setState({ alertToggle: false })}
-          alertText={'wow'}
+          message={this.state.message}
+          onTouchOutside={() => {
+            if(!this.state.loading){
+              this.setState({
+                alertToggle:false
+              })
+            }
+          }}
         />
-
       </View>
     );
   }
