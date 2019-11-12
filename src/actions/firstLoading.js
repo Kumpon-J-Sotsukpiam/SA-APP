@@ -4,6 +4,7 @@ import { getSemester } from './semester'
 import { getCourse } from './course'
 import { getClass } from './class'
 import { getStudent } from './student'
+import { getCheckIn } from './checkIn'
 import api from '../modules/api'
 
 // action FrontEnd
@@ -14,5 +15,6 @@ export const get_first = async (props) => {
         dispatch(getCourse(res.data.course))
         dispatch(getClass(res.data.class))
         dispatch(getStudent(res.data.student))
+        dispatch(getCheckIn(res.data.checkIn))
     })
 }

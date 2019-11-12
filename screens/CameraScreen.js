@@ -26,11 +26,13 @@ class CameraScreen extends React.Component {
     super(props);
     this.state = {
       classId: null,
+      checkId: null,
       hasCameraPermission: null,
       type: Camera.Constants.Type.front,
       isConnect: false,
       addToggle: false,
       search: '',
+      checkIn: [],
       dataTest: [{ _id: '1', stuId: '5905100025', name: 'Chanathip Nobnom' },
       { _id: '2', stuId: '1910511101025', name: 'Jiraphat Asavagunchorn' },
       { _id: '3', stuId: '5905100025', name: 'Tanaboon Chutisakkage' },
@@ -41,8 +43,12 @@ class CameraScreen extends React.Component {
   }
   async componentWillMount() {
     id = this.props.navigation.state.params.classId
+    check_id = this.props.navigation.state.params.checkIn_id
+    log = this.props.checkIn.filter(i => i._id == check_id)
     this.setState({
-      classId: id
+      classId: id,
+      checkId: check_id,
+      checkIn: log[0]
     })
   }
   async componentDidMount() {
@@ -56,13 +62,13 @@ class CameraScreen extends React.Component {
       })
       this.socket.on('connect', () => {
         this.setState({ isConnect: true })
-        predicted_face(this.props, this.socket)
+        predicted_face(this.props, this.socket, this.state.checkId)
       })
     } else {
       alert('camera permission not granted')
     }
   }
-  componentWillUnmount(){
+  componentWillUnmount() {
     pull_model(this.props)
   }
   setCamera = (ref) => {
@@ -111,6 +117,7 @@ class CameraScreen extends React.Component {
         name: uri.split("/").pop(),
         type: 'data:image/jpg;base64',
         classId: this.state.classId,
+        checkId: this.state.checkId,
         authId: this.props.auth.user.id
       }
       predict_face(data, this.socket)
@@ -158,14 +165,18 @@ class CameraScreen extends React.Component {
         </View>
         <ScrollView>
           <View>
-            {this.state.dataTest.map(dataStudent => {
+            {this.props.checkIn.filter(i => i._id == this.state.checkId)[0].studentList.map(dataStudent => {
+              console.log('====================================');
+              const { name ,stuId} = this.props.student.filter(i => i._id == dataStudent._id)[0]
+              console.log(dataStudent,name,stuId);
+              console.log('====================================');
               return (
                 <View key={dataStudent._id} style={{ flexDirection: 'row', padding: 2, backgroundColor: '#fff', height: 55, borderRadius: 10, margin: 5 }}>
                   <View style={{ flex: 1.5, justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 16 }}>{dataStudent.stuId}</Text>
+                    <Text style={{ fontSize: 16 }}>{stuId}</Text>
                   </View>
                   <View style={{ flex: 2.5, justifyContent: 'center' }}>
-                    <Text style={{ fontSize: 16 }}>{dataStudent.name}</Text>
+                    <Text style={{ fontSize: 16 }}>{name}</Text>
                   </View>
                   <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ fontSize: 16 }}>33.33</Text>
@@ -218,6 +229,8 @@ const styles = StyleSheet.create({
 
 const mapStatetoProps = state => ({
   auth: state.auth,
-  model: state.model
+  model: state.model,
+  checkIn: state.checkIn,
+  student: state.student
 })
 export default connect(mapStatetoProps)(CameraScreen)

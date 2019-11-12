@@ -32,7 +32,7 @@ class CheckScreen extends React.Component {
       loading:true,
       message:"Check and Loading Model"
     })
-    push_model(_id, this.prop, res => {
+    push_model(_id, this.props, res => {
       this.setState({
         message:res.message,
         loading:false
@@ -42,7 +42,7 @@ class CheckScreen extends React.Component {
           alertToggle:false
         })
         if(res.ok){
-          this.props.navigation.navigate('Camera', { classId: _id })
+          this.props.navigation.navigate('Camera', { classId: _id,checkIn_id:res.checkIn._id })
         }
       },1000)
     })
@@ -67,8 +67,6 @@ class CheckScreen extends React.Component {
       class: ClassNow
     })
   }
-
-
   handleTime(id,start,end){
     var currentTime = new Date().getTime()
     var endTime = new Date(end).getTime()
@@ -77,23 +75,15 @@ class CheckScreen extends React.Component {
     if(startTime < currentTime && endTime > currentTime ){
 
       return (<CountDown
-
                 id = {id}
-
                 until={exp(startTime,endTime)}
-
                 size={15}
-
                 showSeparator={true}
               />)
     } else {
     return (<View><Text style={{fontWeight:'bold',fontSize:15}}>{diff(startTime,endTime)}</Text></View>)
-             
     }
-
   }
-
-
   render() {
     return (
       <View style={styles.container}>

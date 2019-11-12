@@ -1,4 +1,4 @@
-import { ADD_CHECKIN,DELETE_CHECKIN,GET_CHECKIN} from './types'
+import { ADD_CHECKIN,DELETE_CHECKIN,GET_CHECKIN,PUSH_STUDENT_IN_CHECKIN} from './types'
 import { get_errors } from './errors'
 import api from '../modules/api'
 // action Backend 
@@ -20,6 +20,13 @@ export const delCheckIn = data => {
         payload: data
     }
 }
+export const pushCheckIn = (id,data) => {
+    return {
+        type:PUSH_STUDENT_IN_CHECKIN,
+        id:id, // Object Id of CheckIn (_id)
+        payload:data
+    }
+}
 // action FrontEnd
 export const get_checkIn = (props) => {
     const { dispatch } = props
@@ -31,7 +38,6 @@ export const get_checkIn = (props) => {
 }
 export const add_checkIn = (data,props) => {
     const { dispatch } = props
-    console.log(data);
     api.post('stu/',data).then(res => {
         dispatch(addCheckIn(res.data))
     }).catch(err => {
