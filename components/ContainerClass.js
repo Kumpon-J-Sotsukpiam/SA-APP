@@ -14,6 +14,9 @@ const ContainerClass = props => {
     <View style={styles.container}>
       <TouchableOpacity style={styles.containerClass} onPress={props.navigateClassDetails}>
         <View style={styles.section1}>
+          {props.diff}
+        </View>
+        <View style={styles.section2}>
           <Text style={styles.headerClass}>{props.course}</Text>
           <Text style={styles.textClass}>{props.group}</Text>
           <Text style={styles.textClass}>{props.location}</Text>
@@ -21,7 +24,7 @@ const ContainerClass = props => {
           <Text style={styles.textClass}>Total Student {props.students}</Text>
         </View>
     
-      <View style={styles.section2}>
+      <View style={styles.section3}>
         <IconButton
           icon='camera'
           color='#979797'
@@ -47,27 +50,37 @@ const styles = StyleSheet.create({
     marginRight:5
   },
   containerClass: {
-    backgroundColor: '#fff',
     flexDirection: 'row',
     margin:10
   },
   section1: {
-    flex: 8,
-    backgroundColor: '#fff',
+    flex: 2.5,
+    justifyContent:'center',
+    alignItems:'center',
+    borderRadius:10,
+    borderColor:'gray',
+    borderWidth:2,
+    marginRight:5
   },
   section2: {
-    flex: 2,
-    backgroundColor: '#fff',
+    flex: 6,
+  },
+  section3: {
+    flex: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerClass:{
-    fontSize:20,
+  headerClass: {
+    fontSize:18,
     fontWeight: 'bold',
   },
-  textClass:{
+  textClass: {
     fontSize:16
   },
+  textDiff: {
+    fontSize:16,
+    fontWeight: 'bold',
+  }
   
 });
 

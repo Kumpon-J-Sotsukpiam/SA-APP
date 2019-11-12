@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  FlatList
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Button, SearchBar} from 'react-native-elements';
@@ -74,34 +75,37 @@ class StudentsScreen extends React.Component {
         </View>
 
         <ScrollView>
-          {filteredStudent.map(dataStudent => {
-            return (
-              <View key={dataStudent._id} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>
+            <FlatList
+              data={filteredStudent}
+              extraData={this.props.student}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+              <View key={item._id} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>
                 <Swipeout left={[{
                   text: 'Delete',
                   backgroundColor: 'red',
-                  onPress: () => { del_student(dataStudent._id, this.props)}
+                  onPress: () => { del_student(item._id, this.props)}
                 }]}
                   style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
 
-                  <TouchableOpacity onPress={() => alert(dataStudent.stuId)}
+                  <TouchableOpacity onPress={() => alert(item.stuId)}
                     style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
 
                     <View style={{ flex: 2, justifyContent: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{dataStudent.stuId}</Text>
+                      <Text style={{ fontSize: 16 }}>{item.stuId}</Text>
                     </View>
                     <View style={{ flex: 2.5, justifyContent: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{dataStudent.name}</Text>
+                      <Text style={{ fontSize: 16 }}>{item.name}</Text>
                     </View>
+
                   </TouchableOpacity>
                 </Swipeout>
               </View>
-            )
-          })}
-
-        </ScrollView>
+              )}
+           />
+         </ScrollView>
 
       </View>
     );

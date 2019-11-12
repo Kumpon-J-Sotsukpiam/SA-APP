@@ -2,12 +2,11 @@ import React from 'react';
 import {
   ScrollView,
   StyleSheet,
-  Text,
   View,
-  FlatList
+  FlatList,
+  Text
 } from 'react-native';
 
-import { Header } from 'react-native-elements';
 import { connect } from 'react-redux'
 //action
 import { currentDay, currentMonth, currentDate, currentYear } from '../src/actions/currentdate'
@@ -16,6 +15,8 @@ import ContainerClass from '../components/ContainerClass';
 import HeaderToday from '../components/HeaderToday';
 import Heading from '../components/Heading';
 import { getDayOfWeek, formatTime } from '../src/actions/date'
+import { diff, exp } from '../src/actions/durations'
+import CountDown from 'react-native-countdown-component';
 
 
 class TodayScreen extends React.Component {
@@ -53,6 +54,31 @@ class TodayScreen extends React.Component {
       Class: ClassNow
     })
   }
+
+  handleTime(id,start,end){
+    var currentTime = new Date().getTime()
+    var endTime = new Date(end).getTime()
+    var startTime = new Date(start).getTime()
+
+    if(startTime < currentTime && endTime > currentTime ){
+
+      return (<CountDown
+
+                id = {id}
+
+                until={exp(startTime,endTime)}
+
+                size={15}
+
+                showSeparator={true}
+
+              />)
+    } else {
+      return (<View><Text style={{fontWeight:'bold',fontSize:15}}>{diff(startTime,endTime)}</Text></View>)
+             
+    }
+
+  }
   
   render() {
     return (
@@ -70,10 +96,12 @@ class TodayScreen extends React.Component {
           <Heading name={'NOW'}/>
           <FlatList
             data={this.state.Class.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)}
+            extraData={this.state.Class}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
                 <ContainerClass
+                  diff={this.handleTime(item._id,item.startTime,item.endTime)}
                   course={item.name}
                   group={item.group}
                   location={item.location}
@@ -92,12 +120,13 @@ class TodayScreen extends React.Component {
           <Heading name={'NEXT'}/>
 
           <FlatList
-            ItemSeparatorComponent={this.ListViewItemSeparator}
             data={this.state.Class.filter(i => new Date(i.startTime).getTime() > thisTime)}
+            extraData={this.state.Class}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
                 <ContainerClass
+                  diff={this.handleTime(item._id,item.startTime,item.endTime)}
                   course={item.name}
                   group={item.group}
                   location={item.location}

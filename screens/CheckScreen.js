@@ -10,6 +10,7 @@ import ContainerClass from '../components/ContainerClass';
 import { connect } from 'react-redux'
 import { Header } from 'react-native-elements';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
+import { exp, diff } from '../src/actions/durations'
 import { push_model } from '../src/actions/model'
 import Dialog, { DialogContent, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 class DialogMessage extends React.Component {
@@ -92,6 +93,33 @@ class CheckScreen extends React.Component {
       class: ClassNow
     })
   }
+
+
+  handleTime(id,start,end){
+    var currentTime = new Date().getTime()
+    var endTime = new Date(end).getTime()
+    var startTime = new Date(start).getTime()
+
+    if(startTime < currentTime && endTime > currentTime ){
+
+      return (<CountDown
+
+                id = {id}
+
+                until={exp(startTime,endTime)}
+
+                size={15}
+
+                showSeparator={true}
+              />)
+    } else {
+    return (<View><Text style={{fontWeight:'bold',fontSize:15}}>{diff(startTime,endTime)}</Text></View>)
+             
+    }
+
+  }
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -104,11 +132,12 @@ class CheckScreen extends React.Component {
 
         <ScrollView>
           {<FlatList
-            data={this.state.class} q
-            refreshing={true}
+            data={this.state.class}
+            extraData={this.state}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <ContainerClass
+                diff={this.handleTime(item._id,item.startTime,item.endTime)}
                 course={item.name}
                 group={item.group}
                 location={item.location}
