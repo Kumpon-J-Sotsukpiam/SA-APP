@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import ContainerClass from '../components/ContainerClass';
 import { connect } from 'react-redux'
-import { Header } from 'react-native-elements';
+import { Header, SearchBar} from 'react-native-elements';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
 import { exp, diff } from '../src/actions/durations'
 import { push_model } from '../src/actions/model'
@@ -22,7 +22,8 @@ class CheckScreen extends React.Component {
       class: [],
       alertToggle: false,
       loading:false,
-      message:""
+      message:"",
+      search:'',
     }
     this.handlePushModel = this.handlePushModel.bind(this)
   }
@@ -94,6 +95,17 @@ class CheckScreen extends React.Component {
           />
         </View>
 
+        <View>
+        <SearchBar
+          containerStyle={{ backgroundColor: '#fff', marginBottom: 3 }}
+          placeholder="Search"
+          lightTheme
+          onChangeText={(data) => this.searchUpdated(data)}
+          autoCorrect={false}
+          value={this.state.search}
+        />
+        </View>
+        
         <ScrollView>
           {<FlatList
             data={this.state.class}

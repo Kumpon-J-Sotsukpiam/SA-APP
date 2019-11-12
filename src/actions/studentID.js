@@ -1,3 +1,4 @@
+
 var facultyList = new Array(12);
 facultyList[0] = 'School of Business';
 facultyList[1] = 'School of School of Accountancy';
@@ -20,9 +21,6 @@ science[5] = 'Information and Communication Technology';
 science[6] = 'Digital Technology';
 science[7] = 'Food Innovation';
 science[8] = 'Interdisciplinary Studies';
-
-
-
 
 export const getFaculty = (x) => {
 
