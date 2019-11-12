@@ -1,5 +1,6 @@
 import { PUSH_MODEL,PULL_MODEL } from './types'
 import { get_erors } from './errors'
+import { addCheckIn } from '../actions/checkIn'
 import api from '../modules/api'
 // action Backend 
 export const pushModel = data => {
@@ -16,8 +17,9 @@ export const pullModel = () => {
 }
 // action FrontEnd
 export const push_model = async (id, props,cb) => {
-    //const { dispatch,navigation } = props
+    const { dispatch } = props
     api.get(`deep_server/model/${id}`).then(res => {
+        dispatch(addCheckIn(res.data.checkIn))
         cb(res.data)
     }).catch(err => {
         cb(err.response.data)
