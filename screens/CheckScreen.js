@@ -12,35 +12,9 @@ import { Header } from 'react-native-elements';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
 import { exp, diff } from '../src/actions/durations'
 import { push_model } from '../src/actions/model'
-import Dialog, { DialogContent, DialogFooter, DialogButton } from 'react-native-popup-dialog';
-class DialogMessage extends React.Component {
-  render() {
-    return (
-      <Dialog
-        containerStyle={{
-          borderColor: '#f3f3f3',
-          borderWidth: 1
-        }}
-        overlayBackgroundColor={'pink'}
-        overlayOpacity={0.8}
-        visible={this.props.visible}
-        onTouchOutside={this.props.onTouchOutside}
-      >
-        <DialogContent style={{
-          backgroundColor: '#ffffff',
-          height: 100,
-          width: "100%",
-          borderColor: '#f3f3f3',
-          borderWidth: 3
-        }}>
-          <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-            <Text style={{ fontSize: 20 }}>{this.props.message}</Text>
-          </View>
-        </DialogContent>
-      </Dialog>
-    )
-  }
-}
+import CountDown from 'react-native-countdown-component';
+import DialogBoxAlert from '../components/DialogBoxAlert';
+
 class CheckScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -142,7 +116,7 @@ class CheckScreen extends React.Component {
           />}
         </ScrollView>
 
-        <DialogMessage
+        <DialogBoxAlert
           visible={this.state.alertToggle}
           message={this.state.message}
           onTouchOutside={() => {
