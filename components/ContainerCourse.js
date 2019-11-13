@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   texTotal:{
-    fontSize:12
+    fontSize:16
   }
 
 });
