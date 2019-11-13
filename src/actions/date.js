@@ -23,8 +23,15 @@ export const formatTime = (x) => {
 
   var time = format(new Date(x),"HH:mm")
 
-  return time;
+return time;
 
 }
 
+export const formatDate = (x) => {
+
+  var date = format(new Date(x),"dd MMMM yyyy")
+
+return date;
+
+}
 

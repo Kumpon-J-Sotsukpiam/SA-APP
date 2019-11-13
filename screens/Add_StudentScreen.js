@@ -8,7 +8,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Modal,
-
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Button} from 'react-native-elements';
@@ -29,8 +28,8 @@ class Add_StudentScreen extends React.Component {
       video: null,
       studentID: '',
       studentName: '',
-      faculty:' ',
-      major:' ',
+      faculty:null,
+      major:null,
       toggleVideo:false
     }
     this.handleOnSave = this.handleOnSave.bind(this);
@@ -54,8 +53,6 @@ class Add_StudentScreen extends React.Component {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       base64:true
     });
-
-    console.log(result);
 
     if (!result.cancelled) {
       this.setState({ image: result.uri});
@@ -86,7 +83,7 @@ class Add_StudentScreen extends React.Component {
                     faculty:getFaculty(data),
                     major:getMajor(data)
     });
-
+   
   }
   setStudentName(data) {
     this.setState({ studentName: data });
@@ -94,6 +91,7 @@ class Add_StudentScreen extends React.Component {
 
   setStudentFaculty(data) {
     this.setState({ faculty: data });
+    console.log(this.state.faculty)
   }
 
   setStudentMajor(data) {
@@ -122,6 +120,7 @@ class Add_StudentScreen extends React.Component {
   render() {
 
     let { video } = this.state;
+    
 
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -177,31 +176,47 @@ class Add_StudentScreen extends React.Component {
           }
           </View>
           </TouchableOpacity>
-        
 
         <View style={styles.containerTextInput}>
+          <Text style={styles.labelStyle}>Student ID</Text>
           <TextInput
             placeholderTextColor='gray'
-            placeholder='Student ID'
+            placeholder='Student Identification Number'
             maxLength = {13}
             style={styles.textInput}
             onChangeText={(data) => this.setStudentID(data)}
           />
         </View>
         <View style={styles.containerTextInput}>
+          <Text style={styles.labelStyle}>Student Name</Text>
           <TextInput
             placeholderTextColor='gray'
-            placeholder='Student Name'
+            placeholder='Full Name'
             style={styles.textInput}
             onChangeText={(data) => this.setStudentName(data)}
           />
         </View>
         <View style={styles.containerTextInput}>
-          <Text style={styles.textInput}>Faculty {this.state.faculty}</Text>
-          <Text style={styles.textInput}>Major {this.state.major}</Text>
+          <Text style={styles.labelStyle}>Faculty</Text>
+          <TextInput
+            placeholderTextColor='gray'
+            placeholder='Faculty'
+            style={styles.textInput}
+            value={this.state.faculty}
+            onChangeText={(data) => this.setStudentFaculty(data)}
+          />
         </View>
 
-
+        <View style={styles.containerTextInput}>
+          <Text style={styles.labelStyle}>Major</Text>
+          <TextInput
+            placeholderTextColor='gray'
+            placeholder='Major'
+            style={styles.textInput}
+            value={this.state.major}
+            onChangeText={(data) => this.setStudentFaculty(data)}
+          />
+        </View>
 
       
         <Modal visible={this.state.toggleVideo}
@@ -270,20 +285,16 @@ class Add_StudentScreen extends React.Component {
             titleStyle={{color:'red'}}
           />
           </View>
-
           </View>
-
-      
 
           <Button
             title="Cancel"
             type='clear'
             onPress={()=>this.toggleVideo()}
-            containerStyle={{backgroundColor:'#fff',borderRadius:15,height:60,justifyContent:'center',marginTop:8}}
+            containerStyle={{backgroundColor:'#fff',borderRadius:15,height:60,justifyContent:'center',marginTop:8,borderColor:'#f3f3f3',borderWidth:1}}
             titleStyle={{fontWeight:'bold'}}
           />
-          
-            
+    
           </View>
           </TouchableOpacity>
         </Modal>
@@ -340,8 +351,13 @@ const styles = StyleSheet.create({
   },
   containerTextInput: {
     marginTop: 10,
-    marginLeft: 7,
-    marginRight:7
+    marginLeft: 15,
+    marginRight: 15,
+  },
+  labelStyle: {
+    fontSize: 18,
+    fontWeight:'bold',
+    marginBottom:3
   },
 });
 const mapStateToProps = state => ({
