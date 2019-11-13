@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import ContainerClass from '../components/ContainerClass';
 import { connect } from 'react-redux'
-import { Header, SearchBar} from 'react-native-elements';
+import { Header, SearchBar } from 'react-native-elements';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
 import { exp, diff } from '../src/actions/durations'
 import { push_model } from '../src/actions/model'
@@ -23,34 +23,54 @@ class CheckScreen extends React.Component {
     this.state = {
       class: [],
       alertToggle: false,
-      loading:false,
-      message:"",
-      search:'',
+      loading: false,
+      message: "",
+      search: '',
     }
     this.handlePushModel = this.handlePushModel.bind(this)
   }
   handlePushModel(_id) {
     this.setState({
       alertToggle: true,
-      loading:true,
-      message:"Check and Loading Model"
+      loading: true,
+      message: "Check and Loading Model"
     })
     push_model(_id, this.props, res => {
       this.setState({
-        message:res.message,
-        loading:false
+        message: res.message,
+        loading: false
       })
       setTimeout(() => {
         this.setState({
-          alertToggle:false
+          alertToggle: false
         })
-        if(res.ok){
-          this.props.navigation.navigate('Camera', { classId: _id,checkIn_id:res.checkIn._id })
+        if (res.ok) {
+          this.props.navigation.navigate('Camera', { classId: _id, checkIn_id: res.checkIn._id })
         }
-      },1000)
+      }, 1000)
     })
   }
-  componentWillMount() {
+  searchUpdated(data) {
+    this.setState({ search: data })
+  }
+  handleTime(id, start, end) {
+    var currentTime = new Date().getTime()
+    var endTime = new Date(end).getTime()
+    var startTime = new Date(start).getTime()
+
+    if (startTime < currentTime && endTime > currentTime) {
+
+      return (<CountDown
+        id={id}
+        until={exp(startTime, endTime)}
+        size={15}
+        showSeparator={true}
+      />)
+    } else {
+      return (<View><Text style={{ fontWeight: 'bold', fontSize: 15 }}>{diff(startTime, endTime)}</Text></View>)
+    }
+  }
+  render() {
     const { semester, course, Class } = this.props
     toDate = new Date()
     semesterNow = semester.filter(i => toDate >= new Date(i.startDate) && toDate <= new Date(i.endDate))
@@ -66,35 +86,7 @@ class CheckScreen extends React.Component {
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
-    this.setState({
-      class: ClassNow
-    })
-  }
-  searchUpdated(data) {
-    this.setState({ search: data })
-  }
-  handleTime(id,start,end){
-    var currentTime = new Date().getTime()
-    var endTime = new Date(end).getTime()
-    var startTime = new Date(start).getTime()
-
-    if(startTime < currentTime && endTime > currentTime ){
-
-      return (<CountDown
-                id = {id}
-                until={exp(startTime,endTime)}
-                size={15}
-                showSeparator={true}
-              />)
-    } else {
-    return (<View><Text style={{fontWeight:'bold',fontSize:15}}>{diff(startTime,endTime)}</Text></View>)
-    }
-  }
-  render() {
-    const filterClass = this.state.class.filter(createFilter(this.state.search,KEYS_TO_FILTERS))
-    console.log('====================================');
-    console.log(this.state.class);
-    console.log('====================================');
+    const filterClass = ClassNow.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
         <View>
@@ -105,16 +97,16 @@ class CheckScreen extends React.Component {
         </View>
 
         <View>
-        <SearchBar
-          containerStyle={{ backgroundColor: '#fff', marginBottom: 3 }}
-          placeholder="Search"
-          lightTheme
-          onChangeText={(data) => this.searchUpdated(data)}
-          autoCorrect={false}
-          value={this.state.search}
-        />
+          <SearchBar
+            containerStyle={{ backgroundColor: '#fff', marginBottom: 3 }}
+            placeholder="Search"
+            lightTheme
+            onChangeText={(data) => this.searchUpdated(data)}
+            autoCorrect={false}
+            value={this.state.search}
+          />
         </View>
-        
+
         <ScrollView>
           {<FlatList
             data={filterClass}
@@ -122,7 +114,7 @@ class CheckScreen extends React.Component {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <ContainerClass
-                diff={this.handleTime(item._id,item.startTime,item.endTime)}
+                diff={this.handleTime(item._id, item.startTime, item.endTime)}
                 course={item.name}
                 group={item.group}
                 location={item.location}
@@ -141,9 +133,9 @@ class CheckScreen extends React.Component {
           visible={this.state.alertToggle}
           message={this.state.message}
           onTouchOutside={() => {
-            if(!this.state.loading){
+            if (!this.state.loading) {
               this.setState({
-                alertToggle:false
+                alertToggle: false
               })
             }
           }}
