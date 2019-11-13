@@ -55,31 +55,24 @@ class TodayScreen extends React.Component {
     })
   }
 
-  handleTime(id,start,end){
+  handleTime(id, start, end) {
     var currentTime = new Date().getTime()
     var endTime = new Date(end).getTime()
     var startTime = new Date(start).getTime()
 
-    if(startTime < currentTime && endTime > currentTime ){
+    if (startTime < currentTime && endTime > currentTime) {
 
       return (<CountDown
-
-                id = {id}
-
-                until={exp(startTime,endTime)}
-
-                size={15}
-
-                showSeparator={true}
-
-              />)
+        id={id}
+        until={exp(startTime, endTime)}
+        size={15}
+        showSeparator={true}
+      />)
     } else {
-      return (<View><Text style={{fontWeight:'bold',fontSize:15}}>{diff(startTime,endTime)}</Text></View>)
-             
+      return (<View><Text style={{ fontWeight: 'bold', fontSize: 15 }}>{diff(startTime, endTime)}</Text></View>)
     }
-
   }
-  
+
   render() {
     return (
 
@@ -88,12 +81,14 @@ class TodayScreen extends React.Component {
         <HeaderToday
           name={'Today'}
           day={currentDay()}
-          date={currentDate()+' '+currentMonth()+' '+currentYear()}
+          date={currentDate() + ' ' + currentMonth() + ' ' + currentYear()}
         />
 
 
         <ScrollView>
-          <Heading name={'NOW'}/>
+          {
+            this.state.Class.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime).length > 0 ? <Heading name={'NOW'} /> : null
+          }
           <FlatList
             data={this.state.Class.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)}
             extraData={this.state.Class}
@@ -101,7 +96,7 @@ class TodayScreen extends React.Component {
             renderItem={({ item }) => (
               <View>
                 <ContainerClass
-                  diff={this.handleTime(item._id,item.startTime,item.endTime)}
+                  diff={this.handleTime(item._id, item.startTime, item.endTime)}
                   course={item.name}
                   group={item.group}
                   location={item.location}
@@ -110,14 +105,16 @@ class TodayScreen extends React.Component {
                   timeEnd={formatTime(item.endTime)}
                   students={item.studentList.length}
                   navigateCamera={() => this.props.navigation.navigate('Camera')}
-                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{ classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
+                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
                 />
-                
+
               </View>
             )}
           />
 
-          <Heading name={'NEXT'}/>
+          {
+            this.state.Class.filter(i => new Date(i.startTime).getTime() > thisTime).length > 0 ?<Heading name={'NEXT'} /> : null
+          }
 
           <FlatList
             data={this.state.Class.filter(i => new Date(i.startTime).getTime() > thisTime)}
@@ -126,7 +123,7 @@ class TodayScreen extends React.Component {
             renderItem={({ item }) => (
               <View>
                 <ContainerClass
-                  diff={this.handleTime(item._id,item.startTime,item.endTime)}
+                  diff={this.handleTime(item._id, item.startTime, item.endTime)}
                   course={item.name}
                   group={item.group}
                   location={item.location}
@@ -135,9 +132,9 @@ class TodayScreen extends React.Component {
                   timeEnd={formatTime(item.endTime)}
                   students={item.studentList.length}
                   navigateCamera={() => this.props.navigation.navigate('Camera')}
-                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails',{ classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
+                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
                 />
-                
+
               </View>
             )}
           />
