@@ -12,8 +12,10 @@ import { Header, SearchBar} from 'react-native-elements';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
 import { exp, diff } from '../src/actions/durations'
 import { push_model } from '../src/actions/model'
+import { createFilter } from 'react-native-search-filter';
 import CountDown from 'react-native-countdown-component';
 import DialogBoxAlert from '../components/DialogBoxAlert';
+const KEYS_TO_FILTERS = ['name'];
 
 class CheckScreen extends React.Component {
   constructor(props) {
@@ -68,6 +70,9 @@ class CheckScreen extends React.Component {
       class: ClassNow
     })
   }
+  searchUpdated(data) {
+    this.setState({ search: data })
+  }
   handleTime(id,start,end){
     var currentTime = new Date().getTime()
     var endTime = new Date(end).getTime()
@@ -86,6 +91,10 @@ class CheckScreen extends React.Component {
     }
   }
   render() {
+    const filterClass = this.state.class.filter(createFilter(this.state.search,KEYS_TO_FILTERS))
+    console.log('====================================');
+    console.log(this.state.class);
+    console.log('====================================');
     return (
       <View style={styles.container}>
         <View>
@@ -108,7 +117,7 @@ class CheckScreen extends React.Component {
         
         <ScrollView>
           {<FlatList
-            data={this.state.class}
+            data={filterClass}
             extraData={this.state}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
