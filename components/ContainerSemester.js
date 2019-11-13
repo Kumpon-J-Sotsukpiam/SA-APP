@@ -43,16 +43,16 @@ const styles = StyleSheet.create({
     padding:3
   },
   section1: {
-    flex: 4,
+    flex: 5,
     backgroundColor: '#fff',
     justifyContent:'center'
   },
   section2: {
-    flex: 5,
+    flex: 2,
     justifyContent: 'center',
   },
   section3: {
-    flex: 1,
+    flex: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
   },

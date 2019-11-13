@@ -27,6 +27,14 @@ class CourseListScreen extends React.Component {
     })
   }
 
+  checkClass(data){
+    if(data > 1){
+      return data +' Classes'
+    } else {
+      return data +' Classe'
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -86,7 +94,7 @@ class CourseListScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerCourse
                       course={item.name}
-                      totalClass={'Classes : ' + this.props.class.filter(i => i.courseId == item._id).length}
+                      totalClass={this.checkClass(this.props.class.filter(i => i.courseId == item._id).length)}
                       navigateCourseList={() => this.props.navigation.navigate('ClassList', { courseId: item._id, semesterID: this.state.semester._id })}
                     />
                   </Swipeout>

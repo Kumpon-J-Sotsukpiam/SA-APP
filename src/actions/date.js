@@ -34,8 +34,3 @@ export const formatDate = (x) => {
 return date;
 
 }
-
-export const formatDate = (x) => {
-  var date = format(new Date(x), "dd MMMM yyyy")
-  return date;
-}
