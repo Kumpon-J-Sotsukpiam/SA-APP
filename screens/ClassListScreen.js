@@ -72,7 +72,7 @@ class ClassListScreen extends React.Component {
               extraData={this.props.class}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
-                <View style={{ margin: 5, backgroundColor: '#fff' }}>
+                <View style={styles.containerClassList}>
                   <Swipeout left={[{
                     text: 'Delete',
                     backgroundColor: 'red',
@@ -124,6 +124,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderBottomColor: '#be5f7a',
     borderBottomWidth: 1,
+  },
+  containerClassList: {
+    backgroundColor: '#fff',
+    marginTop: 5,
+    marginRight: 10,
+    marginLeft: 10,
+    borderRadius: 10,
   },
 });
 

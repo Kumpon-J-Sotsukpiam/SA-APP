@@ -26,6 +26,14 @@ class SemestersScreen extends React.Component {
     }
   }
 
+  checkCourse(data){
+    if(data > 1){
+      return data +' Courses'
+    } else {
+      return data +' Course'
+    }
+  }
+
   render() {
     const toDate = new Date()
     return (
@@ -64,7 +72,7 @@ class SemestersScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerSemester
                       semester={item.name}
-                      totalCourse={'Total Course : ' + this.props.course.filter(i => i.semesterId == item._id).length}
+                      totalCourse={this.checkCourse(this.props.course.filter(i => i.semesterId == item._id).length)}
                       navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
                     />
                   </Swipeout>
@@ -92,7 +100,7 @@ class SemestersScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerSemester
                       semester={item.name}
-                      totalCourse={'Total Course : ' + this.props.course.filter(i => i.semesterId == item._id).length}
+                      totalCourse={this.checkCourse(this.props.course.filter(i => i.semesterId == item._id).length)}
                       navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
                     />
                   </Swipeout>

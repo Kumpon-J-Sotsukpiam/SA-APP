@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
     
   },
   section2: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'center',
   },
   section3: {
-    flex: 1,
+    flex: 0.5,
     alignItems: 'center',
     justifyContent: 'center',
   },
