@@ -9,7 +9,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
-import { getDayOfWeek, formatTime } from "../src/actions/date"
+import { getDayOfWeek, formatTime,formatDate } from "../src/actions/date"
 import ContainerCheckinList from '../components/ContainerCheckinList';
 import { connect } from 'react-redux'
 var getDate = new Date();
@@ -19,8 +19,7 @@ class ClassDetailsScreen extends React.Component {
     this.state = {
       courseId: '',
       semesterId: '',
-      class: [],
-      checkIn:[]
+      class: []
     };
   }
   async componentWillMount() {
@@ -31,7 +30,6 @@ class ClassDetailsScreen extends React.Component {
       class: log[0],
       semesterId: semesterId,
       courseId: courseId,
-      dataTest:[{date:'18 January 2019',total:'Total : 18'},{date:'29 March 2019',total:'Total : 15'}]
     })
   }
   render() {
@@ -41,26 +39,25 @@ class ClassDetailsScreen extends React.Component {
       <View style={styles.container}>
         <Header
           leftComponent={(
-            
-              <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList', { courseId: this.state.courseId, semesterID: this.state.semesterId })}>
-                  <Ionicons
-                    name='ios-arrow-back'
-                    size={45}
-                    color='#fff'
-                  />
-              </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassList', { courseId: this.state.courseId, semesterID: this.state.semesterId })}>
+              <Ionicons
+                name='ios-arrow-back'
+                size={45}
+                color='#fff'
+              />
+            </TouchableOpacity>
           )}
 
           centerComponent={(
             <View>
-            <Text style={styles.textGroup}>{group}</Text>
-            <Text style={styles.textLocation}>{location}</Text>
-            <Text style={styles.textDetails}>Total Student {studentList.length}</Text>
-            <Text style={styles.textDetails}>{getDayOfWeek(day)} , {formatTime(startTime)} - {formatTime(endTime)}</Text>
-            <Text style={styles.textDetails}>Durations : {calDurationsTime(startTime, endTime)}</Text>
+              <Text style={styles.textGroup}>{group}</Text>
+              <Text style={styles.textLocation}>{location}</Text>
+              <Text style={styles.textDetails}>Total Student {studentList.length}</Text>
+              <Text style={styles.textDetails}>{getDayOfWeek(day)} , {formatTime(startTime)} - {formatTime(endTime)}</Text>
+              <Text style={styles.textDetails}>Durations : {calDurationsTime(startTime, endTime)}</Text>
             </View>
           )}
-          centerContainerStyle={{flex: 8,alignItems:'flex-start'}}
+          centerContainerStyle={{ flex: 8, alignItems: 'flex-start' }}
 
           rightComponent={(
             <TouchableOpacity onPress={() => this.props.navigation.navigate('EditClass', { classID: 'Class ID' })}>
@@ -74,7 +71,7 @@ class ClassDetailsScreen extends React.Component {
           containerStyle={styles.containerStyle}
         />
 
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentList',{classId:this.state.class._id})}>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentList', { classId: this.state.class._id })}>
           <View style={styles.containerStudentList}>
             <View style={styles.headleftSection1}>
               <Text style={styles.textHead}>Student List</Text>
@@ -95,21 +92,21 @@ class ClassDetailsScreen extends React.Component {
 
         <View style={styles.containerClassList}>
 
-        <FlatList
-        ItemSeparatorComponent={this.ListViewItemSeparator}
-        data={this.state.dataTest}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
-            <View style={styles.containerCheckinList}>  
-            <ContainerCheckinList
-                dateCheckin={item.date}
-                student={item.total}
-                navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails')}
-            />
-            </View>
-             )}
-             />
-            
+          <FlatList
+            ItemSeparatorComponent={this.ListViewItemSeparator}
+            data={this.props.checkIn.filter(i => i.classId == this.state.class._id)}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.containerCheckinList}>
+                <ContainerCheckinList
+                  dateCheckin={formatDate(item.createdAt)+" / "+formatTime(item.createdAt)}
+                  student={item.studentList.length}
+                  navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails',{checkInId:item._id})}
+                />
+              </View>
+            )}
+          />
+
         </View>
       </View>
     );
@@ -156,7 +153,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 35
   },
-  containerStyle:{
+  containerStyle: {
     backgroundColor: '#fd4176',
     height: 140,
     justifyContent: 'space-around',
@@ -165,10 +162,10 @@ const styles = StyleSheet.create({
   },
   containerCheckinList: {
     backgroundColor: '#fff',
-    marginTop:5,
-    marginRight:10,
-    marginLeft:10,
-    borderRadius:10,
+    marginTop: 5,
+    marginRight: 10,
+    marginLeft: 10,
+    borderRadius: 10,
   },
   textGroup: {
     color: '#fff',
