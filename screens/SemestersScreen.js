@@ -44,9 +44,9 @@ class SemestersScreen extends React.Component {
           containerStyle={styles.containerStyle}
         />
         <ScrollView>
-
-          <Heading name={'CURRENT'} />
-
+          {
+            this.props.semester.filter(i => toDate < new Date(i.endDate)).length > 0 ? <Heading name={'CURRENT'} /> : null
+          }
           <View style={{ paddingBottom: 5 }}>
             <FlatList
               data={this.props.semester.filter(i => toDate < new Date(i.endDate))}
@@ -72,9 +72,9 @@ class SemestersScreen extends React.Component {
               )}
             />
           </View>
-
-          <Heading name={'PAST'} />
-
+          {
+            this.props.semester.filter(i => toDate > new Date(i.endDate)).length > 0 ? <Heading name={'PAST'} /> : null
+          }
           <View style={{ paddingBottom: 5 }}>
             <FlatList
               data={this.props.semester.filter(i => toDate > new Date(i.endDate))}
