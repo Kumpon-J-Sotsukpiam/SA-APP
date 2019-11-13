@@ -69,9 +69,6 @@ class StudentListScreen extends React.Component {
       this.setState({
         status:res.status
       })
-      console.log('====================================');
-      console.log(this.state);
-      console.log('====================================');
     })
   }
   cancelQueue() {
@@ -82,7 +79,6 @@ class StudentListScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-
           leftComponent={(
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassDetails')}>
               <Ionicons
@@ -100,7 +96,6 @@ class StudentListScreen extends React.Component {
               />
             </TouchableOpacity>
           )}
-
           centerComponent={(
             ({ text: 'Student List', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })
           )}

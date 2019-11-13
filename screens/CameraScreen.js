@@ -28,17 +28,11 @@ class CameraScreen extends React.Component {
       classId: null,
       checkId: null,
       hasCameraPermission: null,
-      type: Camera.Constants.Type.front,
+      type: Camera.Constants.Type.back,
       isConnect: false,
       addToggle: false,
       search: '',
-      checkIn: [],
-      dataTest: [{ _id: '1', stuId: '5905100025', name: 'Chanathip Nobnom' },
-      { _id: '2', stuId: '1910511101025', name: 'Jiraphat Asavagunchorn' },
-      { _id: '3', stuId: '5905100025', name: 'Tanaboon Chutisakkage' },
-      { _id: '4', stuId: '5905100025', name: 'Kumpom Sodsukpiem' },
-      { _id: '5', stuId: '5905100025', name: 'Arisa koonchawa' },
-      { _id: '6', stuId: '5905100025', name: 'Chanathip Nobnom' },]
+      checkIn: []
     };
   }
   async componentWillMount() {
