@@ -22,7 +22,7 @@ class SemestersScreen extends React.Component {
     super(props)
     this.state = {
       autoClose: true,
-      students:''
+      students: ''
     }
   }
 
@@ -38,18 +38,18 @@ class SemestersScreen extends React.Component {
               color={'#fff'}
               onPress={() => { this.props.navigation.navigate('AddSemester') }}
             />
-          
+
           )}
-          rightContainerStyle={{justifyContent:'center'}}
+          rightContainerStyle={{ justifyContent: 'center' }}
           containerStyle={styles.containerStyle}
         />
         <ScrollView>
-          
-          <Heading name={'CURRENT'}/>
-
+          {
+            this.props.semester.filter(i => toDate < new Date(i.endDate)).length > 0 ? <Heading name={'CURRENT'} /> : null
+          }
           <View style={{ paddingBottom: 5 }}>
             <FlatList
-              data={this.props.semester.filter( i => toDate < new Date(i.endDate))}
+              data={this.props.semester.filter(i => toDate < new Date(i.endDate))}
               extraData={this.props.semester}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
@@ -64,7 +64,7 @@ class SemestersScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerSemester
                       semester={item.name}
-                      students={'Total Course'+this.state.students}
+                      totalCourse={'Total Course : ' + this.props.course.filter(i => i.semesterId == item._id).length}
                       navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
                     />
                   </Swipeout>
@@ -72,12 +72,12 @@ class SemestersScreen extends React.Component {
               )}
             />
           </View>
-          
-          <Heading name={'PAST'}/>
-
-            <View style={{ paddingBottom: 5 }}>
+          {
+            this.props.semester.filter(i => toDate > new Date(i.endDate)).length > 0 ? <Heading name={'PAST'} /> : null
+          }
+          <View style={{ paddingBottom: 5 }}>
             <FlatList
-              data={this.props.semester.filter( i => toDate > new Date(i.endDate))}
+              data={this.props.semester.filter(i => toDate > new Date(i.endDate))}
               extraData={this.props.semester}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
@@ -92,16 +92,16 @@ class SemestersScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerSemester
                       semester={item.name}
-                      totalCourse={'Total Course'}
+                      totalCourse={'Total Course : ' + this.props.course.filter(i => i.semesterId == item._id).length}
                       navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
-                      />
-                      </Swipeout>
-                    </View>
-                  )}
-                />
-              </View>
-            
-          
+                    />
+                  </Swipeout>
+                </View>
+              )}
+            />
+          </View>
+
+
 
         </ScrollView>
       </View>
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  semester: state.semester
+  semester: state.semester,
+  course: state.course
 })
 export default connect(mapStateToProps)(SemestersScreen)

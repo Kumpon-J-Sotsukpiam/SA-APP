@@ -13,7 +13,7 @@ import { createFilter } from 'react-native-search-filter';
 import { connect } from 'react-redux'
 import { pull_student_in_class } from '../src/actions/class'
 import { train_model, check_status_model } from '../src/actions/model'
-const KEYS_TO_FILTERS = ['name', 'stuId'];
+const KEYS_TO_FILTERS = ['stuId', 'name','faculty','major'];
 class ButtonTrain extends React.Component {
   constructor(props) {
     super(props)
@@ -69,20 +69,17 @@ class StudentListScreen extends React.Component {
       this.setState({
         status:res.status
       })
-      console.log('====================================');
-      console.log(this.state);
-      console.log('====================================');
     })
   }
   cancelQueue() {
     console.log('this cancel train');
   }
   render() {
-    //const filteredStudent = this.state.dataStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
+    const propsStudent = this.props.student.filter(i => this.state.class.studentList.indexOf(i._id >= 0))
+    const filteredStudent = propsStudent.filter(createFilter(this.state.search,KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
         <Header
-
           leftComponent={(
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassDetails')}>
               <Ionicons
@@ -100,7 +97,6 @@ class StudentListScreen extends React.Component {
               />
             </TouchableOpacity>
           )}
-
           centerComponent={(
             ({ text: 'Student List', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })
           )}
@@ -129,8 +125,8 @@ class StudentListScreen extends React.Component {
         </View>
 
         <ScrollView>
-          {this.state.class.studentList.map(dataStudent => {
-            const { _id, name, stuId } = this.props.student.filter(i => i._id == dataStudent)[0]
+          {filteredStudent.map(dataStudent => {
+            const { _id, name, stuId } = dataStudent
             return (
               <View key={_id} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>
                 <Swipeout left={[{

@@ -25,7 +25,6 @@ class CourseListScreen extends React.Component {
     this.setState({
       semester: log[0]
     })
-    // await get_course(id,this.props)
   }
 
   render() {
@@ -51,8 +50,6 @@ class CourseListScreen extends React.Component {
               />
             </TouchableOpacity>
           )}
-          
-
           centerComponent={(
             <TouchableOpacity onPress={() => { this.props.navigation.navigate('EditSemester', { semesterID: this.state.semester.semesterID }) }}>
               <View style={styles.containerHeader}>
@@ -89,7 +86,7 @@ class CourseListScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerCourse
                       course={item.name}
-                      totalClass={'Classes'}
+                      totalClass={'Classes : ' + this.props.class.filter(i => i.courseId == item._id).length}
                       navigateCourseList={() => this.props.navigation.navigate('ClassList', { courseId: item._id, semesterID: this.state.semester._id })}
                     />
                   </Swipeout>
@@ -151,6 +148,7 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = state => ({
   semester: state.semester,
-  course: state.course
+  course: state.course,
+  class: state.class
 })
 export default connect(mapStateToProps)(CourseListScreen)
