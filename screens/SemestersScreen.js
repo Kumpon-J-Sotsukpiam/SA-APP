@@ -92,7 +92,7 @@ class SemestersScreen extends React.Component {
                     backgroundColor='transparent'>
                     <ContainerSemester
                       semester={item.name}
-                      totalCourse={'Total Course'}
+                      totalCourse={'Total Course : ' + this.props.course.filter(i => i.semesterId == item._id).length}
                       navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
                     />
                   </Swipeout>
