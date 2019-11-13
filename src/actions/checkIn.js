@@ -30,7 +30,7 @@ export const pushCheckIn = (id,data) => {
 // action FrontEnd
 export const get_checkIn = (props) => {
     const { dispatch } = props
-    api.get('stu/').then(res => {
+    api.get('checkIn/').then(res => {
         dispatch(getCheckIn(res.data))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
@@ -38,15 +38,23 @@ export const get_checkIn = (props) => {
 }
 export const add_checkIn = (data,props) => {
     const { dispatch } = props
-    api.post('stu/',data).then(res => {
+    api.post('checkIn/',data).then(res => {
         dispatch(addCheckIn(res.data))
     }).catch(err => {
         dispatch(get_errors(err.response.data))
     })
 }
+export const push_student_in_checkIn = (data,props) => {
+    const { dispatch } = props
+    api.put(`checkIn/stu/${data.checkInId}`,{stuList:data.stuList}).then(res => {
+        res.data.data.map(v => {
+            dispatch(pushCheckIn(data.checkInId,v))
+        })
+    })
+}
 export const del_checkIn = (id,props) => {
     const { dispatch } = props
-    api.get(`check/${id}`).then(res => {
+    api.get(`checkIn/${id}`).then(res => {
         dispatch(getCheckIn(res.data))
     }).catch(err => {
         dispatch(get_errors(err.response.data))

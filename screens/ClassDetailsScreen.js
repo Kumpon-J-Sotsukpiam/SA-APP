@@ -34,7 +34,6 @@ class ClassDetailsScreen extends React.Component {
   }
   render() {
     const { _id, courseId, day, endTime, group, location, startTime, studentList } = this.state.class
-
     return (
       <View style={styles.container}>
         <Header
@@ -101,7 +100,7 @@ class ClassDetailsScreen extends React.Component {
                 <ContainerCheckinList
                   dateCheckin={formatDate(item.createdAt)+" / "+formatTime(item.createdAt)}
                   student={item.studentList.length}
-                  navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails',{checkInId:item._id})}
+                  navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails',{checkInId:item._id,createdAt:item.createdAt})}
                 />
               </View>
             )}

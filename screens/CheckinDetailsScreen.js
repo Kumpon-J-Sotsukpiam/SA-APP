@@ -19,28 +19,15 @@ class CheckinDetailsScreen extends React.Component {
 
     this.state = {
       search: '',
-      checkIn: [],
-      date: '18 January 2019',
-      dataStudentPresent: [
-        { key: '1', studentID: 5905100025, studentName: 'Chanathip Nobnom', type: 'Face', time: '09.00' },
-        { key: '2', studentID: 5905100026, studentName: 'Champ Nobnom', type: 'Manual', time: '09.25' },
-        { key: '3', studentID: 5915100026, studentName: 'Chanathip Moochamp', type: 'Face', time: '09.00' },
-        { key: '4', studentID: 1100500589302, studentName: 'Champ Iix', type: 'Face', time: '09.10' },
-      ],
-      dataStudentAbsence: [
-        { key: '1', studentID: 5905100025, studentName: 'Chanathip Nobnom', type: 'Face', time: '09.00' },
-        { key: '2', studentID: 5905100026, studentName: 'Champ Nobnom', type: 'Manual', time: '09.25' },
-        { key: '3', stdentID: 5915100026, studentName: 'Chanathip Moochamp', type: 'Face', time: '09.00' },
-        { key: '4', studentID: 1100500589302, studentName: 'Champ Iix', type: 'Face', time: '09.10' },
-      ],
+      checkIn: []
     };
   }
   searchUpdated(data) {
     this.setState({ search: data })
   }
   async componentWillMount() {
-    const { checkInId } = this.props.navigation.state.params
-    log = this.props.checkIn.filter(i => i._id = checkInId)
+    const { checkInId,createdAt } = this.props.navigation.state.params
+    log = this.props.checkIn.filter(i => (i._id == checkInId && i.createdAt == createdAt))
     this.setState({
       checkIn: log[0]
     })
@@ -52,9 +39,10 @@ class CheckinDetailsScreen extends React.Component {
     const propsStudentIdAbsenec = propStudentAllOfClass.filter(i => propsStudentIdPresent.indexOf(i) < 0)
     studentListAbsenec = this.props.student.filter(i => propsStudentIdAbsenec.indexOf(i._id) >= 0)
     studentListPresent = this.props.student.filter(i => {
-      if (propsStudentIdPresent.indexOf(i._id) >= 0) {
-        i['type'] = this.state.checkIn.studentList.filter(v => v._id = i._id)[0].type
-        i['time'] = this.state.checkIn.studentList.filter(v => v._id = i._id)[0].time
+      if(propsStudentIdPresent.indexOf(i._id) >= 0){
+        const {type,time} = this.state.checkIn.studentList.filter(v => v._id == i._id)[0]
+        i['type'] = type
+        i['time'] = time
         return i
       }
     })
@@ -73,7 +61,7 @@ class CheckinDetailsScreen extends React.Component {
             </TouchableOpacity>
           )}
           rightComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddCheckin')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddCheckin', { checkInId: this.state.checkIn._id })}>
               <Ionicons name='ios-add'
                 size={50}
                 color={'#fff'}
