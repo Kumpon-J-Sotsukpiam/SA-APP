@@ -13,7 +13,7 @@ import { createFilter } from 'react-native-search-filter';
 import { connect } from 'react-redux'
 import { pull_student_in_class } from '../src/actions/class'
 import { train_model, check_status_model } from '../src/actions/model'
-const KEYS_TO_FILTERS = ['stuId', 'name','faculty','major'];
+const KEYS_TO_FILTERS = ['stuId', 'name', 'faculty', 'major'];
 class ButtonTrain extends React.Component {
   constructor(props) {
     super(props)
@@ -65,9 +65,9 @@ class StudentListScreen extends React.Component {
     this.setState({ search: data })
   }
   trainModel(id) {
-    train_model(id,res => {
+    train_model(id, res => {
       this.setState({
-        status:res.status
+        status: res.status
       })
     })
   }
@@ -76,7 +76,7 @@ class StudentListScreen extends React.Component {
   }
   render() {
     const propsStudent = this.props.student.filter(i => this.state.class.studentList.indexOf(i._id >= 0))
-    const filteredStudent = propsStudent.filter(createFilter(this.state.search,KEYS_TO_FILTERS))
+    const filteredStudent = propsStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
         <Header
@@ -137,7 +137,7 @@ class StudentListScreen extends React.Component {
                   style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
-                  <TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentLog') }}
+                  <TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentLog', { classId: this.state.class._id, stuId: _id }) }}
                     style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
                     <View style={{ flex: 2, justifyContent: 'center' }}>
                       <Text style={{ fontSize: 16 }}>{stuId}</Text>

@@ -35,6 +35,9 @@ class CameraScreen extends React.Component {
       checkIn: []
     };
   }
+  searchUpdated(data) {
+    this.setState({ search: data })
+  }
   async componentWillMount() {
     id = this.props.navigation.state.params.classId
     check_id = this.props.navigation.state.params.checkIn_id
@@ -185,9 +188,9 @@ class CameraScreen extends React.Component {
           visible={this.state.addToggle}
           onTouchOutside={() => this.setState({ addToggle: false })}
           cancelBtn={() => this.setState({ addToggle: false })}
-          confirmBtn={() => { }}
-          search={'Test'}
-          onTextChange={{}}
+          confirmBtn={() => {}}
+          search={this.state.search}
+          onChangeText={data => this.searchUpdated(data)}
         />
 
       </View>
