@@ -21,6 +21,19 @@ import { predict_face, predicted_face } from '../src/actions/predict'
 import { faceDetectorSetting } from '../src/config'
 
 const io = require('socket.io-client')
+/*
+Unrecognized WebSocket connection option(s) 
+  `agent`, 
+  `perMessageDeflate`, 
+  `pfx`, 
+  `key`, 
+  `passphrase`, 
+  `cert`, 
+  `ca`, 
+  `ciphers`, 
+  `rejectUnauthorized`. 
+Did you mean to put these under `headers`?
+*/
 class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -66,64 +79,29 @@ class CameraScreen extends React.Component {
     }
   }
   componentWillUnmount() {
-    pull_model(this.props)
+    pull_model(this.props, res => {
+    })
   }
   setCamera = (ref) => {
     this.camera = ref
   }
   handleFaceDetected = async ({ faces }) => {
-    if (faces.length > 0) this.taskPicture()
-  }
-  taskPicture = async () => { // todo del
-    option = {
-      captureAudio: false
+    if (faces.length > 0) {
+      const { base64 } = await this.camera.takePictureAsync({base64:true}) // Object {"height","uri","width"}
+      this.onUploadPicture(base64)
     }
-    if (this.camera)
-      this.camera.takePictureAsync(option).then(picture => {
-        this.faceDetection(picture)
-      })
   }
-  faceDetection = async ({ uri }) => {
-    FaceDetector.detectFacesAsync(uri, faceDetectorSetting).then(faceArray => {
-      const { faces, image } = faceArray
-      if (faces.length > 0) {
-        faces.map((value, i) => {
-          const { origin, size } = value.bounds
-          actions = [{
-            crop: {
-              originX: origin.x,
-              originY: origin.y,
-              width: size.width,
-              height: size.height
-            }
-          }]
-          ImageManipulator.manipulateAsync(image.uri, actions, { format: ImageManipulator.SaveFormat.JPEG }).then(v => {
-            this.onUploadPicture(v.uri)
-          })
-        })
-      }
-    })
-  }
-  onUploadPicture = async (uri) => {
-    options = {
-      encoding: FileSystem.EncodingType.Base64
+  onUploadPicture = (base64) => {
+    data = {
+      Base64: base64,
+      type: 'data:image/jpg;base64',
+      classId: this.state.classId,
+      checkId: this.state.checkId,
+      authId: this.props.auth.user.id
     }
-    FileSystem.readAsStringAsync(uri, options).then(v => {
-      data = {
-        Base64: v,
-        name: uri.split("/").pop(),
-        type: 'data:image/jpg;base64',
-        classId: this.state.classId,
-        checkId: this.state.checkId,
-        authId: this.props.auth.user.id
-      }
-      predict_face(data, this.socket)
-    }).then(() => {
-      FileSystem.deleteAsync(uri).then(e => {
-        console.log('delete Success...');
-      })
-    })
+    predict_face(data, this.socket)
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -163,10 +141,7 @@ class CameraScreen extends React.Component {
         <ScrollView>
           <View>
             {this.props.checkIn.filter(i => i._id == this.state.checkId)[0].studentList.map(dataStudent => {
-              console.log('====================================');
-              const { name ,stuId} = this.props.student.filter(i => i._id == dataStudent._id)[0]
-              console.log(dataStudent,name,stuId);
-              console.log('====================================');
+              const { name, stuId } = this.props.student.filter(i => i._id == dataStudent._id)[0]
               return (
                 <View key={dataStudent._id} style={{ flexDirection: 'row', padding: 2, backgroundColor: '#fff', height: 55, borderRadius: 10, margin: 5 }}>
                   <View style={{ flex: 1.5, justifyContent: 'center' }}>
@@ -188,7 +163,7 @@ class CameraScreen extends React.Component {
           visible={this.state.addToggle}
           onTouchOutside={() => this.setState({ addToggle: false })}
           cancelBtn={() => this.setState({ addToggle: false })}
-          confirmBtn={() => {}}
+          confirmBtn={() => { }}
           search={this.state.search}
           onChangeText={data => this.searchUpdated(data)}
         />

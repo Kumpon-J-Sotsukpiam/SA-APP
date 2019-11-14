@@ -49,9 +49,6 @@ export const check_status_model = async (_id,cb) => {
 }
 export const popQueue = async (_id,cb) => {
     api.delete(`deep_server/model/pop/${_id}`).then(res => {
-        console.log('====================================');
-        console.log(res);
-        console.log('====================================');
         cb(res.data)
     })
     // .catch(err => {
