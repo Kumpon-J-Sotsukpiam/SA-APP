@@ -12,11 +12,12 @@ import TodayScreen from '../screens/TodayScreen'
 import CourseListScreen from "../screens/CourseListScreen";
 import SemestersScreen from '../screens/SemestersScreen';
 
-
 // Check Stack
 import CheckScreen from '../screens/CheckScreen';
 
+// Student Stack
 import StudentsScreen from '../screens/StudentsScreen';
+
 import SettingsScreen from '../screens/SettingsScreen';
 
 
@@ -83,6 +84,7 @@ CheckStack.path = '';;
 const StudentsStack = createStackNavigator(
   {
     Students: StudentsScreen,
+  
   },
   
 );
