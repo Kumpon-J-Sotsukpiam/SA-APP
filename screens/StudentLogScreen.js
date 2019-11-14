@@ -64,7 +64,7 @@ class StudentLogScreen extends React.Component {
         }
       })
     })
-    const percentage = (history.length/this.state.checkIn.length)*100
+    const percentage = (history.length/this.state.checkIn.length)*100||0
     return (
       <View style={styles.container}>
         <HeaderCheckinLog
