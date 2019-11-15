@@ -39,8 +39,12 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     flexDirection: 'row',
-    margin: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
     padding:3,
+    borderRadius:10,
+    justifyContent:'center'
   },
   section1: {
     flex: 5,
