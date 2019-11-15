@@ -179,75 +179,100 @@ class Edit_ClassScreen extends React.Component {
             />
           </View>
 
-          <TouchableOpacity onPress={() => this.showTimePickerStarts()}>
-            <View style={styles.containerDate}>
-              <View style={styles.containerTextTime}>
-                <Text style={styles.timeInput}>Starts</Text>
+          {Platform.OS === 'ios' ? (
+            <TouchableOpacity onPress={() => this.showTimePickerStarts()}>
+              <View style={styles.containerDate}>
+                <View style={styles.containerTextTime}>
+                  <Text style={styles.timeInput}>Starts</Text>
+                </View>
+                <View style={styles.containerShowTime}>
+                  <Text style={styles.showTime}>{format(this.state.setTimeStarts, 'HH:mm')}</Text>
+                </View>
               </View>
-              <View style={styles.containerShowTime}>
-                <Text style={styles.showTime}>{format(this.state.setTimeStarts, 'HH:mm')}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          )
+            :
+            (
+              <TouchableOpacity
+                onPress={this.showPicker.bind(this, 'spinner', {
+                  mode: 'spinner',
+                  hour: 8,
+                  minute: 0,
+                  is24Hour: true,
+                }, 'start')}>
+                <View style={styles.containerDate}>
+                  <View style={styles.containerTextTime}>
+                    <Text style={styles.timeInput}>Starts</Text>
+                  </View>
+                  <View style={styles.containerShowTime}>
+                    <Text style={styles.showTime}>{format(this.state.setTimeStarts, 'HH:mm')}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )}
 
-          <View style={styles.containerInputTime}>
 
-            {Platform.OS === 'ios' ? this.state.timepickerStarts &&
-              (
+
+          {this.state.timepickerStarts &&
+            (
+              <View style={styles.containerInputTime}>
                 <DatePickerIOS
                   date={this.state.setTimeStarts}
                   onDateChange={this.setTimeStarts}
                   mode='time'
                   minuteInterval='10'
                 />
-              ) :
-              this.state.timepickerStarts &&
-              (
-                <Text>Wait</Text>
-              )
-            }
-          </View>
+              </View>
+            )}
 
-          <TouchableOpacity onPress={() => this.showTimePickerEnds()}>
-            <View style={styles.containerDate}>
-              <View style={styles.containerTextTime}>
-                <Text style={styles.timeInput}>Ends</Text>
+          {Platform.OS === 'ios' ? (
+            <TouchableOpacity onPress={() => this.showTimePickerEnds()}>
+              <View style={styles.containerDate}>
+                <View style={styles.containerTextTime}>
+                  <Text style={styles.timeInput}>Ends</Text>
+                </View>
+                <View style={styles.containerShowTime}>
+                  <Text style={styles.showTime}>{format(this.state.setTimeEnds, 'HH:mm')}</Text>
+                </View>
               </View>
-              <View style={styles.containerShowTime}>
-                <Text style={styles.showTime}>{format(this.state.setTimeEnds, 'HH:mm')}</Text>
-              </View>
+            </TouchableOpacity>
+          )
+            :
+            (
+              <TouchableOpacity
+                onPress={this.showPicker.bind(this, 'spinner', {
+                  mode: 'spinner',
+                  hour: 11,
+                  minute: 0,
+                  is24Hour: true,
+                }, 'end')}>
+                <View style={styles.containerDate}>
+                  <View style={styles.containerTextTime}>
+                    <Text style={styles.timeInput}>Ends</Text>
+                  </View>
+                  <View style={styles.containerShowTime}>
+                    <Text style={styles.showTime}>{format(this.state.setTimeEnds, 'HH:mm')}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            )}
+
+
+          {this.state.timepickerEnds && (
+            <View style={styles.containerInputTime}>
+              <DatePickerIOS
+                date={this.state.setTimeEnds}
+                onDateChange={this.setTimeEnds}
+                mode='time'
+                minuteInterval='10'
+                minimumDate={this.state.setTimeStarts}
+              />
             </View>
-          </TouchableOpacity>
+          )}
 
-          <View style={styles.containerInputTime}>
-            {this.state.timepickerEnds &&
-              (
-                <DatePickerIOS
-                  date={this.state.setTimeEnds}
-                  onDateChange={this.setTimeEnds}
-                  mode='time'
-                  minuteInterval='10'
-                  minimumDate={this.state.setTimeStarts}
-                />
-              )}
 
-            {Platform.OS === 'ios' ? this.state.timepickerEnds &&
-              (
-                <DatePickerIOS
-                  date={this.state.setTimeEnds}
-                  onDateChange={this.setTimeEnds}
-                  mode='time'
-                  minuteInterval='10'
-                  minimumDate={this.state.setTimeStarts}
-                />
-              ) :
-              this.state.timepickerEnds &&
-              (
-                <Text>Wait</Text>
-              )
-            }
 
-          </View>
+          
           <View style={styles.containerDurations}>
             <Text>Durations : {calDurationsTime(this.state.setTimeStarts, this.state.setTimeEnds)}</Text>
           </View>
