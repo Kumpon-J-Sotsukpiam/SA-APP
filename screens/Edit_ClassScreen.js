@@ -9,294 +9,324 @@ import {
   DatePickerIOS,
   Platform
 } from 'react-native';
-import { Header, ButtonGroup} from 'react-native-elements';
+import { Header, ButtonGroup } from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
-
+import { connect } from 'react-redux'
+import { set_class } from '../src/actions/class'
 //Date
 import { format } from 'date-fns'
-
 
 var getDate = new Date();
 var getTimeStarts = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 8, 0, 0);
 var getTimeEnds = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), 11, 0, 0);
 
-
-export default class Edit_ClassScreen extends React.Component {
-   constructor(props) {
+class Edit_ClassScreen extends React.Component {
+  constructor(props) {
     super(props);
 
     this.state = {
-      classID:this.props.navigation.state.params.classID,
-      courseID:'Course ID',
-      group:'Group',
-      location:'Location',
-      selectedWeek:'',
-      timepickerStarts:false,
-      timepickerEnds:false,
-      setTimeStarts:getTimeStarts,
-      setTimeEnds:getTimeEnds,
+      classId: null,
+      courseId: '',
+      semesterId: '',
+      group: null,
+      location: null,
+      selectedWeek: 0,
+      timepickerStarts: false,
+      timepickerEnds: false,
+      setTimeStarts: null,
+      setTimeEnds: null,
     };
+    this.handleChange = this.handleChange.bind(this)
     this.updateIndex = this.updateIndex.bind(this)
     this.setTimeStarts = this.setTimeStarts.bind(this);
     this.setTimeEnds = this.setTimeEnds.bind(this);
-    this.setClassGroup = this.setClassGroup.bind(this);
-    this.setClassLocation = this.setClassLocation.bind(this);
-}
-
-setClassGroup(group){
-  this.setState({ semesterName:group });
-}
-
-setClassLocation(location){
-  this.setState({ semesterName:location });
-}
-
-updateIndex (selectedWeek) {
-  this.setState({selectedWeek})
-}
-
-setTimeStarts(newTime) {
-  this.setState({ setTimeStarts: newTime });
-}
-setTimeEnds(newTime) {
-  this.setState({ setTimeEnds: newTime });
-}
- 
-showTimePickerStarts(){
-  this.setState({
-    timepickerStarts:!this.state.timepickerStarts
-  })
-
-  if(this.state.timepickerEnds===true){
-     this.setState({
-    timepickerEnds:false
-  })
   }
-}
-
-showTimePickerEnds(){
-
-  this.setState({
-    timepickerEnds:!this.state.timepickerEnds
-  })
-
-  if(this.state.timepickerStarts===true){
-     this.setState({
-    timepickerStarts:false
-  })
+  async componentWillMount() {
+    const { classId, semesterId, courseId } = this.props.navigation.state.params
+    const { day, endTime, group, startTime, location } = this.props.class.filter(i => i._id == classId)[0]
+    console.log('====================================');
+    console.log({ day, endTime, group, startTime, location });
+    console.log('====================================');
+    this.setState({
+      classId: classId,
+      selectedWeek: parseInt(day),
+      group, location, semesterId , courseId,
+      location: location,
+      setTimeStarts: new Date(startTime),
+      setTimeEnds: new Date(endTime)
+    })
   }
-}
-
-hideTimePicker(){
-  if(this.state.timepickerStarts===true){
-     this.setState({
-    timepickerStarts:false
-  })
-  }
-  if(this.state.timepickerEnds===true){
-     this.setState({
-    timepickerEnds:false
-  })
+  updateIndex(selectedWeek) {
+    this.setState({ selectedWeek })
   }
 
-}
+  setTimeStarts(newTime) {
+    this.setState({ setTimeStarts: newTime });
+  }
+  setTimeEnds(newTime) {
+    this.setState({ setTimeEnds: newTime });
+  }
 
-render() {
-  const buttons = ['Mon', 'Tue', 'Wed','Thu','Fri','Sat','Sun']
-    
-  return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-    <View style = {styles.container}>
-      <Header
-        leftComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassDetails')}}>
-                          <Text style={styles.textCancel}>Cancel</Text>
-                        </TouchableOpacity>
-                        )}
-        centerComponent={({ text: 'Edit Class', style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
-        rightComponent={(<TouchableOpacity onPress={()=>{this.props.navigation.navigate('ClassDetails')}}>
-                          <Text style={styles.textSave}>Save</Text>
-                        </TouchableOpacity>
-                        )}
-        containerStyle={{
-          backgroundColor: '#fd4176',
-          height:80,
-          justifyContent: 'space-around',
-          borderBottomColor: '#be5f7a',
-          borderBottomWidth: 1,
-        }}
-      />
-      <View style={styles.containerTextInput}>
-        <TextInput
-        placeholder={this.state.group}
-        style={styles.textInput}
-        onFocus={()=>this.hideTimePicker()}
-        onChangeText={this.setClassGroup}
-        />
-      </View>
-      <View style={styles.containerTextInput}>
-        <TextInput
-        placeholder={this.state.location}
-        style={styles.textInput}
-        onFocus={()=>this.hideTimePicker()}
-        onChangeText={this.setClassLocation}
-        />
-      </View>
+  showTimePickerStarts() {
+    this.setState({
+      timepickerStarts: !this.state.timepickerStarts
+    })
 
-      <View style={styles.containerSelectedWeek}>
-      <ButtonGroup
-      onPress={this.updateIndex}
-      selectedIndex={this.state.selectedWeek}
-      buttons={buttons}
-      containerStyle={styles.selectedWeek}
-      selectedTextStyle={{fontWeight:'bold',fontSize:18}}
-      selectedButtonStyle={{backgroundColor:'#6e635b'}}
-      />
-    </View>
+    if (this.state.timepickerEnds === true) {
+      this.setState({
+        timepickerEnds: false
+      })
+    }
+  }
 
-    <TouchableOpacity onPress={()=>this.showTimePickerStarts()}>
-      <View style={styles.containerDate}>
-          <View style={styles.containerTextTime}>
-          <Text style={styles.timeInput}>Starts</Text>
-          </View>
-          <View style={styles.containerShowTime}>
-          <Text style={styles.showTime}>{format(this.state.setTimeStarts,'HH:mm')}</Text>
-        </View>
-      </View>
-      </TouchableOpacity>
+  showTimePickerEnds() {
 
-    <View style={styles.containerInputTime}>
+    this.setState({
+      timepickerEnds: !this.state.timepickerEnds
+    })
 
-      {Platform.OS === 'ios' ? this.state.timepickerStarts &&
-        (
-          <DatePickerIOS
-          date={this.state.setTimeStarts}
-          onDateChange={this.setTimeStarts}
-          mode='time'
-          minuteInterval='10'
+    if (this.state.timepickerStarts === true) {
+      this.setState({
+        timepickerStarts: false
+      })
+    }
+  }
+
+  hideTimePicker() {
+    if (this.state.timepickerStarts === true) {
+      this.setState({
+        timepickerStarts: false
+      })
+    }
+    if (this.state.timepickerEnds === true) {
+      this.setState({
+        timepickerEnds: false
+      })
+    }
+
+  }
+  handleChange = (name, e) => {
+    this.setState({
+      [name]: e
+    })
+  }
+  handleOnSave = () => {
+    const { classId, selectedWeek, group, location, setTimeStarts, setTimeEnds } = this.state
+    data = {
+      day: selectedWeek,
+      group, location,
+      startTime: setTimeStarts,
+      endTime: setTimeEnds
+    }
+    set_class(classId, data, this.props).then(() => {
+      setTimeout(() => {
+        this.props.navigation.navigate('ClassDetails',{ courseId: this.state.courseId, semesterId: this.state.semesterId,classId:this.state.classId })
+      },1000)
+    })
+  }
+  
+  render() {
+    const buttons = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+    return (
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={styles.container}>
+          <Header
+            leftComponent={(<TouchableOpacity onPress={() => { this.props.navigation.navigate('ClassDetails') }}>
+              <Text style={styles.textCancel}>Cancel</Text>
+            </TouchableOpacity>
+            )}
+            centerComponent={({ text: 'Edit Class', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })}
+            rightComponent={(<TouchableOpacity onPress={this.handleOnSave}>
+              <Text style={styles.textSave}>Save</Text>
+            </TouchableOpacity>
+            )}
+            containerStyle={{
+              backgroundColor: '#fd4176',
+              height: 80,
+              justifyContent: 'space-around',
+              borderBottomColor: '#be5f7a',
+              borderBottomWidth: 1,
+            }}
           />
-        ) : 
-        this.state.timepickerStarts &&
-        ( 
-          <Text>Wait</Text>
-        ) 
-        }
-    </View>
-
-    <TouchableOpacity onPress={()=>this.showTimePickerEnds()}>
-      <View style={styles.containerDate}>
-          <View style={styles.containerTextTime}>
-          <Text style={styles.timeInput}>Ends</Text>
+          <View style={styles.containerTextInput}>
+            <TextInput
+              placeholder='Group'
+              value={this.state.group}
+              style={styles.textInput}
+              onFocus={() => this.hideTimePicker()}
+              onChangeText={e => { this.handleChange('group', e) }}
+            />
           </View>
-          <View style={styles.containerShowTime}>
-          <Text style={styles.showTime}>{format(this.state.setTimeEnds,'HH:mm')}</Text>
+          <View style={styles.containerTextInput}>
+            <TextInput
+              placeholder='Location'
+              style={styles.textInput}
+              value={this.state.location}
+              onFocus={() => this.hideTimePicker()}
+              onChangeText={e => { this.handleChange('location', e) }}
+            />
+          </View>
+
+          <View style={styles.containerSelectedWeek}>
+            <ButtonGroup
+              onPress={this.updateIndex}
+              selectedIndex={this.state.selectedWeek}
+              buttons={buttons}
+              containerStyle={styles.selectedWeek}
+              selectedTextStyle={{ fontWeight: 'bold', fontSize: 18 }}
+              selectedButtonStyle={{ backgroundColor: '#6e635b' }}
+            />
+          </View>
+
+          <TouchableOpacity onPress={() => this.showTimePickerStarts()}>
+            <View style={styles.containerDate}>
+              <View style={styles.containerTextTime}>
+                <Text style={styles.timeInput}>Starts</Text>
+              </View>
+              <View style={styles.containerShowTime}>
+                <Text style={styles.showTime}>{format(this.state.setTimeStarts, 'HH:mm')}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <View style={styles.containerInputTime}>
+
+            {Platform.OS === 'ios' ? this.state.timepickerStarts &&
+              (
+                <DatePickerIOS
+                  date={this.state.setTimeStarts}
+                  onDateChange={this.setTimeStarts}
+                  mode='time'
+                  minuteInterval='10'
+                />
+              ) :
+              this.state.timepickerStarts &&
+              (
+                <Text>Wait</Text>
+              )
+            }
+          </View>
+
+          <TouchableOpacity onPress={() => this.showTimePickerEnds()}>
+            <View style={styles.containerDate}>
+              <View style={styles.containerTextTime}>
+                <Text style={styles.timeInput}>Ends</Text>
+              </View>
+              <View style={styles.containerShowTime}>
+                <Text style={styles.showTime}>{format(this.state.setTimeEnds, 'HH:mm')}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+
+          <View style={styles.containerInputTime}>
+            {this.state.timepickerEnds &&
+              (
+                <DatePickerIOS
+                  date={this.state.setTimeEnds}
+                  onDateChange={this.setTimeEnds}
+                  mode='time'
+                  minuteInterval='10'
+                  minimumDate={this.state.setTimeStarts}
+                />
+              )}
+
+            {Platform.OS === 'ios' ? this.state.timepickerEnds &&
+              (
+                <DatePickerIOS
+                  date={this.state.setTimeEnds}
+                  onDateChange={this.setTimeEnds}
+                  mode='time'
+                  minuteInterval='10'
+                  minimumDate={this.state.setTimeStarts}
+                />
+              ) :
+              this.state.timepickerEnds &&
+              (
+                <Text>Wait</Text>
+              )
+            }
+
+          </View>
+          <View style={styles.containerDurations}>
+            <Text>Durations : {calDurationsTime(this.state.setTimeStarts, this.state.setTimeEnds)}</Text>
+          </View>
+
+
         </View>
-      </View>
-      </TouchableOpacity>
-
-    <View style={styles.containerInputTime}>
-    {this.state.timepickerEnds &&
-        (
-        <DatePickerIOS
-          date={this.state.setTimeEnds}
-          onDateChange={this.setTimeEnds}
-          mode='time'
-          minuteInterval='10'
-          minimumDate={this.state.setTimeStarts}
-        />
-    )}
-
-      {Platform.OS === 'ios' ? this.state.timepickerEnds &&
-        (
-          <DatePickerIOS
-          date={this.state.setTimeEnds}
-          onDateChange={this.setTimeEnds}
-          mode='time'
-          minuteInterval='10'
-          minimumDate={this.state.setTimeStarts}
-        />
-        ) : 
-        this.state.timepickerEnds &&
-        ( 
-        <Text>Wait</Text>
-        ) 
-        }
-
-    </View>
-    <View style={styles.containerDurations}>
-    <Text>Durations : {calDurationsTime(this.state.setTimeStarts,this.state.setTimeEnds)}</Text>
-    </View>
-    
-
-    </View>
-    </TouchableWithoutFeedback>
-  );
-}
+      </TouchableWithoutFeedback>
+    );
+  }
 }
 
 Edit_ClassScreen.navigationOptions = {
-  header:null
+  header: null
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f3f3f3',
-  }, 
+  },
   textCancel: {
-    fontSize:18,
-    color:'#fff'
+    fontSize: 18,
+    color: '#fff'
   },
   textSave: {
-    fontSize:18,
-    color:'#fff'
+    fontSize: 18,
+    color: '#fff'
   },
   textInput: {
-    backgroundColor:'#fff',
-    height:50,
+    backgroundColor: '#fff',
+    height: 50,
     padding: 10,
-    fontSize:18
+    fontSize: 18
   },
   containerTextInput: {
-    marginTop:10,
+    marginTop: 10,
   },
   selectedWeek: {
-    height:50,
-    margin:-5
+    height: 50,
+    margin: -5
   },
   containerSelectedWeek: {
-    marginTop:10,
-    backgroundColor:'#fd4176',
+    marginTop: 10,
+    backgroundColor: '#fd4176',
   },
-  containerInputTime:{
-    flexWrap:'wrap',
+  containerInputTime: {
+    flexWrap: 'wrap',
     backgroundColor: '#fff',
   },
   containerTextTime: {
-    flex:2,
-    justifyContent:'center'
+    flex: 2,
+    justifyContent: 'center'
   },
   containerShowTime: {
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center' 
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   showTime: {
-    fontSize:18,
-    color:'gray',
+    fontSize: 18,
+    color: 'gray',
   },
   timeInput: {
-    fontSize:18,
+    fontSize: 18,
   },
   containerDate: {
-    fontSize:18,
-    backgroundColor:'#fff',
-    height:50,
+    fontSize: 18,
+    backgroundColor: '#fff',
+    height: 50,
     marginTop: 8,
-    padding:10,
-    flexDirection:'row',
-    justifyContent:'center'
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   containerDurations: {
-    margin:5
+    margin: 5
   },
 });
+const mapStateToProps = state => ({
+  class: state.class
+})
+export default connect(mapStateToProps)(Edit_ClassScreen)

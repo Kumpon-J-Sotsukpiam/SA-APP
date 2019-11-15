@@ -45,24 +45,10 @@ class Add_StudentScreen extends React.Component {
     }
   }
   _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      base64: true
-    });
-    options = {
-      encoding: FileSystem.EncodingType.Base64
-    }
-    FileSystem.readAsStringAsync(result.uri, options).then(v => {
-      data = {
-        Base64: v,
-        type: 'data:video/mp4;base64',
-      }
-      console.log('====================================');
-      console.log(v);
-      console.log('====================================');
-    })
+    let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Videos});
+    //Object {"cancelled","duration","height","rotation","type","uri","width"}
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ image: result });
     }
   };
   _recordVideo = async () => {
@@ -70,9 +56,6 @@ class Add_StudentScreen extends React.Component {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       base64: true
     });
-    console.log('====================================');
-    console.log(result);
-    console.log('====================================');
     if (!result.cancelled) {
       this.setState({ toggleVideo: false });
       this.setState({ video: result.uri });
@@ -103,10 +86,11 @@ class Add_StudentScreen extends React.Component {
       stuId: this.state.studentID,
       name: this.state.studentName,
       faculty: this.state.faculty,
-      major: this.state.major
+      major: this.state.major,
+      image:this.state.image
     }
     add_student(dataReq, this.props)
-    this.props.navigation.navigate('Students')
+    //this.props.navigation.navigate('Students')
   }
   toggleVideo() {
     this.setState({ toggleVideo: !this.state.toggleVideo })

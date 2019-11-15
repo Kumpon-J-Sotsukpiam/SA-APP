@@ -25,7 +25,9 @@ class ClassDetailsScreen extends React.Component {
   async componentWillMount() {
     const { classId, courseId, semesterId } = this.props.navigation.state.params
     log = this.props.class.filter((i) => i._id === classId)
-
+    console.log('====================================');
+    console.log(log[0]);
+    console.log('====================================');
     this.setState({
       class: log[0],
       semesterId: semesterId,
@@ -59,7 +61,7 @@ class ClassDetailsScreen extends React.Component {
           centerContainerStyle={{ flex: 8, alignItems: 'flex-start' }}
 
           rightComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditClass', { classID: 'Class ID' })}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditClass', { classId:this.state.class._id,courseId:courseId,semesterId:semesterId })}>
               <Ionicons name='ios-settings'
                 size={30}
                 color={'#fff'}
