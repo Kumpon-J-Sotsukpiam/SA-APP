@@ -1,4 +1,4 @@
-import { ADD_SEMESTER,GET_SEMESTER,DELETE_SEMESTER,SET_SEMESTER } from '../actions/types'
+import { ADD_SEMESTER, GET_SEMESTER, DELETE_SEMESTER, SET_SEMESTER } from '../actions/types'
 import isEmpty from '../modules/is-empty'
 
 const initialState = {
@@ -14,14 +14,17 @@ export default (state = initialState, actions) => {
             ]
         case GET_SEMESTER:
             return actions.payload
-            
-        case DELETE_SEMESTER:
-            return  state.filter((i) => i._id !== actions.id)
-            
-        case SET_SEMESTER:
-            return {
 
-            }
+        case DELETE_SEMESTER:
+            return state.filter((i) => i._id !== actions.id)
+
+        case SET_SEMESTER:
+            stateFilter = state.filter(i => i._id == actions.id)[0]
+            const { name, startDate, endDate } = actions.payload
+            stateFilter.name = name
+            stateFilter.startDate = startDate
+            stateFilter.endDate = endDate
+            return state
         default: return state
     }
 };

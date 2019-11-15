@@ -117,13 +117,10 @@ class Edit_ClassScreen extends React.Component {
       endTime: setTimeEnds
     }
     set_class(classId, data, this.props).then(() => {
-      setTimeout(() => {
-        this.handleBack()
-      },1000)
+      this.handleBack()
     })
   }
   handleBack = () => {
-    
     this.props.navigation.navigate('ClassDetails',{
       courseId: this.state.courseId,
       semesterId: this.state.semesterId,
@@ -131,9 +128,6 @@ class Edit_ClassScreen extends React.Component {
   }
   render() {
     const buttons = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    console.log('====================================');
-    console.log(this.state);
-    console.log('====================================');
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>

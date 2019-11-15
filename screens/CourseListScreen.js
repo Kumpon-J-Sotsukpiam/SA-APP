@@ -15,12 +15,15 @@ class CourseListScreen extends React.Component {
     super(props);
     this.state = {
       autoClose: true,
-      semester: {},
+      semester: [],
       course: []
     };
   }
   async componentWillMount() {
-    id = this.props.navigation.state.params.semesterID
+    id = this.props.navigation.state.params.semesterId
+    console.log('====================================');
+    console.log(this.props.navigation.state.params);
+    console.log('====================================');
     log = this.props.semester.filter((i) => i._id === id)
     this.setState({
       semester: log[0]
@@ -51,7 +54,7 @@ class CourseListScreen extends React.Component {
           )}
 
           rightComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddCourse', { semesterID: this.state.semester._id })}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddCourse', { semesterId: this.state.semester._id })}>
             <Ionicons name={'ios-add'}
               size={50}
               color={'#fff'}
@@ -59,7 +62,7 @@ class CourseListScreen extends React.Component {
             </TouchableOpacity>
           )}
           centerComponent={(
-            <TouchableOpacity onPress={() => { this.props.navigation.navigate('EditSemester', { semesterID: this.state.semester.semesterID }) }}>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('EditSemester', { semesterId: this.state.semester._id }) }}>
               <View style={styles.containerHeader}>
                 <View style={styles.containerTextHeader}>
                   <Text style={styles.textHeader}>{this.state.semester.name}</Text>
@@ -95,7 +98,7 @@ class CourseListScreen extends React.Component {
                     <ContainerCourse
                       course={item.name}
                       totalClass={this.checkClass(this.props.class.filter(i => i.courseId == item._id).length)}
-                      navigateCourseList={() => this.props.navigation.navigate('ClassList', { courseId: item._id, semesterID: this.state.semester._id })}
+                      navigateCourseList={() => this.props.navigation.navigate('ClassList', { courseId: item._id, semesterId: this.state.semester._id })}
                     />
                   </Swipeout>
                 </View>

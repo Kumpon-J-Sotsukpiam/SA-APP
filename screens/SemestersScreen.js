@@ -26,11 +26,11 @@ class SemestersScreen extends React.Component {
     }
   }
 
-  checkCourse(data){
-    if(data > 1){
-      return data +' Courses'
+  checkCourse(data) {
+    if (data > 1) {
+      return data + ' Courses'
     } else {
-      return data +' Course'
+      return data + ' Course'
     }
   }
 
@@ -39,7 +39,12 @@ class SemestersScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Header
-          centerComponent={({ text: 'Semester', style: { color: '#fff', fontSize: 36, fontWeight: 'bold' } })}
+          centerComponent={({
+            text: 'Semester',
+            style: {
+              color: '#fff', fontSize: 36, fontWeight: 'bold'
+            }
+          })}
           rightComponent={(
             <Ionicons name={'ios-add'}
               size={50}
@@ -73,7 +78,7 @@ class SemestersScreen extends React.Component {
                     <ContainerSemester
                       semester={item.name}
                       totalCourse={this.checkCourse(this.props.course.filter(i => i.semesterId == item._id).length)}
-                      navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
+                      navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterId: item._id })}
                     />
                   </Swipeout>
                 </View>
