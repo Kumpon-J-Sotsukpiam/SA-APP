@@ -126,6 +126,26 @@ class Edit_ClassScreen extends React.Component {
       semesterId: this.state.semesterId,
       classId:this.state.classId })
   }
+
+  showPicker = async (stateKey, options, state) => {
+    try {
+
+      const { action, hour, minute } = await TimePickerAndroid.open(options);
+      if (action === TimePickerAndroid.timeSetAction) {
+        var time = new Date(getDate.getFullYear(), getDate.getMonth(), getDate.getDate(), hour, minute, 0);
+        console.log(time)
+        if (state === 'start') {
+          this.setTimeStarts(time)
+        } else {
+          this.setTimeEnds(time)
+        }
+      }
+
+    } catch ({ code, message }) {
+      console.warn(`Error in example '${stateKey}': `, message);
+    }
+  };
+
   render() {
     const buttons = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     return (
