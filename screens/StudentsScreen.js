@@ -90,7 +90,7 @@ class StudentsScreen extends React.Component {
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
 
-                  <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentProfile')}
+                  <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentProfile',{stuId:item._id})}
                     style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
 
                     <View style={{ flex: 2, justifyContent: 'center' }}>
