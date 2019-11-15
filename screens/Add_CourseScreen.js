@@ -15,8 +15,8 @@ class Add_CourseScreen extends React.Component {
     super(props);
 
     this.state = {
-      semesterID:'Semester ID',
-      courseID:'Course ID',
+      semesterId:'Semester ID',
+      courseId:'Course ID',
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleNavigationBack = this.handleNavigationBack.bind(this)
@@ -35,11 +35,11 @@ handleOnSave(data,props) {
 
 componentWillMount(){
   this.setState({
-    semesterID:this.props.navigation.state.params.semesterID
+    semesterId:this.props.navigation.state.params.semesterId
   })
 }
 handleNavigationBack() {
-  this.props.navigation.navigate('CourseList',{semesterID:this.state.semesterID})
+  this.props.navigation.navigate('CourseList',{semesterId:this.state.semesterId})
 }
 render() {
   return (
@@ -67,7 +67,7 @@ render() {
         <TextInput
         placeholder='Untitled Course'
         style={styles.textInput}
-        onChange={e => this.handleChange('courseID',e)}
+        onChange={e => this.handleChange('courseId',e)}
         />
       </View>
     </View>

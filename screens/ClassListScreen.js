@@ -20,16 +20,16 @@ class ClassListScreen extends React.Component {
     super(props);
     this.state = {
       course: [],
-      semesterID: '',
+      semesterId: '',
       autoClose: true
     };
   }
   componentWillMount() {
-    const { courseId, semesterID } = this.props.navigation.state.params
+    const { courseId, semesterId } = this.props.navigation.state.params
     log = this.props.course.filter((i) => i._id === courseId)
     this.setState({
       course: log[0],
-      semesterID: semesterID,
+      semesterId: semesterId,
     })
   }
 
@@ -39,7 +39,7 @@ class ClassListScreen extends React.Component {
         <Header
 
           leftComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList', { semesterID: this.state.semesterID })}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('CourseList', { semesterId: this.state.semesterId })}>
               <Ionicons
                 name='ios-arrow-back'
                 size={45}
@@ -49,7 +49,7 @@ class ClassListScreen extends React.Component {
           )}
          
           rightComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddClass', { courseId: this.state.course._id, semesterID: this.state.semesterID })}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddClass', { courseId: this.state.course._id, semesterId: this.state.semesterId })}>
               <Ionicons name='ios-add'
                 size={50}
                 color={'#fff'}
@@ -58,7 +58,7 @@ class ClassListScreen extends React.Component {
           )}
           
           centerComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse', { courseID: this.state.courseID })}>  
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse', { courseId: this.state.course._id,semesterId:this.state.semesterId })}>  
                   <Text style={styles.textCourse}>{this.state.course.name}</Text>
             </TouchableOpacity>
           )}
@@ -90,7 +90,7 @@ class ClassListScreen extends React.Component {
                       endTime={formatTime(item.endTime)}
                       students={item.studentList.length}
                       navigateCamera={() => this.props.navigation.navigate('Camera', { classID: 'ClassId' })}
-                      navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterID })}
+                      navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterId })}
                     />
                   </Swipeout>
                 </View>

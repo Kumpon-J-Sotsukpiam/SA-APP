@@ -20,6 +20,13 @@ export const delSemester= (id) => {
         id: id
     }
 }
+export const setSemester = (id,data) => {
+    return {
+        type:SET_SEMESTER,
+        id:id,
+        payload:data
+    }
+}
 // action FrontEnd
 export const get_semester = (props) => {
     const { dispatch } = props
@@ -36,6 +43,11 @@ export const del_semester = (id,props) => {
     }).catch(err => {
         dispatch(get_errors(err.response.data))
     })
+}
+export const set_semester = async (id,data,props) => {
+    const{dispatch} = props
+    const res = await api.put(`semester/${id}`,data)
+    await dispatch(setSemester(id,data))
 }
 export const add_semester = (semester,props) => {
     const { dispatch } = props
