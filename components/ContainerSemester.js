@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     flexDirection: 'row',
     margin: 10,
-    padding:3
+    padding:3,
   },
   section1: {
     flex: 5,
