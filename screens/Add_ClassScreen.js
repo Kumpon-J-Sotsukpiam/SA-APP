@@ -27,8 +27,8 @@ class Add_ClassScreen extends React.Component {
     super(props);
 
     this.state = {
-      courseID: null,
-      semesterID: null,
+      courseId: null,
+      semesterId: null,
       selectedWeek: 0,
       group: '',
       location: '',
@@ -46,14 +46,14 @@ class Add_ClassScreen extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
   componentWillMount() {
-    const { courseId, semesterID } = this.props.navigation.state.params
+    const { courseId, semesterId } = this.props.navigation.state.params
     this.setState({
-      courseID: courseId,
-      semesterID: semesterID
+      courseId:courseId,
+      semesterId: semesterId
     })
   }
   handleNavigationBack() {
-    this.props.navigation.navigate('ClassList', { courseId: this.state.courseID, semesterID: this.state.semesterID })
+    this.props.navigation.navigate('ClassList', { courseId: this.state.courseId, semesterId: this.state.semesterId })
   }
   updateIndex(selectedWeek) {
     this.setState({ selectedWeek: selectedWeek })
@@ -102,9 +102,9 @@ class Add_ClassScreen extends React.Component {
     })
   }
   handleOnSave(props) {
-    const { courseID, group, location, selectedWeek, setTimeStarts, setTimeEnds } = this.state
+    const { courseId, group, location, selectedWeek, setTimeStarts, setTimeEnds } = this.state
     data = {
-      _id: courseID,
+      _id: courseId,
       group: group,
       location: location,
       day: selectedWeek,

@@ -28,8 +28,25 @@ class TodayScreen extends React.Component {
     }
   }
 
-  componentWillMount() {
+  handleTime(id, start, end) {
+    var currentTime = new Date().getTime()
+    var endTime = new Date(end).getTime()
+    var startTime = new Date(start).getTime()
 
+    if (startTime < currentTime && endTime > currentTime) {
+
+      return (<CountDown
+        id={id}
+        until={exp(startTime, endTime)}
+        size={15}
+        showSeparator={true}
+      />)
+    } else {
+      return (<View><Text style={{ fontWeight: 'bold', fontSize: 15 }}>{diff(startTime, endTime)}</Text></View>)
+    }
+  }
+
+  render() {
     const { semester, course, Class } = this.props
     toDate = new Date()
     thisTime = toDate.getTime()
@@ -50,30 +67,6 @@ class TodayScreen extends React.Component {
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
-    this.setState({
-      Class: ClassNow
-    })
-  }
-
-  handleTime(id, start, end) {
-    var currentTime = new Date().getTime()
-    var endTime = new Date(end).getTime()
-    var startTime = new Date(start).getTime()
-
-    if (startTime < currentTime && endTime > currentTime) {
-
-      return (<CountDown
-        id={id}
-        until={exp(startTime, endTime)}
-        size={15}
-        showSeparator={true}
-      />)
-    } else {
-      return (<View><Text style={{ fontWeight: 'bold', fontSize: 15 }}>{diff(startTime, endTime)}</Text></View>)
-    }
-  }
-
-  render() {
     return (
 
       <View style={styles.container}>
@@ -81,17 +74,15 @@ class TodayScreen extends React.Component {
         <HeaderToday
           name={'Today'}
           day={currentDay()}
-          date={currentDate() + ' ' + currentMonth() + ' ' + currentYear()}
+          date={currentDate()+' '+currentMonth()+' '+currentYear()}
         />
-
-
         <ScrollView>
           {
-            this.state.Class.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime).length > 0 ? <Heading name={'NOW'} /> : null
+            ClassNow.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime).length > 0 ? <Heading name={'NOW'} /> : null
           }
           <FlatList
-            data={this.state.Class.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)}
-            extraData={this.state.Class}
+            data={ClassNow.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)}
+            extraData={ClassNow}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
@@ -113,12 +104,12 @@ class TodayScreen extends React.Component {
           />
 
           {
-            this.state.Class.filter(i => new Date(i.startTime).getTime() > thisTime).length > 0 ?<Heading name={'NEXT'} /> : null
+            ClassNow.filter(i => new Date(i.startTime).getTime() > thisTime).length > 0 ? <Heading name={'NEXT'} /> : null
           }
 
           <FlatList
-            data={this.state.Class.filter(i => new Date(i.startTime).getTime() > thisTime)}
-            extraData={this.state.Class}
+            data={ClassNow.filter(i => new Date(i.startTime).getTime() > thisTime)}
+            extraData={ClassNow}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
