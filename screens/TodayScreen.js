@@ -22,19 +22,13 @@ import CountDown from 'react-native-countdown-component';
 class TodayScreen extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      Class: [],
-    }
   }
 
   handleTime(id, start, end) {
     var currentTime = new Date().getTime()
     var endTime = new Date(end).getTime()
     var startTime = new Date(start).getTime()
-
     if (startTime < currentTime && endTime > currentTime) {
-
       return (<CountDown
         id={id}
         until={exp(startTime, endTime)}
@@ -76,7 +70,7 @@ class TodayScreen extends React.Component {
         <HeaderToday
           name={'Today'}
           day={currentDay()}
-          date={currentDate()+' '+currentMonth()+' '+currentYear()}
+          date={currentDate() + ' ' + currentMonth() + ' ' + currentYear()}
         />
         <ScrollView>
           {

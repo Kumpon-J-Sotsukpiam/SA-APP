@@ -25,7 +25,6 @@ class StudentLogScreen extends React.Component {
       percentage: '100%',
     }
 }
-
   componentWillMount() {
     const { classId, stuId } = this.props.navigation.state.params
     log = this.props.student.filter(i => i._id == stuId)
@@ -55,7 +54,6 @@ class StudentLogScreen extends React.Component {
           backBtn={() => this.props.navigation.navigate('StudentList')}
           name={'Check-in Log'}
         />
-
         <StudentDetailsCheckinLog
           stdId={stuId}
           name={name}
