@@ -15,6 +15,7 @@ import { Header, ButtonGroup } from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
 import { add_class } from '../src/actions/class'
 import { connect } from 'react-redux'
+
 //Date
 import { format } from 'date-fns'
 

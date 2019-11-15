@@ -61,6 +61,8 @@ class TodayScreen extends React.Component {
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
+    console.log(ClassNow);
+    
     return (
 
       <View style={styles.container}>

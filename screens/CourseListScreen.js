@@ -34,7 +34,7 @@ class CourseListScreen extends React.Component {
     if(data > 1){
       return data +' Classes'
     } else {
-      return data +' Classe'
+      return data +' Class'
     }
   }
 
