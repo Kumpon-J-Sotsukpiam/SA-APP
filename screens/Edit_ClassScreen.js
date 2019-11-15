@@ -7,7 +7,8 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   DatePickerIOS,
-  Platform
+  Platform,
+  TimePickerAndroid
 } from 'react-native';
 import { Header, ButtonGroup } from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
