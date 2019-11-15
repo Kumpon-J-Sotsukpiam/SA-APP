@@ -40,13 +40,11 @@ class Edit_ClassScreen extends React.Component {
     this.updateIndex = this.updateIndex.bind(this)
     this.setTimeStarts = this.setTimeStarts.bind(this);
     this.setTimeEnds = this.setTimeEnds.bind(this);
+    this.handleBack = this.handleBack.bind(this)
   }
   async componentWillMount() {
     const { classId, semesterId, courseId } = this.props.navigation.state.params
     const { day, endTime, group, startTime, location } = this.props.class.filter(i => i._id == classId)[0]
-    console.log('====================================');
-    console.log({ day, endTime, group, startTime, location });
-    console.log('====================================');
     this.setState({
       classId: classId,
       selectedWeek: parseInt(day),
@@ -120,19 +118,27 @@ class Edit_ClassScreen extends React.Component {
     }
     set_class(classId, data, this.props).then(() => {
       setTimeout(() => {
-        this.props.navigation.navigate('ClassDetails',{ courseId: this.state.courseId, semesterId: this.state.semesterId,classId:this.state.classId })
+        this.handleBack()
       },1000)
     })
   }
-  
+  handleBack = () => {
+    
+    this.props.navigation.navigate('ClassDetails',{
+      courseId: this.state.courseId,
+      semesterId: this.state.semesterId,
+      classId:this.state.classId })
+  }
   render() {
     const buttons = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-
+    console.log('====================================');
+    console.log(this.state);
+    console.log('====================================');
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
           <Header
-            leftComponent={(<TouchableOpacity onPress={() => { this.props.navigation.navigate('ClassDetails') }}>
+            leftComponent={(<TouchableOpacity onPress={ this.handleBack}>
               <Text style={styles.textCancel}>Cancel</Text>
             </TouchableOpacity>
             )}
