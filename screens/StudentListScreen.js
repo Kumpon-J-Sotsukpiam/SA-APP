@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  PointPropType,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Button, SearchBar } from 'react-native-elements';
@@ -76,6 +77,20 @@ class StudentListScreen extends React.Component {
   }
   render() {
     const propsStudent = this.props.student.filter(i => this.state.class.studentList.indexOf(i._id >= 0))
+    const propsCheckIn = this.props.checkIn.filter(i => i.classId == this.state.class._id)
+    const studentList = this.state.class.studentList
+
+    propsStudent.map(i => {
+      var history = 0
+      propsCheckIn.map(ic => {
+        ic.studentList.map(ics => {
+          if (ics._id == i._id) {
+            history++
+          }
+        })
+      })
+      i['history'] = history
+    })
     const filteredStudent = propsStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
@@ -126,7 +141,7 @@ class StudentListScreen extends React.Component {
 
         <ScrollView>
           {filteredStudent.map(dataStudent => {
-            const { _id, name, stuId } = dataStudent
+            const { _id, name, stuId, history } = dataStudent
             return (
               <View key={_id} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>
                 <Swipeout left={[{
@@ -146,7 +161,7 @@ class StudentListScreen extends React.Component {
                       <Text style={{ fontSize: 16 }}>{name}</Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{100}</Text>
+                      <Text style={{ fontSize: 16 }}>{`${(history/propsCheckIn.length)*100}%`}</Text>
                     </View>
 
                   </TouchableOpacity>
@@ -206,6 +221,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   class: state.class,
+  checkIn: state.checkIn,
   student: state.student
 })
 export default connect(mapStateToProps)(StudentListScreen)
