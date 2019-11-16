@@ -76,13 +76,16 @@ class StudentListScreen extends React.Component {
     console.log('this cancel train');
   }
   render() {
-    const propsStudent = this.props.student.filter(i => this.state.class.studentList.indexOf(i._id >= 0))
+    const propsStudent = this.props.student.filter(i => this.state.class.studentList.indexOf(i._id) >= 0)
+    console.log('====================================');
+    console.log(propsStudent);
+    console.log('====================================');
     const propsCheckIn = this.props.checkIn.filter(i => i.classId == this.state.class._id)
     const studentList = this.state.class.studentList
 
     propsStudent.map(i => {
       var history = 0
-      propsCheckIn.map(ic => {
+      propsCheckIn.map(ic => { // loop check in
         ic.studentList.map(ics => {
           if (ics._id == i._id) {
             history++
