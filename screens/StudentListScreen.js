@@ -94,6 +94,7 @@ class StudentListScreen extends React.Component {
     const filteredStudent = propsStudent.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
+        <View>
         <Header
           leftComponent={(
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassDetails')}>
@@ -117,6 +118,7 @@ class StudentListScreen extends React.Component {
           )}
           containerStyle={styles.containerStyle}
         />
+        </View>
 
         <SearchBar
           containerStyle={{ backgroundColor: '#fff', marginBottom: 3 }}
@@ -207,8 +209,11 @@ const styles = StyleSheet.create({
 
   buttonButtom: {
     flex: 1,
-    justifyContent: 'flex-end',
-    margin: 10
+    bottom:0,
+    left:5,
+    right:5,
+    margin: 10,
+    position:'absolute'
   },
   containerStyle: {
     backgroundColor: '#fd4176',
