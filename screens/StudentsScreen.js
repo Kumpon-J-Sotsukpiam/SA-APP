@@ -40,13 +40,25 @@ class StudentsScreen extends React.Component {
         <View>
         <Header
           rightComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddStudent')}>
+            <View style={{flexDirection:'row'}}>
+            <View style={{flex:1,marginRight: 5,justifyContent:'center'}}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ImportStudent')}>
+              <Ionicons name='ios-archive'
+                size={30}
+                color={'#fff'}
+              />
+              </TouchableOpacity>
+            </View>
+            <View style={{flex:1}}>
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('AddStudent')}>
               <Ionicons name='ios-add'
                 size={45}
                 color={'#fff'}
               />
-            </TouchableOpacity>
-            )}
+              </TouchableOpacity>
+            </View>
+            </View>
+                )}
           centerComponent={(
             ({ text: 'Students', style: { color: '#fff', fontSize: 36, fontWeight: 'bold' } })
           )}

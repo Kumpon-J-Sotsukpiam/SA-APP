@@ -163,13 +163,7 @@ class Edit_ClassScreen extends React.Component {
               <Text style={styles.textSave}>Save</Text>
             </TouchableOpacity>
             )}
-            containerStyle={{
-              backgroundColor: '#fd4176',
-              height: 80,
-              justifyContent: 'space-around',
-              borderBottomColor: '#be5f7a',
-              borderBottomWidth: 1,
-            }}
+            containerStyle={styles.containerStyle}
           />
           <View style={styles.containerTextInput}>
             <TextInput
@@ -372,6 +366,13 @@ const styles = StyleSheet.create({
   containerDurations: {
     margin: 5
   },
+  containerStyle: {
+    backgroundColor: '#fd4176',
+    height: 80,
+    justifyContent: 'space-around',
+    borderBottomColor: '#be5f7a',
+    borderBottomWidth: 1,
+  }
 });
 const mapStateToProps = state => ({
   class: state.class

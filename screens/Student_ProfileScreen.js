@@ -46,9 +46,6 @@ class Student_ProfileScreen extends React.Component {
     })
   }
   render() {
-    console.log('====================================');
-    console.log(this.state);
-    console.log('====================================');
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
@@ -64,7 +61,7 @@ class Student_ProfileScreen extends React.Component {
                 </TouchableOpacity>
               )}
               rightComponent={(
-                <TouchableOpacity onPress={this.handleBack}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('EditStudent')}>
                   <Ionicons
                     name='ios-settings'
                     size={35}
