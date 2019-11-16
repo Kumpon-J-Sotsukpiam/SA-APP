@@ -35,19 +35,7 @@ export const get_student = (props) => {
 }
 export const add_student = (data, props) => {
     const { dispatch } = props
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
-    let formdata = new FormData()
-    formdata.append("stuId","5905100006")
-    formdata.append("name","5905100006")
-    formdata.append("major","5905100006")
-    formdata.append("faculty","5905100006")
-    formdata.append("image",{"uri":data.image.uri,"type":data.image.type})
-    console.log('====================================');
-    console.log(formdata);
-    console.log('====================================');
-    api.post('stu/',formdata,{headers:{'Content-Type':'application/x-www-form-urlencoded',}}).then(res => {
+    api.post('stu/',data).then(res => {
         dispatch(addStudent(res.data))
     }).catch(err => {
         console.error(err);

@@ -36,6 +36,10 @@ class Login extends React.Component {
   }
   render() {
     const { password, username } = this.props.errors
+    console.log('====================================');
+    console.log(`password : ${password}`);
+    console.log(`username : ${username}`);
+    console.log('====================================');
     return (
       <Block flex middle>
         <StatusBar hidden />
