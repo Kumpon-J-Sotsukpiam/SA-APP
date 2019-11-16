@@ -18,11 +18,6 @@ class StudentLogScreen extends React.Component {
       student: [],
       class: [],
       checkIn: [],
-      studentID: '5905100025',
-      name: 'Jiraphat Asavagunchorn',
-      faculty: 'School of Science and Technology',
-      major: 'Computer Science',
-      percentage: '100%',
     }
 }
   componentWillMount() {

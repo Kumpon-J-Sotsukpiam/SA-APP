@@ -161,7 +161,7 @@ class StudentListScreen extends React.Component {
                       <Text style={{ fontSize: 16 }}>{name}</Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{`${(history/propsCheckIn.length)*100}%`}</Text>
+                      <Text style={{ fontSize: 16 }}>{`${(history/propsCheckIn.length)*100||0}%`}</Text>
                     </View>
 
                   </TouchableOpacity>

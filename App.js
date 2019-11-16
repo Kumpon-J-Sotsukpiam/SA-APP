@@ -1,34 +1,10 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
-import { Block, GalioProvider } from 'galio-framework';
-
-
 import AppNavigator from './navigation/AppNavigator';
-
-//import Screens from './navigation/Screens';
-import { Images, articles, argonTheme } from './constants';
-
 import { Provider } from 'react-redux'
-import logger from 'redux-logger'
-
 import { store } from './src/store'
-
-
-// cache app images
-const assetImages = [
-  Images.Onboarding,
-  Images.LogoOnboarding,
-  Images.Logo,
-  Images.Pro,
-  Images.ArgonLogo,
-  Images.iOSLogo,
-  Images.androidLogo
-];
-
-// cache product images
-articles.map(article => assetImages.push(article.image));
 
 function cacheImages(images) {
   return images.map(image => {
@@ -56,21 +32,16 @@ class App extends React.Component {
       );
     } else {
       return (
-        <GalioProvider theme={argonTheme}>
-          <Block flex>
             <Provider store={store}>
               <AppNavigator />
             </Provider>
-          </Block>
-        </GalioProvider>
       );
     }
   }
 
   _loadResourcesAsync = async () => {
-    return Promise.all([
-      ...cacheImages(assetImages),
-    ]);
+    const imageAssets = cacheImages([require('./assets/imgs/bg.png')])
+    await Promise.all([...imageAssets]);
   };
 
   _handleLoadingError = error => {

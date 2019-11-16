@@ -35,7 +35,6 @@ const ContainerCourse = props => {
   }
 
 const styles = StyleSheet.create({
-
   container: {
     backgroundColor: '#fff',
     flexDirection: 'row',

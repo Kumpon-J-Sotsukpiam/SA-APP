@@ -1,172 +1,319 @@
 import React from "react";
 import {
+  View,
   StyleSheet,
-  ImageBackground,
   Dimensions,
-  StatusBar,
-  KeyboardAvoidingView
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
-import { Block, Checkbox, Text, theme } from "galio-framework";
 
-import { Button, Icon, Input } from "../components";
-import { Images, argonTheme } from "../constants";
+import { Button } from 'react-native-elements';
 
 import { connect } from "react-redux"
-import { loginUser } from "../src/actions/authentication"
+import { loginUser, changePassword } from "../src/actions/authentication"
 
-const { width, height } = Dimensions.get("screen");
+import Svg,{Image,Circle,ClipPath} from 'react-native-svg'
+import Animated, { Easing } from 'react-native-reanimated';
+import { TapGestureHandler, State} from 'react-native-gesture-handler';
+const { width, height } = Dimensions.get('window');
+
+const {
+  Value,
+  event,
+  block,
+  cond,
+  eq,
+  set,
+  Clock,
+  startClock,
+  stopClock,
+  debug,
+  timing,
+  clockRunning,
+  interpolate,
+  Extrapolate,
+  concat
+} = Animated;
+
+function runTiming(clock, value, dest) {
+  const state = {
+    finished: new Value(0),
+    position: new Value(0),
+    time: new Value(0),
+    frameTime: new Value(0)
+  };
+
+  const config = {
+    duration: 1000,
+    toValue: new Value(0),
+    easing: Easing.inOut(Easing.ease)
+  };
+
+  return block([
+    cond(clockRunning(clock), 0, [
+      set(state.finished, 0),
+      set(state.time, 0),
+      set(state.position, value),
+      set(state.frameTime, 0),
+      set(config.toValue, dest),
+      startClock(clock)
+    ]),
+    timing(clock, state, config),
+    cond(state.finished, debug('stop clock', stopClock(clock))),
+    state.position
+  ]);
+}
 
 class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       username: '',
-      password: ''
+      password: '',
     }
+
     this.handleChange = this.handleChange.bind(this)
     this.handleLogin = this.handleLogin.bind(this)
+
+    this.buttonOpacity = new Value(1);
+    this.onStateChange = event([
+      {
+        nativeEvent: ({ state }) =>
+          block([
+            cond(
+              eq(state, State.END),
+              set(this.buttonOpacity, runTiming(new Clock(), 1, 0))
+            )
+          ])
+      }
+    ]);
+    this.onCloseState = event([
+      {
+        nativeEvent: ({ state }) =>
+          block([
+            cond(
+              eq(state, State.END),
+              set(this.buttonOpacity, runTiming(new Clock(), 0, 1))
+            )
+          ])
+      }
+    ]);
+
+    this.buttonY = interpolate(this.buttonOpacity, {
+      inputRange: [0, 1],
+      outputRange: [100, 0],
+      extrapolate: Extrapolate.CLAMP
+    });
+
+    this.bgY = interpolate(this.buttonOpacity, {
+      inputRange: [0, 1],
+      outputRange: [-height / 2, 0],
+      extrapolate: Extrapolate.CLAMP
+    });
+  
+  
+    this.textInputZindex = interpolate(this.buttonOpacity,{
+      inputRange:[0,1],
+      outputRange:[1,-1],
+      extrapolate:Extrapolate.CLAMP
+    });
+  
+    this.textInputOpacity = interpolate(this.buttonOpacity,{
+      inputRange:[0,1],
+      outputRange:[1,0],
+      extrapolate:Extrapolate.CLAMP
+    });
+  
+    this.textInputY = interpolate(this.buttonOpacity,{
+      inputRange:[0,1],
+      outputRange:[0,100],
+      extrapolate:Extrapolate.CLAMP
+    });
+  
+    this.rotateCross = interpolate(this.buttonOpacity,{
+      inputRange:[0,1],
+      outputRange:[180,360],
+      extrapolate:Extrapolate.CLAMP
+    });
   }
+
+
+  
   handleChange = (name, e) => {
     this.setState({
       [name]: e.nativeEvent.text
     })
   }
+
   handleLogin = (e) => {
-    loginUser(this.state, this.props)
+          loginUser(this.state, this.props)
   }
+
   render() {
     const { password, username } = this.props.errors
+<<<<<<< HEAD
     console.log('====================================');
     console.log(`password : ${password}`);
     console.log(`username : ${username}`);
     console.log('====================================');
+=======
+    console.log(password+' '+username);
+    
+>>>>>>> 70587b20a5c2ba9722f84b625ef3cce07ee7753f
     return (
-      <Block flex middle>
-        <StatusBar hidden />
-        <ImageBackground
-          source={Images.RegisterBackground}
-          style={{ width, height, zIndex: 1 }}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+      <View style={styles.container}>
+      <Animated.View
+        style={{
+          ...StyleSheet.absoluteFill,
+          transform: [{ translateY: this.bgY }]
+        }}
+      >
+            <Svg  height={height+50} width={width}>
+              <ClipPath id='clip'>
+                <Circle r={height} cx={width/2}/>
+              </ClipPath>
+            <Image
+              href={require('../assets/imgs/bg.png')}
+              width={width}
+              height={height}
+              preserveAspectRatio='xMidYMid slice'
+              clipPath='url(#clip)'
+            />
+            </Svg>
+      </Animated.View>
+      <View style={{ height: height / 3, justifyContent: 'center' }}>
+        <TapGestureHandler onHandlerStateChange={this.onStateChange}>
+          <Animated.View
+            style={{
+              ...styles.button,
+              opacity: this.buttonOpacity,
+              transform: [{ translateY: this.buttonY }]
+            }}
+          >
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>SIGN IN</Text>
+          </Animated.View>
+        </TapGestureHandler>
+
+        <Animated.View
+          style={{
+            ...styles.button,
+            backgroundColor: '#2E71DC',
+            opacity: this.buttonOpacity,
+            transform: [{ translateY: this.buttonY }]
+          }}
         >
-          <Block flex middle>
-            <Block style={styles.registerContainer}>
-              <Block flex>
-                <Block flex={0.17} middle>
-                  <Text color="#8898AA" size={18}>
-                    sign in
-                  </Text>
-                </Block>
-                <Block flex center>
-                  <KeyboardAvoidingView
-                    style={{ flex: 1 }}
-                    behavior="padding"
-                    enabled
-                  >
-                    <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                      <Input
-                        borderless
-                        onChange={e => this.handleChange('username', e)}
-                        placeholder="Username"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="ic_mail_24px"
-                            family="ArgonExtra"
-                            style={styles.inputIcons}
-                          />
-                        }
-                      />
-                      <Text>{username}</Text>
-                    </Block>
-                    <Block width={width * 0.8}>
-                      <Input
-                        password
-                        borderless
-                        onChange={e => this.handleChange('password', e)}
-                        placeholder="Password"
-                        iconContent={
-                          <Icon
-                            size={16}
-                            color={argonTheme.COLORS.ICON}
-                            name="padlock-unlocked"
-                            family="ArgonExtra" cd
-                            style={styles.inputIcons}
-                          />
-                        }
-                      />
-                      <Text>{password}</Text>
-                      <Block row style={styles.passwordCheck}>
-                        <Text size={12} color={argonTheme.COLORS.MUTED}>
-                          password strength:
-                        </Text>
-                        <Text bold size={12} color={argonTheme.COLORS.SUCCESS}>
-                          {" "}
-                          strong
-                        </Text>
-                      </Block>
-                    </Block>
-                    <Block middle>
-                      <Button
-                        color="primary"
-                        style={styles.createButton}
-                        onPress={e => this.handleLogin(e)}>
-                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                          SIGN IN
-                        </Text>
-                      </Button>
-                      <Text
-                        bold size={14}
-                        color={argonTheme.COLORS.BLACK}
-                        style={styles.loginTextButtons}
-                        onPress={() => this.props.navigation.navigate('SignUp')}>
-                        SIGN UP
-                        </Text>
-                    </Block>
-                  </KeyboardAvoidingView>
-                </Block>
-              </Block>
-            </Block>
-          </Block>
-        </ImageBackground>
-      </Block>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
+            SIGN IN WITH FACEBOOK
+          </Text>
+        </Animated.View>
+      </View>
+
+      <Animated.View style={{
+        zIndex:this.textInputZindex,
+        opacity:this.textInputOpacity,
+        transform:[{translateY:this.textInputY}],
+        height:height/2,
+        ...StyleSheet.absoluteFill,
+        top:null,
+        justifyContent:'center'}}>
+
+          <TapGestureHandler onHandlerStateChange={this.onCloseState}>
+            <Animated.View style={styles.closeBtn}>
+              <Animated.Text style={{fontSize:20,transform:[{rotate:concat(this.rotateCross,'deg')}]}}>X</Animated.Text>
+            </Animated.View>
+          </TapGestureHandler>
+
+          <TextInput
+              placeholderTextColor='gray'
+              placeholder='Username'
+              style={styles.textInput}
+              onChange={e => this.handleChange('username', e)}
+              onSubmitEditing={(event) => { this.refs.password.focus() }}
+          />
+          <Text style={styles.errorText}>{username}</Text>
+          <TextInput
+              ref='password'
+              secureTextEntry={true}
+              placeholderTextColor='gray'
+              placeholder='Password'
+              style={styles.textInput}
+              onChange={e => this.handleChange('password', e)}
+          />
+          <Text style={styles.errorText}>{password}</Text>
+          
+          <Button
+            type='clear'
+            style={styles.button} 
+            onPress={e => this.handleLogin(e)}
+            title='SIGN IN'
+            titleStyle={{fontSize:20,fontWeight:'bold',color:'#000'}}
+          />
+          <Button
+            type='clear'
+            style={styles.button} 
+            onPress={() => this.props.navigation.navigate('SignUp')}
+            title='SIGN UP'
+            titleStyle={{fontSize:20,fontWeight:'bold',color:'#000'}}
+          />
+
+      </Animated.View>
+    </View>
+    </TouchableWithoutFeedback>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  registerContainer: {
-    width: width * 0.9,
-    height: height * 0.78,
-    backgroundColor: "#F4F5F7",
-    borderRadius: 4,
-    shadowColor: argonTheme.COLORS.BLACK,
-    shadowOffset: {
-      width: 0,
-      height: 4
-    },
-    shadowRadius: 8,
-    shadowOpacity: 0.1,
-    elevation: 1,
-    overflow: "hidden"
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'flex-end'
   },
-  loginTextButtons: {
-    color: argonTheme.COLORS.PRIMARY,
-    fontWeight: "800",
-    fontSize: 14,
-    marginTop: 25
+  button: {
+    backgroundColor: 'white',
+    height: 50,
+    marginHorizontal: 20,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 5,
+    shadowOffset:{width:2, height:2},
+    shadowOpacity:0.2,
+    shadowColor:'#000',
   },
-  inputIcons: {
-    marginRight: 12
+  closeBtn: {
+    height:40,
+    width:40,
+    borderRadius:20,
+    backgroundColor:'#fff',
+    alignItems:'center',
+    justifyContent:'center',
+    position:'absolute',
+    top:-20,
+    left:width/2-20,
+    shadowColor:'#000',
+    shadowOpacity:0.2
   },
-  passwordCheck: {
-    paddingLeft: 15,
-    paddingTop: 13,
-    paddingBottom: 30
+  textInput: {
+    height:50,
+    borderRadius:25,
+    borderWidth:0.5,
+    borderColor:'gray',
+    marginHorizontal:15,
+    paddingLeft:10,
+    marginVertical:5,
+    fontSize:18
   },
-  createButton: {
-    width: width * 0.5,
-    marginTop: 25
-  }
+  errorText: {
+    marginHorizontal:5,
+    paddingLeft:10,
+    marginVertical:5,
+    fontSize:14,
+    color:'red'
+  },
 });
 
 const mapStateToProps = state => ({

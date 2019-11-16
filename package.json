@@ -37,6 +37,7 @@
     "react-native-popup-dialog": "^0.18.3",
     "react-native-reanimated": "^1.4.0",
     "react-native-search-filter": "^0.1.5",
+    "react-native-svg": "^9.13.3",
     "react-native-swipeout": "^2.3.6",
     "react-native-unimodules": "^0.6.0",
     "react-native-vector-icons": "^6.6.0",
@@ -52,27 +53,14 @@
     "babel-preset-expo": "^5.0.0"
   },
   "keywords": [
-    "argon react native",
-    "argon design system",
-    "argon app react native",
-    "argon iOS",
-    "react native iOS",
-    "creative tim",
-    "argon Android",
-    "react native ui kit",
-    "react native expo",
-    "freebie",
-    "react native argon design",
-    "react native galio",
-    "galio argon free",
-    "galio react native free app",
-    "argon expo react native",
-    "react native ui template"
+    "student attendance",
+    "instructors",
+    "face recognition"
   ],
-  "author": "Creative Tim <hello@creative-tim.com> (https://www.creative-tim.com/)",
-  "license": "MIT",
+  "author": "School of Science and Technology : Computer Science",
+  "license": "UTCC",
   "bugs": {
-    "url": "https://github.com/creativetimofficial/argon-react-native/issues"
+    "url": "https://science.utcc.ac.th/"
   },
-  "homepage": "https://demos.creative-tim.com/argon-react-native"
+  "homepage": "https://science.utcc.ac.th/"
 }

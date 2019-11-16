@@ -214,7 +214,6 @@ class Add_StudentScreen extends React.Component {
                       borderBottomColor: '#f3f3f3',
                       borderBottomWidth: 1,
                       justifyContent: 'center',
-                      justifyContent: 'center'
                     }}
                   />
                   <Button
