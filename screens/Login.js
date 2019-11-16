@@ -6,7 +6,7 @@ import {
   Text,
   TextInput,
   TouchableWithoutFeedback,
-  Keyboard
+  Keyboard,
 } from "react-native";
 
 import { Button } from 'react-native-elements';
@@ -148,23 +148,13 @@ class Login extends React.Component {
   }
 
   handleLogin = (e) => {
-    if(this.state.password || this.state.username){
-      if(this.state.username){
-        if(this.state.password){
           loginUser(this.state, this.props)
-        } else {
-          alert('Please input Password')
-        }
-      } else {
-        alert('Please input Username')
-      }
-    } else {
-      alert('Please input Username and Password')
-    } 
   }
 
   render() {
     const { password, username } = this.props.errors
+    console.log(password+' '+username);
+    
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
@@ -174,16 +164,16 @@ class Login extends React.Component {
           transform: [{ translateY: this.bgY }]
         }}
       >
-            <Svg  height={height} width={width}>
+            <Svg  height={height+50} width={width}>
               <ClipPath id='clip'>
-                <Circle r={height+50} cx={width/2}/>
+                <Circle r={height} cx={width/2}/>
               </ClipPath>
             <Image
               href={require('../assets/imgs/bg.png')}
               width={width}
               height={height}
-              preserveAspectRatio="xMidYMid slice"
-              clipPath="url(#clip)"
+              preserveAspectRatio='xMidYMid slice'
+              clipPath='url(#clip)'
             />
             </Svg>
       </Animated.View>
@@ -236,6 +226,7 @@ class Login extends React.Component {
               onChange={e => this.handleChange('username', e)}
               onSubmitEditing={(event) => { this.refs.password.focus() }}
           />
+          <Text style={styles.errorText}>{username}</Text>
           <TextInput
               ref='password'
               secureTextEntry={true}
@@ -244,6 +235,7 @@ class Login extends React.Component {
               style={styles.textInput}
               onChange={e => this.handleChange('password', e)}
           />
+          <Text style={styles.errorText}>{password}</Text>
           
           <Button
             type='clear'
@@ -259,12 +251,6 @@ class Login extends React.Component {
             title='SIGN UP'
             titleStyle={{fontSize:20,fontWeight:'bold',color:'#000'}}
           />
-            
-          
-          
-
-
-
 
       </Animated.View>
     </View>
@@ -313,6 +299,13 @@ const styles = StyleSheet.create({
     paddingLeft:10,
     marginVertical:5,
     fontSize:18
+  },
+  errorText: {
+    marginHorizontal:5,
+    paddingLeft:10,
+    marginVertical:5,
+    fontSize:14,
+    color:'red'
   },
 });
 

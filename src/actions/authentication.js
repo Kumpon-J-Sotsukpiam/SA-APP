@@ -43,7 +43,6 @@ export const loginUser = async (user, props) => {
         })
         .catch(err => {
             dispatch(get_errors(err.response.data))
-            alert('Wrong Password')
         })
 }
 export const logoutUser = (props) => {
