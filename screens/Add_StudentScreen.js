@@ -86,10 +86,12 @@ class Add_StudentScreen extends React.Component {
       stuId: this.state.studentID,
       name: this.state.studentName,
       faculty: this.state.faculty,
-      major: this.state.major
+      major: this.state.major,
+      image:this.state.image
     }
-    add_student(dataReq, this.props)
-    //this.props.navigation.navigate('Students')
+    add_student(dataReq, this.props).then(() => {
+      this.props.navigation.navigate('Students')
+    })
   }
   toggleVideo() {
     this.setState({ toggleVideo: !this.state.toggleVideo })

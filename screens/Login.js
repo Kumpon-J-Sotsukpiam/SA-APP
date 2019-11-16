@@ -153,15 +153,10 @@ class Login extends React.Component {
 
   render() {
     const { password, username } = this.props.errors
-<<<<<<< HEAD
     console.log('====================================');
     console.log(`password : ${password}`);
     console.log(`username : ${username}`);
     console.log('====================================');
-=======
-    console.log(password+' '+username);
-    
->>>>>>> 70587b20a5c2ba9722f84b625ef3cce07ee7753f
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
