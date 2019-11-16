@@ -42,7 +42,7 @@ class Student_ProfileScreen extends React.Component {
     const { stuId } = this.props.navigation.state.params
     log = this.props.student.filter(i => i._id == stuId)[0]
     this.setState({
-      student:log
+      student: log
     })
   }
   render() {
@@ -61,7 +61,7 @@ class Student_ProfileScreen extends React.Component {
                 </TouchableOpacity>
               )}
               rightComponent={(
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('EditStudent')}>
+                <TouchableOpacity onPress={() => this.props.navigation.navigate('EditStudent', { stuId: this.state.student._id })}>
                   <Ionicons
                     name='ios-settings'
                     size={35}

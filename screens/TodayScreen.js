@@ -56,15 +56,14 @@ class TodayScreen extends React.Component {
     CourseId = []
     CourseNow.map(v => CourseId.push(v._id))
 
-    ClassNow = Class.filter(i => i.day == toDay && CourseId.indexOf(i.courseId) >= 0)
-    ClassNow.map((v, i) => {
+    tempClass = Class.filter(i => i.day == toDay && CourseId.indexOf(i.courseId) >= 0)
+    tempClass.map((v, i) => {
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
-    console.log(ClassNow);
-    
+    classNow = tempClass.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)
+    classNext = tempClass.filter(i => new Date(i.startTime).getTime() > thisTime)
     return (
-
       <View style={styles.container}>
 
         <HeaderToday
@@ -73,12 +72,10 @@ class TodayScreen extends React.Component {
           date={currentDate() + ' ' + currentMonth() + ' ' + currentYear()}
         />
         <ScrollView>
-          {
-            ClassNow.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime).length > 0 ? <Heading name={'NOW'} /> : null
-          }
+          {classNow.length > 0 ? <Heading name={'NOW'} /> : null}
           <FlatList
-            data={ClassNow.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)}
-            extraData={ClassNow}
+            data={classNow}
+            extraData={classNow}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
@@ -98,14 +95,10 @@ class TodayScreen extends React.Component {
               </View>
             )}
           />
-
-          {
-            ClassNow.filter(i => new Date(i.startTime).getTime() > thisTime).length > 0 ? <Heading name={'NEXT'} /> : null
-          }
-
+          {classNext.length > 0 ? <Heading name={'NEXT'} /> : null}
           <FlatList
-            data={ClassNow.filter(i => new Date(i.startTime).getTime() > thisTime)}
-            extraData={ClassNow}
+            data={classNext}
+            extraData={classNext}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>

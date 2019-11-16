@@ -10,7 +10,5 @@ axios.interceptors.request.use(async (config)=> {
   }
   config.url = join(server_url, config.url);
   return config;
-  
 });
 export default axios
-

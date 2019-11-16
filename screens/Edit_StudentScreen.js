@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Button } from 'react-native-elements';
-import { add_student } from '../src/actions/student'
+import { set_student } from '../src/actions/student'
 import { connect } from 'react-redux'
 import { getFaculty, getMajor } from '../src/actions/studentID'
 import * as ImagePicker from 'expo-image-picker';
@@ -25,13 +25,25 @@ class Edit_StudentScreen extends React.Component {
     this.state = {
       image: null,
       video: null,
-      studentID: '',
-      studentName: '',
-      faculty: null,
-      major: null,
+      id: null,
+      stuId: '',
+      name: '',
+      faculty: '',
+      major: '',
       toggleVideo: false
     }
     this.handleOnSave = this.handleOnSave.bind(this);
+  }
+  async componentWillMount() {
+    const { stuId } = this.props.navigation.state.params
+    log = this.props.student.filter(i => i._id == stuId)[0]
+    this.setState({
+      id: log._id,
+      stuId: log.stuId,
+      name: log.name,
+      faculty: log.faculty,
+      major: log.major
+    })
   }
   componentDidMount() {
     this.getPermissionAsync();
@@ -45,10 +57,12 @@ class Edit_StudentScreen extends React.Component {
     }
   }
   _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Videos});
+    let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Videos });
     //Object {"cancelled","duration","height","rotation","type","uri","width"}
     if (!result.cancelled) {
-      this.setState({ image: result });
+      this.setState({
+        image: result
+      });
     }
   };
   _recordVideo = async () => {
@@ -63,17 +77,16 @@ class Edit_StudentScreen extends React.Component {
   };
   setStudentID(data) {
     this.setState({
-      studentID: data,
+      stuId: data,
       faculty: getFaculty(data),
       major: getMajor(data)
     });
   }
   setStudentName(data) {
-    this.setState({ studentName: data });
+    this.setState({ name: data });
   }
   setStudentFaculty(data) {
     this.setState({ faculty: data });
-    console.log(this.state.faculty)
   }
   setStudentMajor(data) {
     this.setState({ major: data });
@@ -83,12 +96,15 @@ class Edit_StudentScreen extends React.Component {
   }
   handleOnSave = (data, props) => {
     dataReq = {
-      stuId: this.state.studentID,
-      name: this.state.studentName,
+      stuId: this.state.stuId,
+      name: this.state.name,
       faculty: this.state.faculty,
-      major: this.state.major
+      major: this.state.major,
+      image: this.state.image
     }
-    add_student(dataReq, this.props)
+    set_student(this.state.id, dataReq, this.props).then(() => {
+      this.props.navigation.navigate('Students')
+    })
     //this.props.navigation.navigate('Students')
   }
   toggleVideo() {
@@ -151,6 +167,7 @@ class Edit_StudentScreen extends React.Component {
               placeholderTextColor='gray'
               placeholder='Student Identification Number'
               maxLength={13}
+              value={this.state.stuId}
               style={styles.textInput}
               onChangeText={(data) => this.setStudentID(data)}
             />
@@ -161,6 +178,7 @@ class Edit_StudentScreen extends React.Component {
               placeholderTextColor='gray'
               placeholder='Full Name'
               style={styles.textInput}
+              value={this.state.name}
               onChangeText={(data) => this.setStudentName(data)}
             />
           </View>
@@ -310,6 +328,7 @@ const styles = StyleSheet.create({
   },
 });
 const mapStateToProps = state => ({
-  errors: state.errors
+  errors: state.errors,
+  student: state.student
 })
 export default connect(mapStateToProps)(Edit_StudentScreen)

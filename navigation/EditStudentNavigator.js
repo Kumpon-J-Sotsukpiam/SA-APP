@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator} from "react-navigation";
 
-import Edit_StudentScreen from '../screens/Edit_ClassScreen';
+import Edit_StudentScreen from '../screens/Edit_StudentScreen';
 
 
 const EditStudentStack = createStackNavigator({

@@ -24,6 +24,13 @@ export const delStudnet = (id) => {
         id: id
     }
 }
+export const setStudent = (id, data) => {
+    return {
+        type: SET_STUDENT,
+        id: id,
+        payload: data
+    }
+}
 // action FrontEnd
 export const get_student = (props) => {
     const { dispatch } = props
@@ -57,6 +64,32 @@ export const add_student = async (data, props) => {
     });
     resData = await res.json()
     await dispatch(addStudent(resData))
+}
+export const set_student = async (id, data, props) => {
+    let formData = new FormData();
+    const { dispatch } = props
+    const { stuId, name, major, faculty, image } = data
+    formData.append("stuId", stuId)
+    formData.append("name", name)
+    formData.append("major", major)
+    formData.append("faculty", faculty)
+    if(image != null)
+        formData.append("file", {
+            name: "testsendvideo.mp4",
+            uri: data.image.uri,
+            type: 'video/mp4' //rotation = 90
+        })
+    const jwtToken = await SecureStore.getItemAsync("tokenAuth")
+    let res = await fetch(`${server_url}/stu/${id}`, {
+        method: 'put',
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${jwtToken}`,
+        },
+        body: formData
+    });
+    resData = await res.json()
+    await dispatch(setStudent(id,data))
 }
 export const del_student = (id, props) => {
     const { dispatch } = props
