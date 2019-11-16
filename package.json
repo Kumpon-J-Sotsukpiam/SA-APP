@@ -16,6 +16,7 @@
     "expo-asset": "^6.0.0",
     "expo-av": "^7.0.1",
     "expo-camera": "~6.0.0",
+    "expo-document-picker": "^7.0.0",
     "expo-face-detector": "~6.0.0",
     "expo-font": "^6.0.1",
     "expo-image-manipulator": "~6.0.0",
