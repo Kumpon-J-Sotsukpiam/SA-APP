@@ -22,6 +22,13 @@ import CountDown from 'react-native-countdown-component';
 class TodayScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      thisTime: new Date().getTime()
+    }
+    this.refreshScreen = this.refreshScreen.bind(this)
+  }
+  refreshScreen() {
+    this.setState({ thisTime: new Date().getTime() })
   }
 
   handleTime(id, start, end) {
@@ -41,9 +48,11 @@ class TodayScreen extends React.Component {
   }
 
   render() {
+    setInterval(() => {
+      this.refreshScreen()
+    }, 1000);
     const { semester, course, Class } = this.props
     toDate = new Date()
-    thisTime = toDate.getTime()
     toDay = (toDate.getDay() == 0 ? 6 : toDate.getDay() - 1)
     thisNow = []
     next = []
@@ -61,8 +70,7 @@ class TodayScreen extends React.Component {
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
-    classNow = tempClass.filter(i => new Date(i.startTime).getTime() < thisTime && new Date(i.endTime).getTime() > thisTime)
-    classNext = tempClass.filter(i => new Date(i.startTime).getTime() > thisTime)
+
     return (
       <View style={styles.container}>
 
@@ -72,10 +80,12 @@ class TodayScreen extends React.Component {
           date={currentDate() + ' ' + currentMonth() + ' ' + currentYear()}
         />
         <ScrollView>
-          {classNow.length > 0 ? <Heading name={'NOW'} /> : null}
+          {
+            tempClass.filter(i => new Date(i.startTime).getTime() < this.state.thisTime && new Date(i.endTime).getTime() > this.state.thisTime).length > 0 ? <Heading name={'NOW'} /> : null
+          }
           <FlatList
-            data={classNow}
-            extraData={classNow}
+            data={tempClass.filter(i => new Date(i.startTime).getTime() < this.state.thisTime && new Date(i.endTime).getTime() > this.state.thisTime)}
+            extraData={tempClass}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
@@ -95,10 +105,13 @@ class TodayScreen extends React.Component {
               </View>
             )}
           />
-          {classNext.length > 0 ? <Heading name={'NEXT'} /> : null}
+          {
+            tempClass.filter(i => new Date(i.startTime).getTime() > this.state.thisTime).length > 0 ? <Heading name={'NEXT'} /> : null
+          }
+
           <FlatList
-            data={classNext}
-            extraData={classNext}
+            data={tempClass.filter(i => new Date(i.startTime).getTime() > this.state.thisTime)}
+            extraData={tempClass}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
