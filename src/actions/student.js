@@ -2,7 +2,7 @@ import { ADD_STUDENT, DELETE_STUDENT, SET_STUDENT, GET_STUDENT } from './types'
 import { get_errors } from './errors'
 import axios from 'axios'
 import { ip_server, port, server_url } from '../config'
-
+import * as SecureStore from 'expo-secure-store';
 
 import api from '../modules/api'
 // action Backend 
@@ -46,11 +46,12 @@ export const add_student = async (data, props) => {
         uri: data.image.uri,
         type: 'video/mp4' //rotation = 90
     })
-    let res = await fetch('http://192.168.43.216:3001/stu', {
+    const jwtToken = await SecureStore.getItemAsync("tokenAuth")
+    let res = await fetch(`${server_url}/stu`, {
         method: 'post',
         headers: {
             'Content-Type': 'multipart/form-data',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYWVlMjQ1YjJjNTdhM2Y2MGUwYjEwZSIsImlhdCI6MTU3Mzg5MzY0Mn0.968ScbblYaOueWH8_L64WciQiCRk3OMTZLrQoOtecU8',
+            'Authorization': `Bearer ${jwtToken}`,
         },
         body: formData
     });
