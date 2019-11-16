@@ -20,18 +20,6 @@ class Student_ProfileScreen extends React.Component {
     this.state = {
       student: [],
       video: null,
-      studentID: '5905100025',
-      studentName: 'Natthamon Jarutruangutai',
-      faculty: 'School of Humanities and Applied Arts',
-      major: 'English for Business Communication',
-
-      dataTest: [{
-        course: 'SP402',
-        group: '2',
-        semester: '2019/1',
-        percentage: '100%'
-      }]
-
     }
     this.handleBack = this.handleBack.bind(this)
   }
@@ -46,6 +34,34 @@ class Student_ProfileScreen extends React.Component {
     })
   }
   render() {
+    historyList = []
+    this.props.class.map(v => {
+      score = 0
+      if (v.studentList.indexOf(this.state.student._id) >= 0) {
+        this.props.course.map(vCourse => {
+          if(v.courseId == vCourse._id){
+            this.props.semester.map(vSemester => {
+              if(vCourse.semesterId == vSemester._id){
+                historyList.push({
+                  classId: v._id,
+                  classGroup:v.group,
+                  className: v.name,
+                  courseId: v.courseId,
+                  courseName: vCourse.name,
+                  semesterId:vSemester._id,
+                  semesterName:vSemester.name
+                })
+              }
+            })
+          }
+
+        })
+      }
+      console.log(score);
+    })
+    console.log('====================================');
+    console.log(historyList);
+    console.log('====================================');
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
@@ -104,8 +120,8 @@ class Student_ProfileScreen extends React.Component {
 
           <ScrollView>
             <FlatList
-              data={this.state.dataTest}
-              extraData={this.props.dataTest}
+              data={historyList}
+              extraData={historyList}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
 
@@ -134,9 +150,9 @@ class Student_ProfileScreen extends React.Component {
                     <View style={{ borderLeftColor: '#999999', borderLeftWidth: 2.5, height: 50 }} />
                   </View>
                   <View style={{ flex: 4, borderBottomColor: '#999999', borderBottomWidth: 1.5 }}>
-                    <Text style={{ fontSize: 25, color: '#fd4176' }}>{item.semester}</Text>
-                    <Text style={{ fontSize: 18, marginTop: 5 }}>{item.course}</Text>
-                    <Text style={{ fontSize: 16, marginTop: 3 }}>Group {item.group}</Text>
+                    <Text style={{ fontSize: 25, color: '#fd4176' }}>{item.semesterName}</Text>
+                    <Text style={{ fontSize: 18, marginTop: 5 }}>{item.courseName}</Text>
+                    <Text style={{ fontSize: 16, marginTop: 3 }}>Group {item.classGroup}</Text>
                   </View>
                   <View style={{ flex: 1, alignItems: 'center', borderBottomColor: '#999999', borderBottomWidth: 1.5, paddingTop: 10 }}>
                     <Ionicons
@@ -144,7 +160,7 @@ class Student_ProfileScreen extends React.Component {
                       size={50}
                       color='#f7ebc3'
                     />
-                    <Text style={{ fontSize: 16, marginTop: -5 }}>{item.percentage}</Text>
+                    <Text style={{ fontSize: 16, marginTop: -5 }}>{/*item.percentage*/}</Text>
                   </View>
                 </TouchableOpacity>
               )} />
@@ -173,6 +189,10 @@ const styles = StyleSheet.create({
   },
 });
 const mapStateToProps = state => ({
-  student: state.student
+  student: state.student,
+  semester: state.semester,
+  course: state.course,
+  class: state.class,
+  checkIn: state.checkIn
 })
 export default connect(mapStateToProps)(Student_ProfileScreen)

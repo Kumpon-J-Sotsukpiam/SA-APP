@@ -23,14 +23,21 @@ class TodayScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      thisTime: new Date().getTime()
+      thisTime: new Date().getTime(),
     }
     this.refreshScreen = this.refreshScreen.bind(this)
   }
   refreshScreen() {
     this.setState({ thisTime: new Date().getTime() })
   }
-
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.refreshScreen()
+    }, 1000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
   handleTime(id, start, end) {
     var currentTime = new Date().getTime()
     var endTime = new Date(end).getTime()
@@ -48,9 +55,7 @@ class TodayScreen extends React.Component {
   }
 
   render() {
-    setInterval(() => {
-      this.refreshScreen()
-    }, 1000);
+
     const { semester, course, Class } = this.props
     toDate = new Date()
     toDay = (toDate.getDay() == 0 ? 6 : toDate.getDay() - 1)
