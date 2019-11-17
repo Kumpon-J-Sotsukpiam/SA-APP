@@ -45,7 +45,7 @@ class Add_StudentScreen extends React.Component {
     }
   }
   _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Videos});
+    let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Videos });
     //Object {"cancelled","duration","height","rotation","type","uri","width"}
     if (!result.cancelled) {
       this.setState({ image: result });
@@ -87,7 +87,7 @@ class Add_StudentScreen extends React.Component {
       name: this.state.studentName,
       faculty: this.state.faculty,
       major: this.state.major,
-      image:this.state.image
+      image: this.state.image
     }
     add_student(dataReq, this.props).then(() => {
       this.props.navigation.navigate('Students')
