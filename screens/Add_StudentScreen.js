@@ -82,20 +82,16 @@ class Add_StudentScreen extends React.Component {
     this.setState({ toggleVideo: false, video: null });
   }
   handleOnSave = (data, props) => {
-    if (this.state.image == null) {
-      alert('Please choose image !')
-    } else {
-      dataReq = {
-        stuId: this.state.studentID,
-        name: this.state.studentName,
-        faculty: this.state.faculty,
-        major: this.state.major,
-        image: this.state.image
-      }
-      add_student(dataReq, this.props).then(() => {
-        this.props.navigation.navigate('Students')
-      })
+    dataReq = {
+      stuId: this.state.studentID,
+      name: this.state.studentName,
+      faculty: this.state.faculty,
+      major: this.state.major,
+      image: this.state.image
     }
+    add_student(dataReq, this.props).then(() => {
+      this.props.navigation.navigate('Students')
+    })
   }
   toggleVideo() {
     this.setState({ toggleVideo: !this.state.toggleVideo })
