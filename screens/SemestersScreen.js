@@ -106,7 +106,7 @@ class SemestersScreen extends React.Component {
                     <ContainerSemester
                       semester={item.name}
                       totalCourse={this.checkCourse(this.props.course.filter(i => i.semesterId == item._id).length)}
-                      navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterID: item._id })}
+                      navigateCourseList={() => this.props.navigation.navigate('CourseList', { semesterId: item._id })} 
                     />
                   </Swipeout>
                 </View>

@@ -144,7 +144,7 @@ class StudentListScreen extends React.Component {
           </View>
         </View>
 
-        <ScrollView>
+        <ScrollView style={{marginBottom:70}}>
           {filteredStudent.map(dataStudent => {
             const { _id, name, stuId, history } = dataStudent
             return (
