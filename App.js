@@ -32,9 +32,9 @@ class App extends React.Component {
       );
     } else {
       return (
-            <Provider store={store}>
-              <AppNavigator />
-            </Provider>
+        <Provider store={store}>
+          <AppNavigator />
+        </Provider>
       );
     }
   }

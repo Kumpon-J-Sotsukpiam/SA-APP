@@ -1,5 +1,7 @@
 export const GET_ERRORS = 'GET_ERRORS'
 
+export const RESET = 'RESET'
+
 // Token Even Type
 export const SET_CURRENT_TOKEN = 'SET_CURRENT_TOKEN'
 export const UNSET_CURRENT_TOKEN = 'UNSET_CURRENT_TOKEN'

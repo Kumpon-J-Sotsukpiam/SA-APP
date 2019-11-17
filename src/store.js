@@ -3,9 +3,8 @@ import logger from 'redux-logger'
 
 import rootReducer from './reducers'
 
-const store = createStore(rootReducer)
-//const store = createStore(rootReducer,applyMiddleware(logger))
-
+//const store = createStore(rootReducer)
+const store = createStore(rootReducer,applyMiddleware(logger))
 export {
     store
 }
