@@ -58,7 +58,7 @@ class Add_StudentScreen extends React.Component {
     });
     if (!result.cancelled) {
       this.setState({ toggleVideo: false });
-      this.setState({ video: result.uri });
+      this.setState({ image: result.uri });
     }
   };
   setStudentID(data) {
@@ -97,7 +97,7 @@ class Add_StudentScreen extends React.Component {
     this.setState({ toggleVideo: !this.state.toggleVideo })
   }
   render() {
-    let { video } = this.state;
+    let { image } = this.state;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
@@ -134,9 +134,9 @@ class Add_StudentScreen extends React.Component {
                   onPress={() => this.toggleVideo()}
                 />
               </View>
-              {video &&
+              {image &&
                 (<Video
-                  source={{ uri: video }}
+                  source={{ uri: image }}
                   rate={1.0}
                   isMuted={true}
                   resizeMode="cover"
