@@ -66,7 +66,9 @@ export const add_student = async (data, props) => {
             body: formData
         });
         resData = await res.json()
-        await dispatch(addStudent(resData))
+        status = await res.status()
+        if(status == 200)
+            await dispatch(addStudent(resData))
     } catch (error) {
 
     }
