@@ -39,22 +39,21 @@ class Student_ProfileScreen extends React.Component {
       score = 0
       if (v.studentList.indexOf(this.state.student._id) >= 0) {
         this.props.course.map(vCourse => {
-          if(v.courseId == vCourse._id){
+          if (v.courseId == vCourse._id) {
             this.props.semester.map(vSemester => {
-              if(vCourse.semesterId == vSemester._id){
+              if (vCourse.semesterId == vSemester._id) {
                 historyList.push({
                   classId: v._id,
-                  classGroup:v.group,
+                  classGroup: v.group,
                   className: v.name,
                   courseId: v.courseId,
                   courseName: vCourse.name,
-                  semesterId:vSemester._id,
-                  semesterName:vSemester.name
+                  semesterId: vSemester._id,
+                  semesterName: vSemester.name
                 })
               }
             })
           }
-
         })
       }
       console.log(score);

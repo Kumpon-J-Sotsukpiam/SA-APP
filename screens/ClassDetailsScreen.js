@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     backgroundColor: '#fd4176',
-    height: 140,
+    height: 155,
     justifyContent: 'space-around',
     borderBottomColor: '#be5f7a',
     borderBottomWidth: 1,
@@ -164,6 +164,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: 10,
     borderRadius: 10,
+    paddingBottom:3
   },
   textGroup: {
     color: '#fff',

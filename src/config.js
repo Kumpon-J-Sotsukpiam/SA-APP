@@ -11,4 +11,4 @@ export const faceDetectorSetting = {
     runClassifications: FaceDetector.Constants.Classifications.none,
     minDetectionInterval: 100,
     tracking: false
-}
+}   
