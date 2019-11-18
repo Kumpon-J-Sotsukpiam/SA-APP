@@ -123,8 +123,8 @@ class Student_ProfileScreen extends React.Component {
               extraData={historyList}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
-
-                <TouchableOpacity style={{
+                <TouchableOpacity>
+                <View style={{
                   marginLeft: 15,
                   marginBottom: 5,
                   marginTop: 8,
@@ -148,19 +148,21 @@ class Student_ProfileScreen extends React.Component {
                     </View>
                     <View style={{ borderLeftColor: '#999999', borderLeftWidth: 2.5, height: 50 }} />
                   </View>
-                  <View style={{ flex: 4, borderBottomColor: '#999999', borderBottomWidth: 1.5 }}>
+                  <View style={{ flex: 4,}}>
                     <Text style={{ fontSize: 25, color: '#fd4176' }}>{item.semesterName}</Text>
                     <Text style={{ fontSize: 18, marginTop: 5 }}>{item.courseName}</Text>
                     <Text style={{ fontSize: 16, marginTop: 3 }}>Group {item.classGroup}</Text>
                   </View>
-                  <View style={{ flex: 1, alignItems: 'center', borderBottomColor: '#999999', borderBottomWidth: 1.5, paddingTop: 10 }}>
+                  <View style={{ flex: 1, alignItems: 'center',paddingTop: 10 }}>
                     <Ionicons
                       name='ios-analytics'
                       size={50}
                       color='#f7ebc3'
                     />
-                    <Text style={{ fontSize: 16, marginTop: -5 }}>{/*item.percentage*/}</Text>
+                    <Text style={{ fontSize: 16, marginTop: -5 }}>{/*item.percentage*/}0%</Text>
                   </View>
+                  </View>
+                  <View style={{borderBottomColor: '#999999', borderBottomWidth: 1.5,marginTop:10,marginLeft:100}}/>
                 </TouchableOpacity>
               )} />
           </ScrollView>
