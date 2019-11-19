@@ -29,6 +29,24 @@ class StudentsScreen extends React.Component {
     this.setState({ search: data })
   }
 
+  handleCheckVideo(data){
+    if(data === true){
+      return (
+        <Ionicons name='ios-checkmark'
+          size={45}
+          color={'blue'}
+        />
+        )
+    } else {
+      return (
+        <Ionicons name='ios-close'
+          size={45}
+          color={'red'}
+        />
+        )
+      
+    }
+  }
 
   render() {
     
@@ -83,8 +101,12 @@ class StudentsScreen extends React.Component {
           <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Student ID</Text>
           </View>
-          <View style={{ flex: 2.5, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ flex: 3.3, justifyContent: 'center', alignItems: 'center'}}>
             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Name</Text>
+          </View>
+          <View style={{ flex: 1,justifyContent:'center',alignItems: 'center'}}>
+            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Profile</Text>
+            <Text style={{ fontSize: 9.5, fontWeight: 'bold' }}>Complete</Text>
           </View>
         </View>
 
@@ -105,13 +127,16 @@ class StudentsScreen extends React.Component {
                   backgroundColor='transparent'>
 
                   <TouchableOpacity onPress={() => this.props.navigation.navigate('StudentProfile',{stuId:item._id})}
-                    style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
+                    style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 3 }}>
 
                     <View style={{ flex: 2, justifyContent: 'center' }}>
                       <Text style={{ fontSize: 16 }}>{item.stuId}</Text>
                     </View>
-                    <View style={{ flex: 2.5, justifyContent: 'center' }}>
+                    <View style={{ flex: 3.3, justifyContent: 'center'}}>
                       <Text style={{ fontSize: 16 }}>{item.name}</Text>
+                    </View>
+                    <View style={{ flex: 1,justifyContent:'center',alignItems:'center'}}>
+                      <Text style={{ fontSize: 16 }}>{this.handleCheckVideo(item.upload)}</Text>
                     </View>
 
                   </TouchableOpacity>

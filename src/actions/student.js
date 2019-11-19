@@ -48,6 +48,9 @@ export const add_student = async (data, props) => {
     formData.append("name", name)
     formData.append("major", major)
     formData.append("faculty", faculty)
+    console.log('====================================');
+    console.log(image);
+    console.log('====================================');
     if (image != null) {
         formData.append("file", {
             name: "testsendvideo.mp4",
@@ -65,10 +68,9 @@ export const add_student = async (data, props) => {
             },
             body: formData
         });
-        resData = await res.json()
-        status = await res.status()
-        if(status == 200)
-            await dispatch(addStudent(resData))
+        res.json().then(async (data) => {
+            await dispatch(addStudent(data))
+        })
     } catch (error) {
 
     }
