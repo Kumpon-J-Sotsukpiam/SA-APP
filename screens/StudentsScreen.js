@@ -111,9 +111,8 @@ class StudentsScreen extends React.Component {
                       <Text style={{ fontSize: 16 }}>{item.stuId}</Text>
                     </View>
                     <View style={{ flex: 2.5, justifyContent: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{item.name} => {`${item.upload}`}</Text>
+                      <Text style={{ fontSize: 16 }}>{item.name} => {`${item.upload}`} => {`${item.dataSet}`}</Text>
                     </View>
-
                   </TouchableOpacity>
                 </Swipeout>
               </View>
