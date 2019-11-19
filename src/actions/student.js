@@ -48,6 +48,9 @@ export const add_student = async (data, props) => {
     formData.append("name", name)
     formData.append("major", major)
     formData.append("faculty", faculty)
+    console.log('====================================');
+    console.log(image);
+    console.log('====================================');
     if (image != null) {
         formData.append("file", {
             name: "testsendvideo.mp4",
