@@ -41,7 +41,7 @@ class CameraScreen extends React.Component {
       classId: null,
       checkId: null,
       hasCameraPermission: null,
-      type: Camera.Constants.Type.back,
+      type: Camera.Constants.Type.front,
       isConnect: false,
       addToggle: false,
       search: '',
@@ -132,7 +132,7 @@ class CameraScreen extends React.Component {
         <View style={styles.containerCamera}>
           <Camera
             ref={this.setCamera}
-            style={{ height: 250 }}
+            style={{ height: 450 }}
             type={this.state.type}
             onFacesDetected={this.handleFaceDetected}
             faceDetectorSetting={faceDetectorSetting}>
