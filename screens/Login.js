@@ -14,9 +14,9 @@ import { Button } from 'react-native-elements';
 import { connect } from "react-redux"
 import { loginUser, changePassword } from "../src/actions/authentication"
 
-import Svg,{Image,Circle,ClipPath} from 'react-native-svg'
+import Svg, { Image, Circle, ClipPath } from 'react-native-svg'
 import Animated, { Easing } from 'react-native-reanimated';
-import { TapGestureHandler, State} from 'react-native-gesture-handler';
+import { TapGestureHandler, State } from 'react-native-gesture-handler';
 const { width, height } = Dimensions.get('window');
 
 const {
@@ -112,35 +112,35 @@ class Login extends React.Component {
       outputRange: [-height / 2, 0],
       extrapolate: Extrapolate.CLAMP
     });
-  
-  
-    this.textInputZindex = interpolate(this.buttonOpacity,{
-      inputRange:[0,1],
-      outputRange:[1,-1],
-      extrapolate:Extrapolate.CLAMP
+
+
+    this.textInputZindex = interpolate(this.buttonOpacity, {
+      inputRange: [0, 1],
+      outputRange: [1, -1],
+      extrapolate: Extrapolate.CLAMP
     });
-  
-    this.textInputOpacity = interpolate(this.buttonOpacity,{
-      inputRange:[0,1],
-      outputRange:[1,0],
-      extrapolate:Extrapolate.CLAMP
+
+    this.textInputOpacity = interpolate(this.buttonOpacity, {
+      inputRange: [0, 1],
+      outputRange: [1, 0],
+      extrapolate: Extrapolate.CLAMP
     });
-  
-    this.textInputY = interpolate(this.buttonOpacity,{
-      inputRange:[0,1],
-      outputRange:[0,100],
-      extrapolate:Extrapolate.CLAMP
+
+    this.textInputY = interpolate(this.buttonOpacity, {
+      inputRange: [0, 1],
+      outputRange: [0, 100],
+      extrapolate: Extrapolate.CLAMP
     });
-  
-    this.rotateCross = interpolate(this.buttonOpacity,{
-      inputRange:[0,1],
-      outputRange:[180,360],
-      extrapolate:Extrapolate.CLAMP
+
+    this.rotateCross = interpolate(this.buttonOpacity, {
+      inputRange: [0, 1],
+      outputRange: [180, 360],
+      extrapolate: Extrapolate.CLAMP
     });
   }
 
 
-  
+
   handleChange = (name, e) => {
     this.setState({
       [name]: e.nativeEvent.text
@@ -148,111 +148,112 @@ class Login extends React.Component {
   }
 
   handleLogin = (e) => {
-          loginUser(this.state, this.props)
+    loginUser(this.state, this.props)
   }
 
   render() {
     const { password, username } = this.props.errors
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={styles.container}>
-      <Animated.View
-        style={{
-          ...StyleSheet.absoluteFill,
-          transform: [{ translateY: this.bgY }]
-        }}
-      >
-            <Svg  height={height+50} width={width}>
-              <ClipPath id='clip'>
-                <Circle r={height} cx={width/2}/>
-              </ClipPath>
-            <Image
-              href={require('../assets/imgs/bg.png')}
-              width={width}
-              height={height}
-              preserveAspectRatio='xMidYMid slice'
-              clipPath='url(#clip)'
-            />
-            </Svg>
-      </Animated.View>
-      <View style={{ height: height / 3, justifyContent: 'center' }}>
-        <TapGestureHandler onHandlerStateChange={this.onStateChange}>
+        <View style={styles.container}>
           <Animated.View
             style={{
-              ...styles.button,
-              opacity: this.buttonOpacity,
-              transform: [{ translateY: this.buttonY }]
+              ...StyleSheet.absoluteFill,
+              transform: [{ translateY: this.bgY }]
             }}
           >
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>SIGN IN</Text>
+            <Svg height={height + 50} width={width}>
+              <ClipPath id='clip'>
+                <Circle r={height} cx={width / 2} />
+              </ClipPath>
+              <Image
+                href={require('../assets/imgs/bg.png')}
+                width={width}
+                height={height}
+                preserveAspectRatio='xMidYMid slice'
+                clipPath='url(#clip)'
+              />
+            </Svg>
           </Animated.View>
-        </TapGestureHandler>
+          <View style={{ height: height / 3, justifyContent: 'center' }}>
+            <TapGestureHandler onHandlerStateChange={this.onStateChange}>
+              <Animated.View
+                style={{
+                  ...styles.button,
+                  opacity: this.buttonOpacity,
+                  transform: [{ translateY: this.buttonY }]
+                }}
+              >
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>SIGN IN</Text>
+              </Animated.View>
+            </TapGestureHandler>
 
-        <Animated.View
-          style={{
-            ...styles.button,
-            backgroundColor: '#2E71DC',
-            opacity: this.buttonOpacity,
-            transform: [{ translateY: this.buttonY }]
-          }}
-        >
-          <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
-            SIGN IN WITH FACEBOOK
+            <Animated.View
+              style={{
+                ...styles.button,
+                backgroundColor: '#2E71DC',
+                opacity: this.buttonOpacity,
+                transform: [{ translateY: this.buttonY }]
+              }}
+            >
+              <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
+                SIGN IN WITH FACEBOOK
           </Text>
-        </Animated.View>
-      </View>
-
-      <Animated.View style={{
-        zIndex:this.textInputZindex,
-        opacity:this.textInputOpacity,
-        transform:[{translateY:this.textInputY}],
-        height:height/2,
-        ...StyleSheet.absoluteFill,
-        top:null,
-        justifyContent:'center'}}>
-
-          <TapGestureHandler onHandlerStateChange={this.onCloseState}>
-            <Animated.View style={styles.closeBtn}>
-              <Animated.Text style={{fontSize:20,transform:[{rotate:concat(this.rotateCross,'deg')}]}}>X</Animated.Text>
             </Animated.View>
-          </TapGestureHandler>
+          </View>
 
-          <TextInput
+          <Animated.View style={{
+            zIndex: this.textInputZindex,
+            opacity: this.textInputOpacity,
+            transform: [{ translateY: this.textInputY }],
+            height: height / 2,
+            ...StyleSheet.absoluteFill,
+            top: null,
+            justifyContent: 'center'
+          }}>
+
+            <TapGestureHandler onHandlerStateChange={this.onCloseState}>
+              <Animated.View style={styles.closeBtn}>
+                <Animated.Text style={{ fontSize: 20, transform: [{ rotate: concat(this.rotateCross, 'deg') }] }}>X</Animated.Text>
+              </Animated.View>
+            </TapGestureHandler>
+
+            <TextInput
               placeholderTextColor='gray'
               placeholder='Username'
               style={styles.textInput}
               onChange={e => this.handleChange('username', e)}
               onSubmitEditing={(event) => { this.refs.password.focus() }}
-          />
-          <Text style={styles.errorText}>{username}</Text>
-          <TextInput
+            />
+            <Text style={styles.errorText}>{username}</Text>
+            <TextInput
               ref='password'
               secureTextEntry={true}
               placeholderTextColor='gray'
               placeholder='Password'
               style={styles.textInput}
               onChange={e => this.handleChange('password', e)}
-          />
-          <Text style={styles.errorText}>{password}</Text>
-          
-          <Button
-            type='clear'
-            style={styles.button} 
-            onPress={e => this.handleLogin(e)}
-            title='SIGN IN'
-            titleStyle={{fontSize:20,fontWeight:'bold',color:'#000'}}
-          />
-          <Button
-            type='clear'
-            style={styles.button} 
-            onPress={() => this.props.navigation.navigate('SignUp')}
-            title='SIGN UP'
-            titleStyle={{fontSize:20,fontWeight:'bold',color:'#000'}}
-          />
+            />
+            <Text style={styles.errorText}>{password}</Text>
 
-      </Animated.View>
-    </View>
-    </TouchableWithoutFeedback>
+            <Button
+              type='clear'
+              style={styles.button}
+              onPress={e => this.handleLogin(e)}
+              title='SIGN IN'
+              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
+            />
+            <Button
+              type='clear'
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('SignUp')}
+              title='SIGN UP'
+              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
+            />
+
+          </Animated.View>
+        </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -271,39 +272,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 5,
-    shadowOffset:{width:2, height:2},
-    shadowOpacity:0.2,
-    shadowColor:'#000',
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.2,
+    shadowColor: '#000',
   },
   closeBtn: {
-    height:40,
-    width:40,
-    borderRadius:20,
-    backgroundColor:'#fff',
-    alignItems:'center',
-    justifyContent:'center',
-    position:'absolute',
-    top:-20,
-    left:width/2-20,
-    shadowColor:'#000',
-    shadowOpacity:0.2
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: -20,
+    left: width / 2 - 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.2
   },
   textInput: {
-    height:50,
-    borderRadius:25,
-    borderWidth:0.5,
-    borderColor:'gray',
-    marginHorizontal:15,
-    paddingLeft:10,
-    marginVertical:5,
-    fontSize:18
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 0.5,
+    borderColor: 'gray',
+    marginHorizontal: 15,
+    paddingLeft: 10,
+    marginVertical: 5,
+    fontSize: 18
   },
   errorText: {
-    marginHorizontal:5,
-    paddingLeft:10,
-    marginVertical:5,
-    fontSize:14,
-    color:'red'
+    marginHorizontal: 5,
+    paddingLeft: 10,
+    marginVertical: 5,
+    fontSize: 14,
+    color: 'red'
   },
 });
 
