@@ -43,7 +43,7 @@ const DialogBox = props => {
       borderColor:'#f3f3f3',
       borderWidth:3}}>
       <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
-      <Text style={{fontSize:20}}>Confirm to Reset ?</Text>
+      <Text style={{fontSize:20}}>{/*Confirm to Reset ?*/}{props.message}</Text>
       </View>
     </DialogContent>
 </Dialog>

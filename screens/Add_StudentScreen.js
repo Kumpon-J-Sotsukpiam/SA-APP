@@ -53,8 +53,7 @@ class Add_StudentScreen extends React.Component {
   };
   _recordVideo = async () => {
     let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      base64: true
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos
     });
     if (!result.cancelled) {
       this.setState({ toggleVideo: false });

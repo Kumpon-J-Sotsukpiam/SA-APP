@@ -8,6 +8,7 @@ import {
   PointPropType,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import DialogBox from '../components/DialogBox';
 import { Header, Button, SearchBar } from 'react-native-elements';
 import Swipeout from 'react-native-swipeout';
 import { createFilter } from 'react-native-search-filter';
@@ -19,6 +20,7 @@ class ButtonTrain extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      resetToggle: false,
       status: {
         "-1": { "message": "Train Model" },
         "0": { "message": "Cancel Train Model" },
@@ -43,6 +45,7 @@ class StudentListScreen extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      resetToggle: false,
       autoClose: true,
       search: '',
       class: [],
@@ -98,29 +101,29 @@ class StudentListScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View>
-        <Header
-          leftComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassDetails')}>
-              <Ionicons
-                name='ios-arrow-back'
-                size={45}
-                color='#fff'
-              />
-            </TouchableOpacity>
-          )}
-          rightComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('AddStudentList', { classId: this.state.class._id })}>
-              <Ionicons name='ios-add'
-                size={50}
-                color={'#fff'}
-              />
-            </TouchableOpacity>
-          )}
-          centerComponent={(
-            ({ text: 'Student List', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })
-          )}
-          containerStyle={styles.containerStyle}
-        />
+          <Header
+            leftComponent={(
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('ClassDetails')}>
+                <Ionicons
+                  name='ios-arrow-back'
+                  size={45}
+                  color='#fff'
+                />
+              </TouchableOpacity>
+            )}
+            rightComponent={(
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('AddStudentList', { classId: this.state.class._id })}>
+                <Ionicons name='ios-add'
+                  size={50}
+                  color={'#fff'}
+                />
+              </TouchableOpacity>
+            )}
+            centerComponent={(
+              ({ text: 'Student List', style: { color: '#fff', fontSize: 24, fontWeight: 'bold' } })
+            )}
+            containerStyle={styles.containerStyle}
+          />
         </View>
 
         <SearchBar
@@ -144,7 +147,7 @@ class StudentListScreen extends React.Component {
           </View>
         </View>
 
-        <ScrollView style={{marginBottom:70}}>
+        <ScrollView style={{ marginBottom: 70 }}>
           {filteredStudent.map(dataStudent => {
             const { _id, name, stuId, history } = dataStudent
             return (
@@ -166,7 +169,7 @@ class StudentListScreen extends React.Component {
                       <Text style={{ fontSize: 16 }}>{name}</Text>
                     </View>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text style={{ fontSize: 16 }}>{`${(history/propsCheckIn.length)*100||0}%`}</Text>
+                      <Text style={{ fontSize: 16 }}>{`${(history / propsCheckIn.length) * 100 || 0}%`}</Text>
                     </View>
 
                   </TouchableOpacity>
@@ -189,9 +192,23 @@ class StudentListScreen extends React.Component {
                   this.cancelQueue(_id)
                   break;
                 case 2:
-                  this.trainModel(_id)
+                  this.setState({
+                    resetToggle: true
+                  })
                   break;
               }
+            }}
+          />
+          <DialogBox
+            visible={this.state.resetToggle}
+            message={"Are you sure for training new model ?"}
+            onTouchOutside={() => this.setState({ resetToggle: false })}
+            cancelBtn={() => this.setState({ resetToggle: false })}
+            confirmBtn={() => {
+              this.trainModel(this.state.class._id)
+              this.setState({
+                resetToggle: false
+              })
             }}
           />
         </View>
@@ -212,11 +229,11 @@ const styles = StyleSheet.create({
 
   buttonButtom: {
     flex: 1,
-    bottom:0,
-    left:5,
-    right:5,
+    bottom: 0,
+    left: 5,
+    right: 5,
     margin: 10,
-    position:'absolute'
+    position: 'absolute'
   },
   containerStyle: {
     backgroundColor: '#fd4176',
