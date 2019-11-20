@@ -27,7 +27,7 @@ export const setSemester = (id,data) => {
         payload:data
     }
 }
-// action FrontEnd
+//action FrontEnd
 export const get_semester = (props) => {
     const { dispatch } = props
     api.get('semester/').then(res => {
@@ -36,30 +36,35 @@ export const get_semester = (props) => {
         dispatch(get_errors(err.response.data))
     })
 }
-export const del_semester = (id,props) => {
+
+export const del_semester = async (id,props) => {
     const { dispatch } = props
-    api.delete(`semester/${id}`).then(res => {
-        dispatch(delSemester(id))
-    }).catch(err => {
-        dispatch(get_errors(err.response.data))
-    })
+    try {
+        let res = await api.delete(`semester/${id}`)
+            await dispatch(delSemester(id))
+    } catch (err) {
+            await dispatch(get_errors(err.response.data))
+    }
 }
+
 export const set_semester = async (id,data,props) => {
     const{dispatch} = props
     const res = await api.put(`semester/${id}`,data)
     await dispatch(setSemester(id,data))
 }
-export const add_semester = (semester,props) => {
+
+export const add_semester = async (semester,props) => {
     const { dispatch } = props
     data = {
         name:semester.semesterName,
         startDate:semester.dateStarts,
         endDate:semester.dateEnds
     }
-    api.post('semester/',data).then(res => {
-        dispatch(addSemester(res.data))
-    }).catch(err => {
+    try {
+        let res = await api.post('semester/',data)
+            await dispatch(addSemester(res.data))
+    } catch (err) {
         console.error(err.response.data);
-    })
+    }
         
 }

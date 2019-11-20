@@ -48,22 +48,26 @@ export const get_class = (id, props) => {
         dispatch(get_errors(err.response.data))
     })
 }
-export const add_class = (data, props) => {
+export const add_class = async(data, props) => {
     const { dispatch, navigation } = props
-    api.post('clas/', data).then(res => {
-        dispatch(addClass(res.data))
-    }).catch(err => {
-        dispatch(get_errors(err.response.data))
-    })
+    try {
+        let res = await api.post('clas/', data)
+            await dispatch(addClass(res.data))
+    } catch (err) {
+            await dispatch(get_errors(err.response.data))
+    }
 }
-export const del_class = (id, props) => {
+
+export const del_class = async (id, props) => {
     const { dispatch } = props
-    api.delete(`clas/${id}`).then(res => {
-        dispatch(delClass(id))
-    }).catch(err => {
-        dispatch(get_errors(err.response.data))
-    })
+    try {
+        let res = await api.delete(`clas/${id}`)
+            await dispatch(delClass(id))
+    } catch (err) {
+            await dispatch(get_errors(err.response.data))
+    }
 }
+
 export const set_class = async (id, data, props) => {
     const { dispatch } = props
     try {
@@ -73,19 +77,21 @@ export const set_class = async (id, data, props) => {
         console.error(error);
     }
 }
-export const push_student_in_class = (data, props) => {
+export const push_student_in_class = async(data, props) => {
     const { dispatch } = props
-    api.put(`clas/stu/${data.classId}`, { stuList: data.stuList }).then(res => {
-        dispatch(pushStudentInClass(data))
-    }).catch(err => {
+    try {
+        let res = await api.put(`clas/stu/${data.classId}`, { stuList: data.stuList })
+            await dispatch(pushStudentInClass(data))
+    } catch (err) {
         console.log(err);
-    })
+    }
 }
-export const pull_student_in_class = (data, props) => {
+export const pull_student_in_class = async (data, props) => {
     const { dispatch } = props
-    api.put(`clas/stu/${data.classId}/${data.stuId}`).then(res => {
-        dispatch(pullStudentInClass(data))
-    }).catch(err => {
+    try {
+        let res = await api.put(`clas/stu/${data.classId}/${data.stuId}`)
+            await dispatch(pullStudentInClass(data))
+    } catch (err) {
         console.log(err);
-    })
+    }
 }

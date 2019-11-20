@@ -26,7 +26,7 @@ export const registerUser = async (user, props) => {
                 await navigation.navigate('AuthLoading')
             }
     } catch (err) {
-        dispatch(get_errors(err.response.data))
+        await dispatch(get_errors(err.response.data))
 }
 }
 
@@ -43,7 +43,7 @@ export const loginUser = async (user, props) => {
             await navigation.navigate('AuthLoading')
         }
     } catch (err) {
-        dispatch(get_errors(err.response.data))
+        await dispatch(get_errors(err.response.data))
     }
 }
 export const loginFacebook = async (user, props) => {
@@ -56,7 +56,7 @@ export const loginFacebook = async (user, props) => {
             await navigation.navigate('AuthLoading')
         }
     } catch (err) {
-        dispatch(get_errors(err.response.data))
+        await dispatch(get_errors(err.response.data))
     }
 }
 export const logoutUser = (props) => {

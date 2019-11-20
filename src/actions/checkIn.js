@@ -27,7 +27,7 @@ export const pushCheckIn = (id,data) => {
         payload:data
     }
 }
-// action FrontEnd
+//action FrontEnd
 export const get_checkIn = (props) => {
     const { dispatch } = props
     api.get('checkIn/').then(res => {
@@ -36,6 +36,17 @@ export const get_checkIn = (props) => {
         dispatch(get_errors(err.response.data))
     })
 }
+
+// export const get_checkIn = async (props) => {
+//     const { dispatch } = props
+//     try {
+//         let res = await api.get('checkIn/')
+//         await dispatch(getCheckIn(res.data))
+//     } catch (err) {
+//         await dispatch(get_errors(err.response.data))
+//     }
+// }
+
 export const add_checkIn = (data,props) => {
     const { dispatch } = props
     api.post('checkIn/',data).then(res => {
@@ -44,6 +55,17 @@ export const add_checkIn = (data,props) => {
         dispatch(get_errors(err.response.data))
     })
 }
+
+// export const add_checkIn = async (data,props) => {
+//     const { dispatch } = props
+//     try {
+//         let res = await api.post('checkIn/',data)
+//         await dispatch(addCheckIn(res.data))
+//     } catch (err) {
+//         await dispatch(get_errors(err.response.data))
+//     }
+// }
+
 export const push_student_in_checkIn = (data,props) => {
     const { dispatch } = props
     api.put(`checkIn/stu/${data.checkInId}`,{stuList:data.stuList}).then(res => {
@@ -52,6 +74,19 @@ export const push_student_in_checkIn = (data,props) => {
         })
     })
 }
+
+// export const push_student_in_checkIn = async (data,props) => {
+//     const { dispatch } = props
+//     try {
+//         let res = await api.put(`checkIn/stu/${data.checkInId}`,{stuList:data.stuList})
+//         res.data.data.map(v => {
+//             await dispatch(pushCheckIn(data.checkInId,v))
+//         })
+//     } catch (err) {
+//         console.error(err);   
+//     }
+// }
+
 export const del_checkIn = (id,props) => {
     const { dispatch } = props
     api.get(`checkIn/${id}`).then(res => {
