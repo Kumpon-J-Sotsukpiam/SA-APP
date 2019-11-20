@@ -139,8 +139,6 @@ class Login extends React.Component {
     });
   }
 
-
-  
   handleChange = (name, e) => {
     this.setState({
       [name]: e.nativeEvent.text
@@ -274,6 +272,8 @@ const styles = StyleSheet.create({
     shadowOffset:{width:2, height:2},
     shadowOpacity:0.2,
     shadowColor:'#000',
+    borderColor:'gray',
+    borderWidth:1,
   },
   closeBtn: {
     height:40,
@@ -296,7 +296,9 @@ const styles = StyleSheet.create({
     marginHorizontal:15,
     paddingLeft:10,
     marginVertical:5,
-    fontSize:18
+    fontSize:18,
+    borderColor:'gray',
+    borderWidth:1,
   },
   errorText: {
     marginHorizontal:5,
