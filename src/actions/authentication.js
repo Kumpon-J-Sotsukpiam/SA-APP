@@ -16,49 +16,48 @@ export const unSetCurrentToken = () => {
 }
 
 // action FrontEnd
-export const registerUser = (user, props) => {
+export const registerUser = async (user, props) => {
     const { navigation, dispatch } = props
-    api.post('auth/register', user).then(res => {
-        if (res.data.success) {
-            const { token } = res.data
-            SecureStore.setItemAsync('tokenAuth', token)
-            navigation.navigate('AuthLoading')
-        }
-    }).catch(err => {
+    try {
+        let res = await api.post('auth/register', user)
+            if (res.data.success) {
+                const { token } = res.data
+                await SecureStore.setItemAsync('tokenAuth', token)
+                await navigation.navigate('AuthLoading')
+            }
+    } catch (err) {
         dispatch(get_errors(err.response.data))
-    })
 }
+}
+
 export const changePassword = (password) => dispatch => {
     // todo
 }
 export const loginUser = async (user, props) => {
     const { navigation, dispatch } = props
-    api.post('auth/login', user)
-        .then(res => {
-            if (res.data.success) {
-                const { token } = res.data
-                SecureStore.setItemAsync('tokenAuth', token)
-                navigation.navigate('AuthLoading')
-            }
-        })
-        .catch(err => {
-            dispatch(get_errors(err.response.data))
-        })
+    try {
+        let res = await api.post('auth/login', user)
+        if (res.data.success) {
+            const { token } = res.data
+            await SecureStore.setItemAsync('tokenAuth', token)
+            await navigation.navigate('AuthLoading')
+        }
+    } catch (err) {
+        dispatch(get_errors(err.response.data))
+    }
 }
 export const loginFacebook = async (user, props) => {
     const { navigation, dispatch } = props
-    api.post('auth/facebook', user)
-        .then(res => {
-            if (res.data.success) {
-                const { token } = res.data
-                
-                SecureStore.setItemAsync('tokenAuth', token)
-                navigation.navigate('AuthLoading')
-            }
-        })
-        .catch(err => {
-            dispatch(get_errors(err.response.data))
-        })
+    try {
+        let res = await api.post('auth/facebook', user)
+        if (res.data.success) {
+            const { token } = res.data
+            await SecureStore.setItemAsync('tokenAuth', token)
+            await navigation.navigate('AuthLoading')
+        }
+    } catch (err) {
+        dispatch(get_errors(err.response.data))
+    }
 }
 export const logoutUser = (props) => {
     const { navigation } = props
