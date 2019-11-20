@@ -47,10 +47,11 @@ export const loginUser = async (user, props) => {
 }
 export const loginFacebook = async (user, props) => {
     const { navigation, dispatch } = props
-    api.post('auth/login', user)
+    api.post('auth/facebook', user)
         .then(res => {
             if (res.data.success) {
                 const { token } = res.data
+                
                 SecureStore.setItemAsync('tokenAuth', token)
                 navigation.navigate('AuthLoading')
             }

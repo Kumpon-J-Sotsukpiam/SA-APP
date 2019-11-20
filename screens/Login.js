@@ -12,9 +12,7 @@ import {
 import { Button } from 'react-native-elements';
 
 import { connect } from "react-redux"
-import { loginUser, changePassword } from "../src/actions/authentication"
-
-import { loginfacebook } from '../src/actions/authentication'; 
+import { loginUser, changePassword,loginFacebook } from "../src/actions/authentication"
 import Svg,{Image,Circle,ClipPath} from 'react-native-svg'
 import Animated, { Easing } from 'react-native-reanimated';
 import { TapGestureHandler, State, TouchableOpacity} from 'react-native-gesture-handler';
@@ -162,7 +160,7 @@ class Login extends React.Component {
         Alert.alert('login with facebook is successed')
         response.json().then(data => {
           //api.post('http://172.20.10.7:3001/auth/facebook',data)
-          loginfacebook (data)
+          loginFacebook(data,this.props)
         })
         
       } else {
