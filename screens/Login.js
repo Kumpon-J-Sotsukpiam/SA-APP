@@ -271,20 +271,19 @@ class Login extends React.Component {
           />
           <Text style={styles.errorText}>{password}</Text>
           
-          <Button
-            type='clear'
-            style={styles.button} 
-            onPress={e => this.handleLogin(e)}
-            title='SIGN IN'
-            titleStyle={{fontSize:20,fontWeight:'bold',color:'#000'}}
-          />
-          <Button
-            type='clear'
-            style={styles.button} 
-            onPress={() => this.props.navigation.navigate('SignUp')}
-            title='SIGN UP'
-            titleStyle={{fontSize:20,fontWeight:'bold',color:'#000'}}
-          />
+
+          <TouchableOpacity onPress={e => this.handleLogin(e)} style={styles.button}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
+            SIGN IN
+          </Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('SignUp')} style={styles.button}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
+            SIGN UP
+          </Text>
+          </TouchableOpacity>
+
 
       </Animated.View>
     </View>
