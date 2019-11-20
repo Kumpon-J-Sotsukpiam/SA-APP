@@ -7,6 +7,7 @@ import {
 } from "react-native";
 
 import { Ionicons } from '@expo/vector-icons';
+import { clearErrors } from '../src/actions/errors'
 import { connect } from "react-redux"
 import { registerUser } from "../src/actions/authentication"
 import { Button } from 'react-native-elements';
@@ -31,6 +32,14 @@ class Register extends React.Component {
   handleRegister = (e) => {
     registerUser(this.state, this.props)
   }
+  async componentWillMount(){
+    setTimeout(() => {
+      clearErrors(this.props)
+    },1000)
+  }
+  async componentWillUnmount(){
+    clearErrors(this.props)
+  }
   render() {
     const { password, password_confirm, username, name } = this.props.errors
     return (
@@ -51,7 +60,7 @@ class Register extends React.Component {
               style={styles.textInput}
               onChange={e => this.handleChange('name', e)}
             />                    
-            <Text style={styles.errorText}>{username}</Text>
+            <Text style={styles.errorText}>{name}</Text>
             <TextInput
               placeholderTextColor='gray'
               placeholder='Username'
