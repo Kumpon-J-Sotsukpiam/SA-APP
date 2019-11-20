@@ -285,13 +285,6 @@ class Login extends React.Component {
             title='SIGN UP'
             titleStyle={{fontSize:20,fontWeight:'bold',color:'#000'}}
           />
-          <Button
-            type='clear'
-            style={styles.button} 
-            onPress={() => this.loginWithFacebook()}
-            title='SIGN IN WITH FACEBOOK'
-            titleStyle={{fontSize:20,fontWeight:'bold',color:'#000'}}
-          />
 
       </Animated.View>
     </View>
@@ -348,7 +341,6 @@ const styles = StyleSheet.create({
   errorText: {
     marginHorizontal:5,
     paddingLeft:10,
-    marginVertical:5,
     fontSize:14,
     color:'red'
   },
