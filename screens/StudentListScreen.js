@@ -14,7 +14,7 @@ import Swipeout from 'react-native-swipeout';
 import { createFilter } from 'react-native-search-filter';
 import { connect } from 'react-redux'
 import { pull_student_in_class } from '../src/actions/class'
-import { train_model, check_status_model } from '../src/actions/model'
+import { train_model, check_status_model, popQueue } from '../src/actions/model'
 const KEYS_TO_FILTERS = ['stuId', 'name', 'faculty', 'major'];
 class ButtonTrain extends React.Component {
   constructor(props) {
@@ -75,14 +75,17 @@ class StudentListScreen extends React.Component {
       })
     })
   }
-  cancelQueue() {
-    console.log('this cancel train');
+  cancelQueue(id) {
+    popQueue(id,res => {
+      if(res.ok){
+        this.setState({
+          status:-1
+        })
+      }
+    })
   }
   render() {
     const propsStudent = this.props.student.filter(i => this.state.class.studentList.indexOf(i._id) >= 0)
-    console.log('====================================');
-    console.log(propsStudent);
-    console.log('====================================');
     const propsCheckIn = this.props.checkIn.filter(i => i.classId == this.state.class._id)
     const studentList = this.state.class.studentList
 

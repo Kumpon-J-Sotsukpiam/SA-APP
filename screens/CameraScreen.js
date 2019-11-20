@@ -21,19 +21,6 @@ import { predict_face, predicted_face } from '../src/actions/predict'
 import { faceDetectorSetting } from '../src/config'
 
 const io = require('socket.io-client')
-/*
-Unrecognized WebSocket connection option(s) 
-  `agent`, 
-  `perMessageDeflate`, 
-  `pfx`, 
-  `key`, 
-  `passphrase`, 
-  `cert`, 
-  `ca`, 
-  `ciphers`, 
-  `rejectUnauthorized`. 
-Did you mean to put these under `headers`?
-*/
 class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +28,7 @@ class CameraScreen extends React.Component {
       classId: null,
       checkId: null,
       hasCameraPermission: null,
-      type: Camera.Constants.Type.front,
+      type: Camera.Constants.Type.back,
       isConnect: false,
       addToggle: false,
       search: '',
@@ -97,7 +84,8 @@ class CameraScreen extends React.Component {
       type: 'data:image/jpg;base64',
       classId: this.state.classId,
       checkId: this.state.checkId,
-      authId: this.props.auth.user.id
+      authId: this.props.auth.user.id,
+      _uid: this.props.auth.user.id,
     }
     predict_face(data, this.socket)
   }

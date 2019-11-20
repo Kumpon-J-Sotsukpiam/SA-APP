@@ -14,9 +14,17 @@ import { Button } from 'react-native-elements';
 import { connect } from "react-redux"
 import { loginUser, changePassword } from "../src/actions/authentication"
 
+import { loginfacebook } from '../src/actions/authentication';
 import Svg, { Image, Circle, ClipPath } from 'react-native-svg'
 import Animated, { Easing } from 'react-native-reanimated';
-import { TapGestureHandler, State } from 'react-native-gesture-handler';
+import { TapGestureHandler, State, TouchableOpacity } from 'react-native-gesture-handler';
+
+//import library for facebook login
+import * as Facebook from 'expo-facebook';
+import { Alert } from 'react-native';
+import api from '../src/modules/api';
+//
+
 const { width, height } = Dimensions.get('window');
 
 const {
@@ -139,8 +147,26 @@ class Login extends React.Component {
     });
   }
 
+  //login with facebook function
+  async loginWithFacebook() {
+    try {
+      const { type, token } = await Facebook.logInWithReadPermissionsAsync('445952655996280', { permissions: ['public_profile'], });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
+        Alert.alert('login with facebook is successed')
+        response.json().then(data => {
+          //api.post('http://172.20.10.7:3001/auth/facebook',data)
+          loginfacebook(data)
+        })
 
-
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
   handleChange = (name, e) => {
     this.setState({
       [name]: e.nativeEvent.text
@@ -196,9 +222,12 @@ class Login extends React.Component {
                 transform: [{ translateY: this.buttonY }]
               }}
             >
-              <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
-                SIGN IN WITH FACEBOOK
+              <TouchableOpacity
+                onPress={() => this.loginWithFacebook()}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}>
+                  SIGN IN WITH FACEBOOK
           </Text>
+              </TouchableOpacity>
             </Animated.View>
           </View>
 
@@ -235,6 +264,28 @@ class Login extends React.Component {
               onChange={e => this.handleChange('password', e)}
             />
             <Text style={styles.errorText}>{password}</Text>
+
+            <Button
+              type='clear'
+              style={styles.button}
+              onPress={e => this.handleLogin(e)}
+              title='SIGN IN'
+              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
+            />
+            <Button
+              type='clear'
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('SignUp')}
+              title='SIGN UP'
+              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
+            />
+            <Button
+              type='clear'
+              style={styles.button}
+              onPress={() => this.loginWithFacebook()}
+              title='SIGN IN WITH FACEBOOK'
+              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
+            />
 
             <Button
               type='clear'

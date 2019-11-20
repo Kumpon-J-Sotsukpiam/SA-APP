@@ -1,4 +1,4 @@
-import { PUSH_MODEL,PULL_MODEL } from './types'
+import { PUSH_MODEL, PULL_MODEL } from './types'
 import { get_erors } from './errors'
 import { addCheckIn } from '../actions/checkIn'
 import api from '../modules/api'
@@ -16,42 +16,47 @@ export const pullModel = () => {
     }
 }
 // action FrontEnd
-export const push_model = async (id, props,cb) => {
+export const push_model = async (id, props, cb) => {
     const { dispatch } = props
-    api.get(`deep_server/model/${id}`).then(res => {
-        dispatch(addCheckIn(res.data.checkIn))
+    try {
+        const res = await api.get(`deep_server/model/${id}`)
+        await dispatch(addCheckIn(res.data.checkIn))
         cb(res.data)
-    }).catch(err => {
+    } catch (err) {
         cb(err.response.data)
-    })
+    }
 }
-export const pull_model = async (props,cb) => {
+export const pull_model = async (props, cb) => {
     const { dispatch } = props
-    api.delete(`deep_server/model/${id}`).then(res => {
+    try {
+        const res = await api.delete(`deep_server/model/${id}`)
         cb(res.data)
-    })
+    } catch (err) {
+
+    }
 }
-export const train_model = async (id,cb) => {
+export const train_model = async (id, cb) => {
     data = { id: id }
-    api.post(`deep_server/model`, data).then(res => {
+    try {
+        const res = await api.post(`deep_server/model`, data)
         cb(res.data)
-    }).catch(err => {
-        console.error(err);
-    })
+    } catch (err) {
+
+    }
 }
-export const check_status_model = async (_id,cb) => {
-    api.get(`deep_server/model/check/${_id}`).then(res => {
+export const check_status_model = async (_id, cb) => {
+    try {
+        const res = await api.get(`deep_server/model/check/${_id}`)
         cb(res.data)
-    })
-    // .catch(err => {
-        
-    // })
+    } catch (err) {
+
+    }
 }
-export const popQueue = async (_id,cb) => {
-    api.delete(`deep_server/model/pop/${_id}`).then(res => {
+export const popQueue = async (_id, cb) => {
+    try {
+        const res = await api.delete(`deep_server/model/pop/${_id}`)
         cb(res.data)
-    })
-    // .catch(err => {
-        
-    // })
+    } catch (err) {
+
+    }
 }

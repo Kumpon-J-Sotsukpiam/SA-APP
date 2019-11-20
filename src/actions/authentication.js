@@ -45,6 +45,20 @@ export const loginUser = async (user, props) => {
             dispatch(get_errors(err.response.data))
         })
 }
+export const loginFacebook = async (user, props) => {
+    const { navigation, dispatch } = props
+    api.post('auth/login', user)
+        .then(res => {
+            if (res.data.success) {
+                const { token } = res.data
+                SecureStore.setItemAsync('tokenAuth', token)
+                navigation.navigate('AuthLoading')
+            }
+        })
+        .catch(err => {
+            dispatch(get_errors(err.response.data))
+        })
+}
 export const logoutUser = (props) => {
     const { navigation } = props
     SecureStore.deleteItemAsync('tokenAuth').then(res => {
