@@ -74,20 +74,29 @@ class CameraScreen extends React.Component {
   }
   handleFaceDetected = async ({ faces }) => {
     if (faces.length > 0) {
-      const { base64 } = await this.camera.takePictureAsync({base64:true}) // Object {"height","uri","width"}
-      this.onUploadPicture(base64)
+      const { uri } = await this.camera.takePictureAsync() // Object {"height","uri","width"}
+      this.onUploadPicture(uri)
     }
   }
-  onUploadPicture = (base64) => {
-    data = {
-      Base64: base64,
-      type: 'data:image/jpg;base64',
-      classId: this.state.classId,
-      checkId: this.state.checkId,
-      authId: this.props.auth.user.id,
-      _uid: this.props.auth.user.id,
-    }
-    predict_face(data, this.socket)
+  onUploadPicture = (uri) => {
+    let formData = new FormData()
+    formData.append('classId',this.state.classId)
+    formData.append('checkId',this.state.checkId)
+    formData.append('_uid',this.props.auth.user.id)
+    formData.append('file',{
+      name:'testSendFace.jpg',
+      uri:uri,
+      type:'image/jpeg'
+    })
+    // data = {
+    //   //Base64: base64,
+    //   //type: 'data:image/jpg;base64',
+    //   classId: this.state.classId,
+    //   checkId: this.state.checkId,
+    //   authId: this.props.auth.user.id,
+    //   _uid: this.props.auth.user.id,
+    // }
+    predict_face(formData, this.socket)
   }
 
   render() {

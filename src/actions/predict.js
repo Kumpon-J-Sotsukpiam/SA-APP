@@ -1,15 +1,17 @@
 import { PREDICT_FACE } from '../actions/types'
 import { pushCheckIn } from '../actions/checkIn'
-import { server_url } from '../config'
 
-export const predict_face = (data, socket) => {
-    fetch(server_url + '/predict', {
+export const predict_face = async (data, socket) => {
+    let res = await fetch(`http://192.168.43.216:5000/predict`, {
         method: 'post',
         headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
         },
         body: data
-    })
+    });
+    // res.json().then(async (data) => {
+    //     await dispatch(addStudent(data))
+    // })
     //socket.emit('predict', data)
 }
 export const predicted_face = (props, socket, _id) => {
