@@ -38,24 +38,25 @@ export const get_course = (id, props) => {
 }
 export const set_course = async (id,data,props) => {
     const { dispatch } = props
-    const res = await api.put(`cour/${id}`,data)
-    await dispatch(setCourse(id,data))
-}
-export const add_course = (data, props) => {
-    const { dispatch, navigation } = props
-    data = {
-        _id: data.semesterId,
-        name: data.courseId,
+    try {
+        const res = await api.put(`cour/${id}`,data)
+            await dispatch(setCourse(id,data))
+    } catch (err) {
+        console.log(err);
+        
     }
-    api.post(`cour/`, data).then(res => {
-        dispatch(addCourse(res.data))
-    })
 }
-export const del_course = (id, props) => {
-    const { dispatch } = props
-    api.delete(`cour/${id}`).then(res => {
-        dispatch(delCourse(id))
-    }).catch(err => {
-        dispatch(get_errors(err.response.data))
-    })
+
+export const add_course = async (data, props) => {
+    const { dispatch, navigation } = props
+    try {
+        data = {
+            _id: data.semesterId,
+            name: data.courseId,
+        }
+        let res = await api.post(`cour/`, data)
+            await dispatch(addCourse(res.data))
+    } catch (err) {
+        console.log(err);   
+    }
 }
