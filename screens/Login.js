@@ -16,7 +16,7 @@ import { loginUser, changePassword,loginFacebook } from "../src/actions/authenti
 import Svg,{Image,Circle,ClipPath} from 'react-native-svg'
 import Animated, { Easing } from 'react-native-reanimated';
 import { TapGestureHandler, State, TouchableOpacity} from 'react-native-gesture-handler';
-
+import { clearErrors } from '../src/actions/errors'
 //import library for facebook login
 import * as Facebook from 'expo-facebook';
 import { Alert } from 'react-native';
@@ -172,7 +172,12 @@ class Login extends React.Component {
   }
   //
 
-
+  async componentWillMount(){
+    clearErrors(this.props)
+  }
+  async componentWillUnmount(){
+    clearErrors(this.props)
+  }
   
   handleChange = (name, e) => {
     this.setState({
@@ -272,7 +277,7 @@ class Login extends React.Component {
           <Text style={styles.errorText}>{password}</Text>
           
 
-          <TouchableOpacity onPress={e => this.handleLogin(e)} style={styles.button}>
+          <TouchableOpacity onPress={e => this.handleLogin(e)} style={{...styles.button,backgroundColor:'#005073'}}>
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
             SIGN IN
           </Text>
@@ -332,13 +337,13 @@ const styles = StyleSheet.create({
     borderColor:'gray',
     marginHorizontal:15,
     paddingLeft:10,
-    marginVertical:5,
+    marginVertical:3,
     fontSize:18,
     borderColor:'gray',
     borderWidth:1,
   },
   errorText: {
-    marginHorizontal:5,
+    marginHorizontal:15,
     paddingLeft:10,
     fontSize:14,
     color:'red'
