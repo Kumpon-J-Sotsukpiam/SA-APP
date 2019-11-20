@@ -4,6 +4,8 @@ import {
   View,
   Text,
   TextInput,
+  ImageBackground,
+  Dimensions
 } from "react-native";
 
 import { Ionicons } from '@expo/vector-icons';
@@ -11,6 +13,7 @@ import { clearErrors } from '../src/actions/errors'
 import { connect } from "react-redux"
 import { registerUser } from "../src/actions/authentication"
 import { Button } from 'react-native-elements';
+const { width, height } = Dimensions.get("screen");
 
 class Register extends React.Component {
   constructor(props) {
@@ -38,10 +41,14 @@ class Register extends React.Component {
 
       <View style={styles.container}>
 
-          <View>
-
+        <ImageBackground
+          source={require('../assets/imgs/registerbg.png')}
+          style={{ width, height, zIndex: 1,justifyContent:'center'}}
+          blurRadius={80}
+        >
+          
           <View style={{alignItems:'center', marginBottom:20}}>
-            <Text style={{fontSize:30,fontWeight:'bold',color:'#fff'}}>
+            <Text style={{fontSize:35,fontWeight:'bold',color:'#fff'}}>
               SIGN UP
             </Text>
           </View>
@@ -95,10 +102,11 @@ class Register extends React.Component {
                 })
               }}
               title='SIGN IN'
-              titleStyle={{fontSize:18,fontWeight:'bold',color:'#fff'}}
+              titleStyle={{fontSize:20,fontWeight:'bold',color:'#fff'}}
             />
             
-            </View>
+            </ImageBackground>
+           
 
             </View>
      
@@ -113,9 +121,9 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
   button: {
-    height: 45,
+    height: 50,
     marginVertical:5,
-    marginHorizontal:10
+    marginHorizontal:15
   },
   textInput: {
     height:50,

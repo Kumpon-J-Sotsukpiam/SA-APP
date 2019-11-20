@@ -84,6 +84,15 @@ class StudentListScreen extends React.Component {
       }
     })
   }
+
+  handleStatus(data){
+    if(data === true){
+      return '#f3f3f3'
+    } else {
+      return 'red'
+    }
+  }
+
   render() {
     const propsStudent = this.props.student.filter(i => this.state.class.studentList.indexOf(i._id) >= 0)
     const propsCheckIn = this.props.checkIn.filter(i => i.classId == this.state.class._id)
@@ -152,7 +161,7 @@ class StudentListScreen extends React.Component {
 
         <ScrollView style={{ marginBottom: 70 }}>
           {filteredStudent.map(dataStudent => {
-            const { _id, name, stuId, history } = dataStudent
+            const { _id, name, stuId, history ,dataSet} = dataStudent
             return (
               <View key={_id} style={{ backgroundColor: '#f3f3f3', margin: 3, borderRadius: 10 }}>
                 <Swipeout left={[{
@@ -164,7 +173,7 @@ class StudentListScreen extends React.Component {
                   autoClose={this.state.autoClose}
                   backgroundColor='transparent'>
                   <TouchableOpacity onPress={() => { this.props.navigation.navigate('StudentLog', { classId: this.state.class._id, stuId: _id }) }}
-                    style={{ flexDirection: 'row', backgroundColor: '#f3f3f3', borderRadius: 10, height: 50, paddingLeft: 5 }}>
+                    style={{ flexDirection: 'row', backgroundColor: this.handleStatus(dataSet), borderRadius: 10, height: 50, paddingLeft: 5 }}>
                     <View style={{ flex: 2, justifyContent: 'center' }}>
                       <Text style={{ fontSize: 16 }}>{stuId}</Text>
                     </View>

@@ -16,6 +16,5 @@ export default combineReducers({
     checkIn: checkInReducer,
     class: classReducer,
     course: courseReducer,
-    toDay: toDayReducer,
     model:modelReducer
 })

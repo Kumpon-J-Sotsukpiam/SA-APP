@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux'
-import { Header, Button } from 'react-native-elements';
+import { Header } from 'react-native-elements';
 import { Video } from 'expo-av';
 
 class Student_ProfileScreen extends React.Component {

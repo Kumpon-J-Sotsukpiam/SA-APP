@@ -9,8 +9,6 @@ import {
   Keyboard,
 } from "react-native";
 
-import { Button } from 'react-native-elements';
-
 import { connect } from "react-redux"
 import { loginUser, changePassword,loginFacebook } from "../src/actions/authentication"
 import Svg,{Image,Circle,ClipPath} from 'react-native-svg'
@@ -20,8 +18,6 @@ import { clearErrors } from '../src/actions/errors'
 //import library for facebook login
 import * as Facebook from 'expo-facebook';
 import { Alert } from 'react-native';
-import api from '../src/modules/api';
-//
 
 const { width, height } = Dimensions.get('window');
 
@@ -273,7 +269,7 @@ class Login extends React.Component {
           <Text style={styles.errorText}>{password}</Text>
           
 
-          <TouchableOpacity onPress={e => this.handleLogin(e)} style={{...styles.button,backgroundColor:'#005073'}}>
+          <TouchableOpacity onPress={e => this.handleLogin(e)} style={{...styles.button,backgroundColor:'#2E71DC'}}>
           <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
             SIGN IN
           </Text>

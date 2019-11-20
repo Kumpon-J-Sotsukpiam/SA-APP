@@ -52,8 +52,6 @@ class StudentsScreen extends React.Component {
     
     const filteredStudent = this.props.student.filter(createFilter(this.state.search,KEYS_TO_FILTERS_STUDENT))
 
-    console.log(filteredStudent)
-    
     return (
       <View style={styles.container}>
         
