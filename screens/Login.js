@@ -15,8 +15,8 @@ import { connect } from "react-redux"
 import { loginUser, changePassword,loginFacebook } from "../src/actions/authentication"
 import Svg,{Image,Circle,ClipPath} from 'react-native-svg'
 import Animated, { Easing } from 'react-native-reanimated';
-import { TapGestureHandler, State, TouchableOpacity } from 'react-native-gesture-handler';
-
+import { TapGestureHandler, State, TouchableOpacity} from 'react-native-gesture-handler';
+import { clearErrors } from '../src/actions/errors'
 //import library for facebook login
 import * as Facebook from 'expo-facebook';
 import { Alert } from 'react-native';
@@ -165,6 +165,15 @@ class Login extends React.Component {
       alert(`Facebook Login Error: ${message}`);
     }
   }
+  //
+
+  async componentWillMount(){
+    clearErrors(this.props)
+  }
+  async componentWillUnmount(){
+    clearErrors(this.props)
+  }
+  
   handleChange = (name, e) => {
     this.setState({
       [name]: e.nativeEvent.text
@@ -260,49 +269,30 @@ class Login extends React.Component {
               placeholder='Password'
               style={styles.textInput}
               onChange={e => this.handleChange('password', e)}
-            />
-            <Text style={styles.errorText}>{password}</Text>
+          />
+          <Text style={styles.errorText}>{password}</Text>
+          
 
-            <Button
-              type='clear'
-              style={styles.button}
-              onPress={e => this.handleLogin(e)}
-              title='SIGN IN'
-              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
-            />
-            <Button
-              type='clear'
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('SignUp')}
-              title='SIGN UP'
-              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
-            />
-            <Button
-              type='clear'
-              style={styles.button}
-              onPress={() => this.loginWithFacebook()}
-              title='SIGN IN WITH FACEBOOK'
-              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
-            />
+          <TouchableOpacity onPress={e => this.handleLogin(e)} style={{...styles.button,backgroundColor:'#005073'}}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
+            SIGN IN
+          </Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity onPress={() => {
+            clearErrors(this.props).then(() => {
+              this.props.navigation.navigate('SignUp')
+            })
+          }} style={styles.button}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}>
+            SIGN UP
+          </Text>
+          </TouchableOpacity>
 
-            <Button
-              type='clear'
-              style={styles.button}
-              onPress={e => this.handleLogin(e)}
-              title='SIGN IN'
-              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
-            />
-            <Button
-              type='clear'
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('SignUp')}
-              title='SIGN UP'
-              titleStyle={{ fontSize: 20, fontWeight: 'bold', color: '#000' }}
-            />
 
-          </Animated.View>
-        </View>
-      </TouchableWithoutFeedback>
+      </Animated.View>
+    </View>
+    </TouchableWithoutFeedback>
     );
   }
 }
@@ -321,9 +311,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 5,
-    shadowOffset: { width: 2, height: 2 },
-    shadowOpacity: 0.2,
-    shadowColor: '#000',
+    shadowOffset:{width:2, height:2},
+    shadowOpacity:0.2,
+    shadowColor:'#000',
+    borderColor:'gray',
+    borderWidth:1,
   },
   closeBtn: {
     height: 40,
@@ -339,21 +331,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2
   },
   textInput: {
-    height: 50,
-    borderRadius: 25,
-    borderWidth: 0.5,
-    borderColor: 'gray',
-    marginHorizontal: 15,
-    paddingLeft: 10,
-    marginVertical: 5,
-    fontSize: 18
+    height:50,
+    borderRadius:25,
+    borderWidth:0.5,
+    borderColor:'gray',
+    marginHorizontal:15,
+    paddingLeft:10,
+    marginVertical:3,
+    fontSize:18,
+    borderColor:'gray',
+    borderWidth:1,
   },
   errorText: {
-    marginHorizontal: 5,
-    paddingLeft: 10,
-    marginVertical: 5,
-    fontSize: 14,
-    color: 'red'
+    marginHorizontal:15,
+    paddingLeft:10,
+    fontSize:14,
+    color:'red'
   },
 });
 

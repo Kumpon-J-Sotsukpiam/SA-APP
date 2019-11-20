@@ -56,8 +56,10 @@ class Add_StudentScreen extends React.Component {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos
     });
     if (!result.cancelled) {
-      this.setState({ toggleVideo: false });
       this.setState({ image: result.uri });
+      this.setState({ toggleVideo: false });
+      
+      console.log(result)
     }
   };
   setStudentID(data) {

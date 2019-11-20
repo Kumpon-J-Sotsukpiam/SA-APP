@@ -1,19 +1,16 @@
 import React from "react";
 import {
   StyleSheet,
-  Dimensions,
   View,
   Text,
   TextInput,
-  ImageBackground,
-  KeyboardAvoidingView,
 } from "react-native";
 
 import { Ionicons } from '@expo/vector-icons';
+import { clearErrors } from '../src/actions/errors'
 import { connect } from "react-redux"
 import { registerUser } from "../src/actions/authentication"
 import { Button } from 'react-native-elements';
-const { width, height } = Dimensions.get("screen");
 
 class Register extends React.Component {
   constructor(props) {
@@ -36,40 +33,26 @@ class Register extends React.Component {
     registerUser(this.state, this.props)
   }
   render() {
-    const { password, password_confirm, username } = this.props.errors
+    const { password, password_confirm, username, name } = this.props.errors
     return (
-      <View style={styles.container}>
-        
-        <ImageBackground
-          source={require('../assets/imgs/bg.png')}
-          style={{ width, height, zIndex: 1 }}
-        >
-         <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior='padding'
-            enabled    
-         >
-          <View style={{
-            backgroundColor:'#fff',
-            top: height/4,
-            marginHorizontal: 20,
-            shadowOffset:{width:2, height:2},
-            shadowOpacity:0.2,
-            shadowColor:'#000',}}>
 
-          <View style={{justifyContent:'center',alignItems:'center',height:50}}>
-          <Text style={{fontSize:24,fontWeight:'bold'}}>
-            SIGN UP
-          </Text>
+      <View style={styles.container}>
+
+          <View>
+
+          <View style={{alignItems:'center', marginBottom:20}}>
+            <Text style={{fontSize:30,fontWeight:'bold',color:'#fff'}}>
+              SIGN UP
+            </Text>
           </View>
-   
+          
             <TextInput
               placeholderTextColor='gray'
               placeholder='Name'
-              style={{...styles.textInput,marginVertical:20}}
+              style={styles.textInput}
               onChange={e => this.handleChange('name', e)}
             />                    
- 
+            <Text style={styles.errorText}>{name}</Text>
             <TextInput
               placeholderTextColor='gray'
               placeholder='Username'
@@ -95,25 +78,30 @@ class Register extends React.Component {
             />  
             <Text style={styles.errorText}>{password_confirm}</Text>
             
+            
             <Button
+              type='clear'
               style={styles.button} 
               onPress={e => this.handleRegister(e)}
               title='CREATE ACCOUNT'
-              titleStyle={{fontSize:14,fontWeight:'bold',color:'#000'}}
+              titleStyle={{fontSize:20,fontWeight:'bold',color:'#fff'}}
             />
             <Button
               type='clear'
               style={styles.button} 
-              onPress={() => this.props.navigation.navigate('SignIn')}
+              onPress={() => {
+                clearErrors(this.props).then(() => {
+                  this.props.navigation.navigate('SignIn')
+                })
+              }}
               title='SIGN IN'
-              titleStyle={{fontSize:14,fontWeight:'bold',color:'#000'}}
+              titleStyle={{fontSize:18,fontWeight:'bold',color:'#fff'}}
             />
+            
             </View>
-            </KeyboardAvoidingView>
 
-            </ImageBackground>
-      
-      </View>
+            </View>
+     
     );
   }
 }
@@ -121,34 +109,33 @@ class Register extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems:'center'
+    backgroundColor: '#fd4176',
+    justifyContent:'center',
   },
   button: {
-    height: 40,
-    marginHorizontal: 20,    
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 5,
-    shadowOffset:{width:2, height:2},
-    shadowOpacity:0.2,
-    shadowColor:'#000',
+    height: 45,
+    marginVertical:5,
+    marginHorizontal:10
   },
   textInput: {
     height:50,
     borderRadius:25,
     borderWidth:0.5,
     borderColor:'gray',
-    marginHorizontal:15,
-    paddingLeft:10,
-    marginVertical:5,
-    fontSize:18
+    fontSize:18,
+    backgroundColor:'#fff',
+    marginHorizontal:10,
+    paddingLeft:15,
+    shadowOffset:{width:2, height:2},
+    shadowOpacity:0.2,
+    shadowColor:'#000',
+    
   },
   errorText: {
     fontSize:14,
-    color:'red',
-    paddingLeft:20
+    color:'#fff',
+    paddingLeft:20,
+    marginVertical:3
   },
 });
 
