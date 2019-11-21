@@ -18,7 +18,7 @@ export default (state = initialState, actions) => {
             stateFilter = state.filter(i => i._id != actions.id)
             stateCheckIn = state.filter(i => i._id == actions.id)[0]
             stateCheckIn.studentList = stateCheckIn.studentList.concat(actions.payload)
-            return [...stateFilter,stateCheckIn]
+            return [stateCheckIn,...stateFilter]
 
         case DELETE_CHECKIN:
             return {

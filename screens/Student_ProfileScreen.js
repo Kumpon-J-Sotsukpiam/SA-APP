@@ -36,31 +36,25 @@ class Student_ProfileScreen extends React.Component {
   render() {
     historyList = []
     this.props.class.map(v => {
-      score = 0
       if (v.studentList.indexOf(this.state.student._id) >= 0) {
-        this.props.course.map(vCourse => {
-          if (v.courseId == vCourse._id) {
-            this.props.semester.map(vSemester => {
-              if (vCourse.semesterId == vSemester._id) {
-                historyList.push({
-                  classId: v._id,
-                  classGroup: v.group,
-                  className: v.name,
-                  courseId: v.courseId,
-                  courseName: vCourse.name,
-                  semesterId: vSemester._id,
-                  semesterName: vSemester.name
-                })
-              }
-            })
-          }
+        score = 0
+        length = 0
+        checkIn = this.props.checkIn.filter(i => i.classId == v._id)
+        checkIn.map(i => {
+          i.studentList.map(iStu => {
+            if (iStu._id == this.state.student._id) score++
+          })
+        })
+        course = this.props.course.filter(i => i._id == v.courseId)[0]
+        semester = this.props.semester.filter(i => i._id == course.semesterId)[0]
+        historyList.push({
+          classGroup: v.group,
+          courseName: course.name,
+          semesterName: semester.name,
+          percentage: Math.floor((score / checkIn.length) * 100)
         })
       }
-      console.log(score);
     })
-    console.log('====================================');
-    console.log(historyList);
-    console.log('====================================');
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
@@ -124,45 +118,45 @@ class Student_ProfileScreen extends React.Component {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <TouchableOpacity>
-                <View style={{
-                  marginLeft: 15,
-                  marginBottom: 5,
-                  marginTop: 8,
-                  flexDirection: 'row',
-                  height: 100
-                }}>
-                  <View style={{ flex: 1.5, alignItems: 'center' }}>
-                    <View style={{
-                      backgroundColor: '#999999',
-                      borderRadius: 30,
-                      height: 60,
-                      width: 60,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                      <Ionicons
-                        name='ios-school'
-                        size={40}
-                        color='#fff'
-                      />
+                  <View style={{
+                    marginLeft: 15,
+                    marginBottom: 5,
+                    marginTop: 8,
+                    flexDirection: 'row',
+                    height: 100
+                  }}>
+                    <View style={{ flex: 1.5, alignItems: 'center' }}>
+                      <View style={{
+                        backgroundColor: '#999999',
+                        borderRadius: 30,
+                        height: 60,
+                        width: 60,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                        <Ionicons
+                          name='ios-school'
+                          size={40}
+                          color='#fff'
+                        />
+                      </View>
+                      <View style={{ borderLeftColor: '#999999', borderLeftWidth: 2.5, height: 50 }} />
                     </View>
-                    <View style={{ borderLeftColor: '#999999', borderLeftWidth: 2.5, height: 50 }} />
+                    <View style={{ flex: 4, }}>
+                      <Text style={{ fontSize: 25, color: '#fd4176' }}>{item.semesterName}</Text>
+                      <Text style={{ fontSize: 18, marginTop: 5 }}>{item.courseName}</Text>
+                      <Text style={{ fontSize: 16, marginTop: 3 }}>Group {item.classGroup}</Text>
+                    </View>
+                    <View style={{ flex: 1, alignItems: 'center', paddingTop: 10 }}>
+                      <Ionicons
+                        name='ios-analytics'
+                        size={50}
+                        color='#f7ebc3'
+                      />
+                      <Text style={{ fontSize: 16, marginTop: -5 }}>{item.percentage || 0}%</Text>
+                    </View>
                   </View>
-                  <View style={{ flex: 4,}}>
-                    <Text style={{ fontSize: 25, color: '#fd4176' }}>{item.semesterName}</Text>
-                    <Text style={{ fontSize: 18, marginTop: 5 }}>{item.courseName}</Text>
-                    <Text style={{ fontSize: 16, marginTop: 3 }}>Group {item.classGroup}</Text>
-                  </View>
-                  <View style={{ flex: 1, alignItems: 'center',paddingTop: 10 }}>
-                    <Ionicons
-                      name='ios-analytics'
-                      size={50}
-                      color='#f7ebc3'
-                    />
-                    <Text style={{ fontSize: 16, marginTop: -5 }}>{/*item.percentage*/}0%</Text>
-                  </View>
-                  </View>
-                  <View style={{borderBottomColor: '#999999', borderBottomWidth: 1.5,marginTop:10,marginLeft:100}}/>
+                  <View style={{ borderBottomColor: '#999999', borderBottomWidth: 1.5, marginTop: 10, marginLeft: 100 }} />
                 </TouchableOpacity>
               )} />
           </ScrollView>
