@@ -10,6 +10,10 @@ import {
 import { SearchBar } from 'react-native-elements';
 
 const AddCheckinDialogBox = props => {
+  const data = props.data != undefined ? props.data : []
+  console.log('====================================');
+  console.log(data);
+  console.log('====================================');
   return (
     <View style={styles.container}>
 
@@ -51,10 +55,10 @@ const AddCheckinDialogBox = props => {
             />
           </View>
           <View>
-            <Text>ID</Text>
-            <Text>Name</Text>
-            <Text>Faculty</Text>
-            <Text>Major</Text>
+            <Text>ID : {data.stuId || ''}</Text>
+            <Text>Name : {data.name || ''}</Text>
+            <Text>Faculty : {data.faculty || ''}</Text>
+            <Text>Major : {data.major || ''}</Text>
           </View>
         </DialogContent>
       </Dialog>

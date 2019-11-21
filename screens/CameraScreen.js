@@ -16,9 +16,13 @@ import * as FaceDetector from 'expo-face-detector'
 import * as ImageManipulator from 'expo-image-manipulator'
 import * as FileSystem from 'expo-file-system'
 import { ip_server, port, server_url } from '../src/config'
+import { createFilter } from 'react-native-search-filter';
 import { pull_model } from '../src/actions/model'
 import { predict_face } from '../src/actions/predict'
 import { faceDetectorSetting } from '../src/config'
+import { push_student_in_checkIn } from '../src/actions/checkIn'
+
+const KEYS_TO_FILTERS = ['stuId'];
 
 class CameraScreen extends React.Component {
   constructor(props) {
@@ -30,20 +34,29 @@ class CameraScreen extends React.Component {
       type: Camera.Constants.Type.back,
       addToggle: false,
       search: '',
-      checkIn: []
+      checkIn: [],
+      studentList: [],
+      studentSearch: []
     };
   }
   searchUpdated(data) {
-    this.setState({ search: data })
+    studentSearch = this.state.studentList.filter(createFilter(data, KEYS_TO_FILTERS))
+    this.setState({
+      search: data,
+      studentSearch: studentSearch
+    })
   }
   async componentWillMount() {
     id = this.props.navigation.state.params.classId
     check_id = this.props.navigation.state.params.checkIn_id
-    log = this.props.checkIn.filter(i => i._id == check_id)
+    log = this.props.checkIn.filter(i => i._id == check_id)[0]
+    logClass = this.props.class.filter(i => i._id == id)[0]
+    studentList = this.props.student.filter(i => logClass.studentList.indexOf(i._id) >= 0)
     this.setState({
       classId: id,
       checkId: check_id,
-      checkIn: log[0]
+      checkIn: log,
+      studentList: studentList
     })
   }
   async componentDidMount() {
@@ -69,16 +82,16 @@ class CameraScreen extends React.Component {
   }
   onUploadPicture = async (uri) => {
     data = {
-      classId:this.state.classId,
-      checkId:this.state.checkId,
-      _uid:this.props.auth.user.id,
-      file:{
-        name:'testSendFace.jpg',
-        uri:uri,
-        type:'image/jpeg'
+      classId: this.state.classId,
+      checkId: this.state.checkId,
+      _uid: this.props.auth.user.id,
+      file: {
+        name: 'testSendFace.jpg',
+        uri: uri,
+        type: 'image/jpeg'
       }
     }
-    predict_face(data,this.props)
+    predict_face(data, this.props)
   }
   render() {
     return (
@@ -141,7 +154,18 @@ class CameraScreen extends React.Component {
           visible={this.state.addToggle}
           onTouchOutside={() => this.setState({ addToggle: false })}
           cancelBtn={() => this.setState({ addToggle: false })}
-          confirmBtn={() => { }}
+          confirmBtn={() => {
+            dataReq = {
+              checkInId: this.state.checkId,
+              stuList: [this.state.studentSearch[0]._id]
+            }
+            push_student_in_checkIn(dataReq, this.props).then(() => [
+              this.setState({
+                addToggle: false
+              })
+            ])
+          }}
+          data={this.state.studentSearch[0]}
           search={this.state.search}
           onChangeText={data => this.searchUpdated(data)}
         />
@@ -181,6 +205,7 @@ const mapStatetoProps = state => ({
   auth: state.auth,
   model: state.model,
   checkIn: state.checkIn,
-  student: state.student
+  student: state.student,
+  class: state.class
 })
 export default connect(mapStatetoProps)(CameraScreen)

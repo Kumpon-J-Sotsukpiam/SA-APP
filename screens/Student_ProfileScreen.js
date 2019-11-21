@@ -38,7 +38,6 @@ class Student_ProfileScreen extends React.Component {
     this.props.class.map(v => {
       if (v.studentList.indexOf(this.state.student._id) >= 0) {
         score = 0
-        length = 0
         checkIn = this.props.checkIn.filter(i => i.classId == v._id)
         checkIn.map(i => {
           i.studentList.map(iStu => {
