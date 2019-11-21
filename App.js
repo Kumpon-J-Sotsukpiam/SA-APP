@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, View } from 'react-native';
+import { Image } from 'react-native';
 import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import AppNavigator from './navigation/AppNavigator';
@@ -40,7 +40,7 @@ class App extends React.Component {
   }
 
   _loadResourcesAsync = async () => {
-    const imageAssets = cacheImages([require('./assets/imgs/bg.png')])
+    const imageAssets = cacheImages([require('./assets/imgs/bg.png'),require('./assets/imgs/registerbg.png')])
     await Promise.all([...imageAssets]);
   };
 

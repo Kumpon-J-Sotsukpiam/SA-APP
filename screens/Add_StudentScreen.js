@@ -16,7 +16,6 @@ import { connect } from 'react-redux'
 import { getFaculty, getMajor } from '../src/actions/studentID'
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
-import * as FileSystem from 'expo-file-system'
 import * as Permissions from 'expo-permissions';
 import { Video } from 'expo-av';
 class Add_StudentScreen extends React.Component {
@@ -49,6 +48,7 @@ class Add_StudentScreen extends React.Component {
     //Object {"cancelled","duration","height","rotation","type","uri","width"}
     if (!result.cancelled) {
       this.setState({ image: result });
+      
     }
   };
   _recordVideo = async () => {
