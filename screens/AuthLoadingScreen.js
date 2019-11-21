@@ -7,7 +7,9 @@ import jwt_decode from 'jwt-decode'
 import { setCurrentToken } from "../src/actions/authentication"
 import { get_first } from "../src/actions/firstLoading"
 
-import { StyleSheet, View, Text, ActivityIndicator } from 'react-native'
+import { StyleSheet, View, ActivityIndicator, ImageBackground, Dimensions } from 'react-native'
+
+const { width, height } = Dimensions.get("screen");
 
 class AuthLoadingScreen extends Component {
     componentWillMount() {
@@ -30,7 +32,10 @@ class AuthLoadingScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <ActivityIndicator size="large" color="#fff" />
+                <ImageBackground
+                    source={require('../assets/imgs/registerbg.png')}
+                    style={{ width, height, zIndex: 1}}
+                />
             </View>
         )
     }

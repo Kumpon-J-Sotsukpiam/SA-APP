@@ -48,6 +48,8 @@ class Add_StudentScreen extends React.Component {
     //Object {"cancelled","duration","height","rotation","type","uri","width"}
     if (!result.cancelled) {
       this.setState({ image: result });
+      this.setState({ toggleVideo: false });
+      console.log(result)
       
     }
   };
@@ -137,7 +139,7 @@ class Add_StudentScreen extends React.Component {
               </View>
               {image &&
                 (<Video
-                  source={{ uri: image }}
+                  source={{uri: image}}
                   rate={1.0}
                   isMuted={true}
                   resizeMode="cover"

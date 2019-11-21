@@ -2,7 +2,7 @@
   "expo": {
     "name": "Student Attendance",
     "slug": "Student-Attendance",
-    "sdkVersion": "34.0.0",
+    "sdkVersion": "35.0.0",
     "ios": {
       "bundleIdentifier": "com.utcc.saapp"
     },
@@ -27,6 +27,5 @@
     "assetBundlePatterns": [
       "**/*"
     ]
-
   }
 }
