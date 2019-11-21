@@ -92,14 +92,19 @@ class ClassDetailsScreen extends React.Component {
 
           <FlatList
             ItemSeparatorComponent={this.ListViewItemSeparator}
-            data={this.props.checkIn.filter(i => i.classId == this.state.class._id)}
+            data={this.props.checkIn.filter(i => {
+              if(i.classId == this.state.class._id){
+                console.log(i)
+                return (i)
+              }
+            })}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View style={styles.containerCheckinList}>
                 <ContainerCheckinList
                   dateCheckin={formatDate(item.createdAt)+" / "+formatTime(item.createdAt)}
                   student={item.studentList.length}
-                  navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails',{checkInId:item._id,createdAt:item.createdAt})}
+                  navigateCheckinList={() => this.props.navigation.navigate('CheckinDetails',{checkInId:item._id/*,createdAt:item.createdAt*/})}
                 />
               </View>
             )}

@@ -78,25 +78,18 @@ class CameraScreen extends React.Component {
       this.onUploadPicture(uri)
     }
   }
-  onUploadPicture = (uri) => {
-    let formData = new FormData()
-    formData.append('classId',this.state.classId)
-    formData.append('checkId',this.state.checkId)
-    formData.append('_uid',this.props.auth.user.id)
-    formData.append('file',{
-      name:'testSendFace.jpg',
-      uri:uri,
-      type:'image/jpeg'
-    })
-    // data = {
-    //   //Base64: base64,
-    //   //type: 'data:image/jpg;base64',
-    //   classId: this.state.classId,
-    //   checkId: this.state.checkId,
-    //   authId: this.props.auth.user.id,
-    //   _uid: this.props.auth.user.id,
-    // }
-    predict_face(formData, this.socket)
+  onUploadPicture = async (uri) => {
+    data = {
+      classId:this.state.classId,
+      checkId:this.state.checkId,
+      _uid:this.props.auth.user.id,
+      file:{
+        name:'testSendFace.jpg',
+        uri:uri,
+        type:'image/jpeg'
+      }
+    }
+    predict_face(data,this.props)
   }
 
   render() {

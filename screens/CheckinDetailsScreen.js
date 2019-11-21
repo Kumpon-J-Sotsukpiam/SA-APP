@@ -26,13 +26,19 @@ class CheckinDetailsScreen extends React.Component {
     this.setState({ search: data })
   }
   async componentWillMount() {
-    const { checkInId,createdAt } = this.props.navigation.state.params
-    log = this.props.checkIn.filter(i => (i._id == checkInId && i.createdAt == createdAt))
+    const { checkInId,/*createdAt*/ } = this.props.navigation.state.params
+    console.log('====================================');
+    console.log(checkInId);
+    console.log('====================================');
+    log = this.props.checkIn.filter(i => (i._id == checkInId/* && i.createdAt == createdAt*/))
     this.setState({
       checkIn: log[0]
     })
   }
   render() {
+    console.log('====================================');
+    console.log(this.state.checkIn);
+    console.log('====================================');
     const propStudentAllOfClass = this.props.class.filter(i => i._id == this.state.checkIn.classId)[0].studentList
     const propsStudentIdPresent = []
     this.state.checkIn.studentList.map(i => propsStudentIdPresent.push(i._id))

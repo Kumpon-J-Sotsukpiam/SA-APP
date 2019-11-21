@@ -25,8 +25,8 @@ class Add_StudentListScreen extends React.Component {
     this.handleOnSave = this.handleOnSave.bind(this)
   }
   async componentWillMount() {
-    const { checkInId } = this.props.navigation.state.params
-    log = this.props.checkIn.filter(i => i._id = checkInId)
+    const { checkInId} = this.props.navigation.state.params
+    log = this.props.checkIn.filter(i => (i._id == checkInId))
     this.setState({
       checkIn: log[0]
     })
@@ -48,13 +48,12 @@ class Add_StudentListScreen extends React.Component {
     this.setState({ search: data })
   }
 
-  render() {
+  render() {    
     const propStudentAllOfClass = this.props.class.filter(i => i._id == this.state.checkIn.classId)[0].studentList
     const propsStudentIdPresent = []
     this.state.checkIn.studentList.map(i => propsStudentIdPresent.push(i._id))
     const propsStudentIdAbsenec = propStudentAllOfClass.filter(i => propsStudentIdPresent.indexOf(i) < 0)
     studentListAbsenec = this.props.student.filter(i => propsStudentIdAbsenec.indexOf(i._id) >= 0)
-
     const filteredStudentAbsence = studentListAbsenec.filter(createFilter(this.state.search, KEYS_TO_FILTERS))
     return (
       <View style={styles.container}>
