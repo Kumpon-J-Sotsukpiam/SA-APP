@@ -27,9 +27,3 @@ export const predict_face = async (data, props) => {
         console.error(err)
     }
 }
-export const predicted_face = (props, socket, _id) => {
-    const { dispatch } = props
-    // socket.on('predicted', data => {
-    //     dispatch(pushCheckIn(_id,data))
-    // })
-}

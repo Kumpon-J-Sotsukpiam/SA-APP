@@ -17,10 +17,9 @@ import * as ImageManipulator from 'expo-image-manipulator'
 import * as FileSystem from 'expo-file-system'
 import { ip_server, port, server_url } from '../src/config'
 import { pull_model } from '../src/actions/model'
-import { predict_face, predicted_face } from '../src/actions/predict'
+import { predict_face } from '../src/actions/predict'
 import { faceDetectorSetting } from '../src/config'
 
-const io = require('socket.io-client')
 class CameraScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -29,7 +28,6 @@ class CameraScreen extends React.Component {
       checkId: null,
       hasCameraPermission: null,
       type: Camera.Constants.Type.back,
-      isConnect: false,
       addToggle: false,
       search: '',
       checkIn: []
@@ -52,15 +50,7 @@ class CameraScreen extends React.Component {
     // check permissions camera
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     if (status === 'granted') {
-      this.setState({ hasCameraPermission: status === 'granted' });
-      this.socket = io(server_url, {
-        transportOptions: ['websocket'],
-        autoConnect: true
-      })
-      this.socket.on('connect', () => {
-        this.setState({ isConnect: true })
-        predicted_face(this.props, this.socket, this.state.checkId)
-      })
+      this.setState({ hasCameraPermission: status === 'granted' })
     } else {
       alert('camera permission not granted')
     }
@@ -91,7 +81,6 @@ class CameraScreen extends React.Component {
     }
     predict_face(data,this.props)
   }
-
   render() {
     return (
       <View style={styles.container}>
