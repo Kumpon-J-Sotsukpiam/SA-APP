@@ -71,8 +71,8 @@ export const add_student = async (data, props) => {
         res.json().then(async (data) => {
             await dispatch(addStudent(data))
         })
-    } catch (error) {
-
+    } catch (err) {
+        console.error(err)
     }
 }
 export const set_student = async (id, data, props) => {

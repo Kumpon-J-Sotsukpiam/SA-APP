@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Modal,
-} from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, Modal, } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Button } from 'react-native-elements';
 import { add_student } from '../src/actions/student'
@@ -23,7 +14,6 @@ class Add_StudentScreen extends React.Component {
     super(props);
     this.state = {
       image: null,
-      video: null,
       studentID: '',
       studentName: '',
       faculty: null,
@@ -49,8 +39,6 @@ class Add_StudentScreen extends React.Component {
     if (!result.cancelled) {
       this.setState({ image: result });
       this.setState({ toggleVideo: false });
-      console.log(result)
-      
     }
   };
   _recordVideo = async () => {
@@ -58,10 +46,8 @@ class Add_StudentScreen extends React.Component {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos
     });
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
-      this.setState({ toggleVideo: false });
-      
-      console.log(result)
+      this.setState({ image: result })
+      this.setState({ toggleVideo: false })
     }
   };
   setStudentID(data) {
@@ -139,7 +125,7 @@ class Add_StudentScreen extends React.Component {
               </View>
               {image &&
                 (<Video
-                  source={{uri: image}}
+                  source={{ uri: image.uri }}
                   rate={1.0}
                   isMuted={true}
                   resizeMode="cover"
@@ -263,11 +249,9 @@ class Add_StudentScreen extends React.Component {
     );
   }
 }
-
 Add_StudentScreen.navigationOptions = {
   header: null
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
