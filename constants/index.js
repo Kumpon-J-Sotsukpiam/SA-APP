@@ -1,9 +1,12 @@
-import argonTheme from './Theme';
 import Images from './Images';
-import school from './school'
+import School from './School';
+import Theme from './Theme';
+import Color from './Color';
+
 
 export { 
-  argonTheme,
   Images,
-  school
+  School,
+  Theme,
+  Color,
 };
