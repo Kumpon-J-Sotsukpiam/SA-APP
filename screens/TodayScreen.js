@@ -43,7 +43,8 @@ class TodayScreen extends React.Component {
     var endTime = new Date(end).getTime()
     var startTime = new Date(start).getTime()
     if (startTime < currentTime && endTime > currentTime) {
-      return (<CountDown
+      return
+      (<CountDown
         id={id}
         until={exp(startTime, endTime)}
         size={15}
@@ -63,16 +64,63 @@ class TodayScreen extends React.Component {
     semesterId = []
     semesterNow.map(v => semesterId.push(v._id))
     console.log(toDay)
-    console.log(toTime)
+    console.log(formatTime(toTime))
     CourseNow = course.filter(i => semesterId.indexOf(i.semesterId) >= 0)
     CourseId = []
     CourseNow.map(v => CourseId.push(v._id))
 
     tempClass = Class.filter(i => i.day == toDay && CourseId.indexOf(i.courseId) >= 0)
     tempClass.map((v, i) => {
+      console.log('====================================');
+      console.log(formatTime(v.startTime));
+      console.log(formatTime(v.endTime));
+      console.log('====================================');
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
+    console.log('====================================');
+    console.log(tempClass);
+    console.log('====================================');
+    nowClass = []
+    nextClass = []
+    tempClass.map(i => {
+      console.log('====================================');
+      console.log(new Date(i.startTime).getTime() < toTime);
+      console.log(new Date(i.endTime).getTime() > toTime);
+      console.log(new Date(i.startTime).getTime() > toTime);
+      console.log('====================================');
+      if((new Date(i.startTime).getTime() < toTime && new Date(i.endTime).getTime() > toTime) > 0){
+        console.log('====================================');
+        console.log(formatTime(i.startTime));
+        console.log(formatTime(i.endTime));
+        console.log('====================================');
+        nowClass.push(i)
+      }else if((new Date(i.startTime).getTime() > toTime) > 0){
+        console.log('====================================');
+        console.log(formatTime(i.startTime));
+        console.log(formatTime(i.endTime));
+        console.log('====================================');
+        nextClass.push(i)
+      }
+    })
+    console.log('====================================');
+    console.log(nowClass);
+    console.log(nextClass);
+    console.log('====================================');
+    // console.log('====================================');
+    // testClass = tempClass.filter(i => new Date(i.startTime).getTime() < toTime && new Date(i.endTime).getTime() > toTime)
+    // // testClass = tempClass.filter(i => {
+    // //   console.log(formatTime(new Date(i.startTime).getTime()));
+    // //   console.log(formatTime(new Date(i.endTime).getTime()));
+    // //   console.log(formatTime(toTime));
+    // //   console.log(new Date(i.startTime).getTime() < toTime);
+    // //   console.log(new Date(i.endTime).getTime() < toTime);
+    // //   console.log(new Date(i.startTime).getTime() < toTime) && (new Date(i.endTime).getTime() > toTime)
+    // //   return (new Date(i.startTime).getTime() < toTime) && (new Date(i.endTime).getTime() > toTime)
+    // // })
+    // console.log(testClass);
+
+    // console.log('====================================');
     return (
       <View style={styles.container}>
 
@@ -83,37 +131,39 @@ class TodayScreen extends React.Component {
         />
         <ScrollView>
           {
-            tempClass.filter(i => new Date(i.startTime).getTime() < toTime && new Date(i.endTime).getTime() > toTime).length > 0 ? <Heading name={'NOW'} /> : null
+            nowClass.length > 0 ? <Heading name={'NOW'} /> : null
           }
           <FlatList
-            data={tempClass.filter(i => new Date(i.startTime).getTime() < toTime && new Date(i.endTime).getTime() > toTime)}
-            extraData={tempClass}
+            data={nowClass}
+            extraData={nowClass}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View>
-                <ContainerClass
-                  diff={this.handleTime(item._id, item.startTime, item.endTime)}
-                  course={item.name}
-                  group={item.group}
-                  location={item.location}
-                  day={getDayOfWeek(item.day)}
-                  timeStart={formatTime(item.startTime)}
-                  timeEnd={formatTime(item.endTime)}
-                  students={item.studentList.length}
-                  navigateCamera={() => this.props.navigation.navigate('Camera')}
-                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
-                />
+            renderItem={({ item }) => {
+              return (
+                <View>
+                  <ContainerClass
+                    diff={this.handleTime(item._id, item.startTime, item.endTime)}
+                    course={item.name}
+                    group={item.group}
+                    location={item.location}
+                    day={getDayOfWeek(item.day)}
+                    timeStart={formatTime(item.startTime)}
+                    timeEnd={formatTime(item.endTime)}
+                    students={item.studentList.length}
+                    navigateCamera={() => this.props.navigation.navigate('Camera')}
+                    navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
+                  />
 
-              </View>
-            )}
+                </View>
+              )
+            }}
           />
           {
-            tempClass.filter(i => new Date(i.startTime).getTime() > toTime).length > 0 ? <Heading name={'NEXT'} /> : null
+            nextClass.length > 0 ? <Heading name={'NEXT'} /> : null
           }
 
           <FlatList
-            data={tempClass.filter(i => new Date(i.startTime).getTime() > toTime)}
-            extraData={tempClass}
+            data={nextClass}
+            extraData={nextClass}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View>
