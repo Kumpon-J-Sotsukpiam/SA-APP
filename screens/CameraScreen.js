@@ -12,15 +12,13 @@ import { Header } from 'react-native-elements';
 import { connect } from "react-redux"
 import { Camera } from 'expo-camera'
 import * as Permissions from 'expo-permissions'
-import * as FaceDetector from 'expo-face-detector'
-import * as ImageManipulator from 'expo-image-manipulator'
-import * as FileSystem from 'expo-file-system'
-import { ip_server, port, server_url } from '../src/config'
 import { createFilter } from 'react-native-search-filter';
 import { pull_model } from '../src/actions/model'
 import { predict_face } from '../src/actions/predict'
 import { faceDetectorSetting } from '../src/config'
 import { push_student_in_checkIn } from '../src/actions/checkIn'
+import { getDayOfWeek, formatTime,formatDate } from '../src/actions/date'
+
 
 const KEYS_TO_FILTERS = ['stuId'];
 
@@ -131,8 +129,41 @@ class CameraScreen extends React.Component {
         </View>
         <ScrollView>
           <View>
-            {this.props.checkIn.filter(i => i._id == this.state.checkId)[0].studentList.map(dataStudent => {
+            {this.state.checkIn.studentList.map(dataStudent => {
               const { name, stuId } = this.props.student.filter(i => i._id == dataStudent._id)[0]
+              console.log('====================================');
+              console.log('====================================');
+              console.log(dataStudent);
+              console.log('====================================');
+              console.log('====================================');
+
+              /*
+              ====================================
+              Object {
+                "_id": "5dd150047a41c00db67ead51",
+                "dataSet": true,
+                "faculty": "School of Science and Technology",
+                "major": "Computer Science",
+                "name": "Kumpon Sotsukpiam",
+                "stuId": "5905100006",
+                "upload": false,
+              }
+              Object {
+                "_id": "5dd9022aad554223ff0009a1",
+                "classId": "5dd3fe2f98dc292155d9c3e2",
+                "createdAt": "2019-11-23T09:55:54.980Z",
+                "studentList": Array [
+                  Object {
+                    "_id": "5dd150047a41c00db67ead51",
+                    "time": "2019-11-23T09:56:02.969Z",
+                    "type": "manual",
+                  },
+                ],
+                "updatedAt": "2019-11-23T09:55:54.980Z",
+              }
+              ====================================
+
+              */
               return (
                 <View key={dataStudent._id} style={{ flexDirection: 'row', padding: 2, backgroundColor: '#fff', height: 55, borderRadius: 10, margin: 5 }}>
                   <View style={{ flex: 1.5, justifyContent: 'center' }}>
@@ -142,7 +173,7 @@ class CameraScreen extends React.Component {
                     <Text style={{ fontSize: 16 }}>{name}</Text>
                   </View>
                   <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ fontSize: 16 }}>33.33</Text>
+                    <Text style={{ fontSize: 16 }}>{formatTime(dataStudent.time)}</Text>
                   </View>
                 </View>
               )
