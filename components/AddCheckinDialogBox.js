@@ -55,10 +55,10 @@ const AddCheckinDialogBox = props => {
             />
           </View>
           <View>
-            <Text>ID : {data.stuId || ''}</Text>
-            <Text>Name : {data.name || ''}</Text>
-            <Text>Faculty : {data.faculty || ''}</Text>
-            <Text>Major : {data.major || ''}</Text>
+            <Text style={styles.textStyle}>ID : {data.stuId || ''}</Text>
+            <Text style={styles.textStyle}>Name : {data.name || ''}</Text>
+            <Text style={styles.textStyle}>Faculty : {data.faculty || ''}</Text>
+            <Text style={styles.textStyle}>Major : {data.major || ''}</Text>
           </View>
         </DialogContent>
       </Dialog>
@@ -68,6 +68,9 @@ const AddCheckinDialogBox = props => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
+  },
+  textStyle: {
+    fontSize:16
   },
 });
 export default AddCheckinDialogBox;
