@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Header, Button } from 'react-native-elements';
 import { add_student } from '../src/actions/student'
 import { connect } from 'react-redux'
-import { getFaculty, getMajor } from '../src/actions/studentID'
+import { getSchool } from '../src/actions/studentID'
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
@@ -55,10 +55,11 @@ class Add_StudentScreen extends React.Component {
     }
   };
   setStudentID(data) {
+    const {faculty,major} = getSchool(data)
     this.setState({
       studentID: data,
-      faculty: getFaculty(data),
-      major: getMajor(data)
+      faculty: faculty,
+      major: major
     });
   }
   setStudentName(data) {
@@ -66,7 +67,6 @@ class Add_StudentScreen extends React.Component {
   }
   setStudentFaculty(data) {
     this.setState({ faculty: data });
-    console.log(this.state.faculty)
   }
   setStudentMajor(data) {
     this.setState({ major: data });
