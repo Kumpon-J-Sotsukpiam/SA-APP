@@ -39,7 +39,7 @@ class TodayScreen extends React.Component {
     clearInterval(this.interval);
   }
   handleTime(id, start, end) {
-    var currentTime = new Date().getTime()
+    var currentTime = this.state.thisDate.getTime()
     var endTime = new Date(end).getTime()
     var startTime = new Date(start).getTime()
     if (startTime < currentTime && endTime > currentTime) {
@@ -53,73 +53,31 @@ class TodayScreen extends React.Component {
       return (<View><Text style={{ fontWeight: 'bold', fontSize: 15 }}>{diff(startTime, endTime)}</Text></View>)
     }
   }
-
   render() {
-
     const { semester, course, Class } = this.props
     toDay = (this.state.thisDate.getDay())
     toTime = this.state.thisDate.getTime()
     semesterNow = semester.filter(i => this.state.thisDate >= new Date(i.startDate) && this.state.thisDate <= new Date(i.endDate))
     semesterId = []
     semesterNow.map(v => semesterId.push(v._id))
-    console.log(toDay)
-    console.log(formatTime(toTime))
     CourseNow = course.filter(i => semesterId.indexOf(i.semesterId) >= 0)
     CourseId = []
     CourseNow.map(v => CourseId.push(v._id))
 
     tempClass = Class.filter(i => i.day == toDay && CourseId.indexOf(i.courseId) >= 0)
     tempClass.map((v, i) => {
-      console.log('====================================');
-      console.log(formatTime(v.startTime));
-      console.log(formatTime(v.endTime));
-      console.log('====================================');
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
-    console.log('====================================');
-    console.log(tempClass);
-    console.log('====================================');
     nowClass = []
     nextClass = []
     tempClass.map(i => {
-      console.log('====================================');
-      console.log(new Date(i.startTime).getTime() < toTime);
-      console.log(new Date(i.endTime).getTime() > toTime);
-      console.log(new Date(i.startTime).getTime() > toTime);
-      console.log('====================================');
       if ((new Date(i.startTime).getTime() < toTime && new Date(i.endTime).getTime() > toTime) > 0) {
-        console.log('====================================');
-        console.log(formatTime(i.startTime));
-        console.log(formatTime(i.endTime));
-        console.log('====================================');
         nowClass.push(i)
       } else if ((new Date(i.startTime).getTime() > toTime) > 0) {
-        console.log('====================================');
-        console.log(formatTime(i.startTime));
-        console.log(formatTime(i.endTime));
-        console.log('====================================');
         nextClass.push(i)
       }
     })
-    console.log('====================================');
-    console.log(nowClass);
-    console.log(nextClass);
-    console.log('====================================');
-    // console.log('====================================');
-    // testClass = tempClass.filter(i => new Date(i.startTime).getTime() < toTime && new Date(i.endTime).getTime() > toTime)
-    // // testClass = tempClass.filter(i => {
-    // //   console.log(formatTime(new Date(i.startTime).getTime()));
-    // //   console.log(formatTime(new Date(i.endTime).getTime()));
-    // //   console.log(formatTime(toTime));
-    // //   console.log(new Date(i.startTime).getTime() < toTime);
-    // //   console.log(new Date(i.endTime).getTime() < toTime);
-    // //   console.log(new Date(i.startTime).getTime() < toTime) && (new Date(i.endTime).getTime() > toTime)
-    // //   return (new Date(i.startTime).getTime() < toTime) && (new Date(i.endTime).getTime() > toTime)
-    // // })
-    // console.log(testClass);
-
-    // console.log('====================================');
     return (
       <View style={styles.container}>
 
