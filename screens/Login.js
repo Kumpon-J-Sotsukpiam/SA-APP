@@ -148,7 +148,6 @@ class Login extends React.Component {
       if (type === 'success') {
         // Get the user's name using Facebook's Graph API
         const response = await fetch(`https://graph.facebook.com/me?access_token=${token}`);
-        Alert.alert('login with facebook is successed')
         response.json().then(data => {
           //api.post('http://172.20.10.7:3001/auth/facebook',data)
           loginFacebook(data,this.props)
