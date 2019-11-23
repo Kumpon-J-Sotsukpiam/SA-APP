@@ -57,12 +57,13 @@ class TodayScreen extends React.Component {
   render() {
 
     const { semester, course, Class } = this.props
-    toDay = (this.state.thisDate.getDay() == 0 ? 6 : this.state.thisDate.getDay() - 1)
+    toDay = (this.state.thisDate.getDay())
     toTime = this.state.thisDate.getTime()
     semesterNow = semester.filter(i => this.state.thisDate >= new Date(i.startDate) && this.state.thisDate <= new Date(i.endDate))
     semesterId = []
     semesterNow.map(v => semesterId.push(v._id))
-
+    console.log(toDay)
+    console.log(toTime)
     CourseNow = course.filter(i => semesterId.indexOf(i.semesterId) >= 0)
     CourseId = []
     CourseNow.map(v => CourseId.push(v._id))

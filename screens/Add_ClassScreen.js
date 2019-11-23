@@ -136,7 +136,7 @@ class Add_ClassScreen extends React.Component {
   };
 
   render() {
-    const buttons = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const buttons = [ 'Sun','Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
