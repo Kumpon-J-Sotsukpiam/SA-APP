@@ -37,8 +37,10 @@ class Add_StudentScreen extends React.Component {
     let result = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Videos });
     //Object {"cancelled","duration","height","rotation","type","uri","width"}
     if (!result.cancelled) {
-      this.setState({ image: result });
-      this.setState({ toggleVideo: false });
+      this.setState({
+        image: result,
+        toggleVideo: false
+      })
     }
   };
   _recordVideo = async () => {
@@ -46,8 +48,10 @@ class Add_StudentScreen extends React.Component {
       mediaTypes: ImagePicker.MediaTypeOptions.Videos
     });
     if (!result.cancelled) {
-      this.setState({ image: result })
-      this.setState({ toggleVideo: false })
+      this.setState({
+        image: result,
+        toggleVideo: false
+      })
     }
   };
   setStudentID(data) {
@@ -87,6 +91,9 @@ class Add_StudentScreen extends React.Component {
   }
   render() {
     let { image } = this.state;
+    console.log('====================================');
+    console.log(this.state.image);
+    console.log('====================================');
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
