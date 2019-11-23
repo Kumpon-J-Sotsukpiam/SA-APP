@@ -43,8 +43,7 @@ class TodayScreen extends React.Component {
     var endTime = new Date(end).getTime()
     var startTime = new Date(start).getTime()
     if (startTime < currentTime && endTime > currentTime) {
-      return
-      (<CountDown
+      return (<CountDown
         id={id}
         until={exp(startTime, endTime)}
         size={15}
@@ -89,13 +88,13 @@ class TodayScreen extends React.Component {
       console.log(new Date(i.endTime).getTime() > toTime);
       console.log(new Date(i.startTime).getTime() > toTime);
       console.log('====================================');
-      if((new Date(i.startTime).getTime() < toTime && new Date(i.endTime).getTime() > toTime) > 0){
+      if ((new Date(i.startTime).getTime() < toTime && new Date(i.endTime).getTime() > toTime) > 0) {
         console.log('====================================');
         console.log(formatTime(i.startTime));
         console.log(formatTime(i.endTime));
         console.log('====================================');
         nowClass.push(i)
-      }else if((new Date(i.startTime).getTime() > toTime) > 0){
+      } else if ((new Date(i.startTime).getTime() > toTime) > 0) {
         console.log('====================================');
         console.log(formatTime(i.startTime));
         console.log(formatTime(i.endTime));
