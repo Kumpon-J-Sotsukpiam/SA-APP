@@ -82,21 +82,21 @@ class TodayScreen extends React.Component {
 
     nowClass = []
     nextClass = []
+
     tempClass.map(i => {
 
-      var diff = (toTime - new Date(i.endTime).getTime())
+      var diff = new Date(i.endTime).getTime() - currentTime
       var startTime = new Date(i.startTime).getTime()
       var endTime = new Date(i.endTime).getTime()
+      var currentTime = new Date().getTime()
 
-      if (( startTime < toTime && endTime > toTime) > 0) {
+      if (startTime < currentTime & currentTime < endTime) {
         nowClass.push(i)
-      } else if ((startTime > toTime) > 0) {
+      } else if (startTime > currentTime) {
         nextClass.push(i)
-      } else if (startTime < toTime){
-        if (diff > 0){
-          nowClass.push(i)
-        }
-      }
+      } 
+       
+      
     })
 
     return (

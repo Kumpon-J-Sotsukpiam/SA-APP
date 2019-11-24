@@ -163,15 +163,17 @@ return hours+':'+mins+':'+sec;
 };
 
 export const exp = (x,y) => {
-  var startTime = new Date(x);
-  var endTime = new Date(y);
+  var startTime = new Date(x).getTime();
+  var endTime = new Date(y).getTime();
   var currentTime = new Date().getTime()
   var diff =''
 
   if(startTime < currentTime && endTime > currentTime){
-    diff = endTime.getTime() - currentTime  
+    diff = endTime - currentTime
+  } else if (startTime > currentTime){
+    diff = endTime - currentTime
   } else {
-    diff = endTime.getTime() - startTime.getTime() 
+    diff = endTime - startTime
   }
 
   var hours = Math.floor(diff / (1000 * 60 * 60))
