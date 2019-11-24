@@ -42,7 +42,16 @@ class TodayScreen extends React.Component {
     var currentTime = this.state.thisDate.getTime()
     var endTime = new Date(end).getTime()
     var startTime = new Date(start).getTime()
+
+    
     if (startTime < currentTime && endTime > currentTime) {
+      return (<CountDown
+        id={id}
+        until={exp(startTime, endTime)}
+        size={15}
+        showSeparator={true}
+      />)
+    } else if(startTime < currentTime){
       return (<CountDown
         id={id}
         until={exp(startTime, endTime)}
@@ -69,15 +78,27 @@ class TodayScreen extends React.Component {
       v.name = CourseNow.filter(ii => ii._id == v.courseId)[0].name
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
+
+
     nowClass = []
     nextClass = []
     tempClass.map(i => {
-      if ((new Date(i.startTime).getTime() < toTime && new Date(i.endTime).getTime() > toTime) > 0) {
+
+      var diff = (toTime - new Date(i.endTime).getTime())
+      var startTime = new Date(i.startTime).getTime()
+      var endTime = new Date(i.endTime).getTime()
+
+      if (( startTime < toTime && endTime > toTime) > 0) {
         nowClass.push(i)
-      } else if ((new Date(i.startTime).getTime() > toTime) > 0) {
+      } else if ((startTime > toTime) > 0) {
         nextClass.push(i)
+      } else if (startTime < toTime){
+        if (diff > 0){
+          nowClass.push(i)
+        }
       }
     })
+
     return (
       <View style={styles.container}>
 
