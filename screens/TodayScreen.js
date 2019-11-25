@@ -98,7 +98,10 @@ class TodayScreen extends React.Component {
        
       
     })
-
+    console.log('====================================');
+    console.log(nowClass);
+    console.log(nextClass);
+    console.log('====================================');
     return (
       <View style={styles.container}>
 

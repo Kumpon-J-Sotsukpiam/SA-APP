@@ -91,9 +91,6 @@ class Add_StudentScreen extends React.Component {
   }
   render() {
     let { image } = this.state;
-    console.log('====================================');
-    console.log(this.state.image);
-    console.log('====================================');
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
@@ -132,7 +129,7 @@ class Add_StudentScreen extends React.Component {
               </View>
               {image &&
                 (<Video
-                  source={{ uri: image.uri }}
+                  source={image}
                   rate={1.0}
                   isMuted={true}
                   resizeMode="cover"

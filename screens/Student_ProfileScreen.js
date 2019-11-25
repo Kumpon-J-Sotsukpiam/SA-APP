@@ -13,13 +13,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux'
 import { Header } from 'react-native-elements';
 import { Video } from 'expo-av';
-
+import { get_video_student } from '../src/actions/student'
 class Student_ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       student: [],
-      video: null,
+      image: null,
     }
     this.handleBack = this.handleBack.bind(this)
   }
@@ -29,11 +29,15 @@ class Student_ProfileScreen extends React.Component {
   async componentWillMount() {
     const { stuId } = this.props.navigation.state.params
     log = this.props.student.filter(i => i._id == stuId)[0]
+    const res = await get_video_student(log._id)
+
     this.setState({
-      student: log
+      student: log,
+      image:res
     })
   }
   render() {
+    const { image } = this.state
     historyList = []
     this.props.class.map(v => {
       if (v.studentList.indexOf(this.state.student._id) >= 0) {
@@ -92,9 +96,9 @@ class Student_ProfileScreen extends React.Component {
               alignItems: 'center',
               marginBottom: 15
             }}>
-              {this.state.video &&
+              {image &&
                 (<Video
-                  source={{ uri: video }}
+                  source={image}
                   rate={1.0}
                   isMuted={true}
                   resizeMode="cover"

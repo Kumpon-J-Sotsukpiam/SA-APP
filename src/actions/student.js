@@ -40,6 +40,18 @@ export const get_student = (props) => {
         dispatch(get_errors(err.response.data))
     })
 }
+export const get_video_student = async (id) => {
+    const jwtToken = await SecureStore.getItemAsync("tokenAuth")
+    return new Promise((resolve, reject) => {
+        resolve({
+            uri: `${server_url}/stu/video/${id}`,
+            headers: {
+                Authorization: `Bearer ${jwtToken}`,
+            }
+        })
+    })
+}
+
 export const add_student = async (data, props) => {
     let formData = new FormData();
     const { dispatch } = props

@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Button } from 'react-native-elements';
-import { set_student } from '../src/actions/student'
+import { set_student, get_video_student } from '../src/actions/student'
 import { connect } from 'react-redux'
-import { getFaculty, getMajor } from '../src/actions/studentID'
+import { getSchool } from '../src/actions/studentID'
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as FileSystem from 'expo-file-system'
@@ -30,6 +30,7 @@ class Edit_StudentScreen extends React.Component {
       name: '',
       faculty: '',
       major: '',
+      upload: false,
       toggleVideo: false
     }
     this.handleOnSave = this.handleOnSave.bind(this);
@@ -37,12 +38,14 @@ class Edit_StudentScreen extends React.Component {
   async componentWillMount() {
     const { stuId } = this.props.navigation.state.params
     log = this.props.student.filter(i => i._id == stuId)[0]
+    const res = await get_video_student(log._id)
     this.setState({
       id: log._id,
       stuId: log.stuId,
       name: log.name,
       faculty: log.faculty,
-      major: log.major
+      major: log.major,
+      image: res
     })
   }
   componentDidMount() {
@@ -72,14 +75,17 @@ class Edit_StudentScreen extends React.Component {
     });
     if (!result.cancelled) {
       this.setState({ toggleVideo: false });
-      this.setState({ video: result.uri });
+      this.setState({
+        image: result
+      });
     }
   };
   setStudentID(data) {
+    const { faculty, major } = getSchool(data)
     this.setState({
       stuId: data,
-      faculty: getFaculty(data),
-      major: getMajor(data)
+      faculty: faculty,
+      major: major
     });
   }
   setStudentName(data) {
@@ -105,13 +111,12 @@ class Edit_StudentScreen extends React.Component {
     set_student(this.state.id, dataReq, this.props).then(() => {
       this.props.navigation.navigate('Students')
     })
-    //this.props.navigation.navigate('Students')
   }
   toggleVideo() {
     this.setState({ toggleVideo: !this.state.toggleVideo })
   }
   render() {
-    let { video } = this.state;
+    let { image } = this.state;
     return (
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
@@ -148,9 +153,9 @@ class Edit_StudentScreen extends React.Component {
                   onPress={() => this.toggleVideo()}
                 />
               </View>
-              {video &&
+              {image &&
                 (<Video
-                  source={{ uri: video }}
+                  source={image}
                   rate={1.0}
                   isMuted={true}
                   resizeMode="cover"
