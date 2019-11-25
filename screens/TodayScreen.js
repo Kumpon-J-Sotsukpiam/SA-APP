@@ -17,15 +17,20 @@ import Heading from '../components/Heading';
 import { getDayOfWeek, formatTime, formatDate } from '../src/actions/date'
 import { diff, exp } from '../src/actions/durations'
 import CountDown from 'react-native-countdown-component';
-
+import { push_model } from '../src/actions/model'
+import DialogBoxAlert from '../components/DialogBoxAlert';
 
 class TodayScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      thisDate: new Date()
+      thisDate: new Date(),
+      alertToggle: false,
+      loading: false,
+      message: "",
     }
     this.refreshScreen = this.refreshScreen.bind(this)
+    this.handlePushModel = this.handlePushModel.bind(this)
   }
   refreshScreen() {
     this.setState({ thisDate: new Date() })
@@ -38,13 +43,34 @@ class TodayScreen extends React.Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+  handlePushModel(_id) {
+    this.setState({
+      alertToggle: true,
+      loading: true,
+      message: "Check and Loading Model"
+    })
+    push_model(_id, this.props, res => {
+      this.setState({
+        message: res.message,
+        loading: false
+      })
+      setTimeout(() => {
+        this.setState({
+          alertToggle: false
+        })
+        if (res.ok) {
+          this.props.navigation.navigate('Camera', { classId: _id, checkIn_id: res.checkIn._id })
+        }
+      }, 1000)
+    })
+  }
   handleTime(id, start, end) {
 
-    var startTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(start).getHours(),new Date(start).getMinutes(),new Date(start).getSeconds())
-    var endTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(end).getHours(),new Date(end).getMinutes(),new Date(end).getSeconds())
-    var currentTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date().getHours(),new Date().getMinutes(),new Date().getSeconds())
+    var startTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date(start).getHours(), new Date(start).getMinutes(), new Date(start).getSeconds())
+    var endTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date(end).getHours(), new Date(end).getMinutes(), new Date(end).getSeconds())
+    var currentTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes(), new Date().getSeconds())
 
-    
+
     if (startTime < currentTime && endTime > currentTime) {
       return (<CountDown
         id={id}
@@ -52,7 +78,7 @@ class TodayScreen extends React.Component {
         size={15}
         showSeparator={true}
       />)
-    } else if(startTime < currentTime){
+    } else if (startTime < currentTime) {
       return (<CountDown
         id={id}
         until={exp(startTime, endTime)}
@@ -84,17 +110,17 @@ class TodayScreen extends React.Component {
     nextClass = []
 
     tempClass.map(i => {
-      var start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(i.startTime).getHours(),new Date(i.startTime).getMinutes(),new Date(i.startTime).getSeconds())
-      var end = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(i.endTime).getHours(),new Date(i.endTime).getMinutes(),new Date(i.endTime).getSeconds())
-      var cur = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date().getHours(),new Date().getMinutes(),new Date().getSeconds())
-      
+      var start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date(i.startTime).getHours(), new Date(i.startTime).getMinutes(), new Date(i.startTime).getSeconds())
+      var end = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date(i.endTime).getHours(), new Date(i.endTime).getMinutes(), new Date(i.endTime).getSeconds())
+      var cur = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes(), new Date().getSeconds())
+
       if (start < cur & cur < end) {
         nowClass.push(i)
       } else if (start > cur) {
         nextClass.push(i)
       }
     })
-    
+
     return (
       <View style={styles.container}>
 
@@ -123,7 +149,7 @@ class TodayScreen extends React.Component {
                     timeStart={formatTime(item.startTime)}
                     timeEnd={formatTime(item.endTime)}
                     students={item.studentList.length}
-                    navigateCamera={() => this.props.navigation.navigate('Camera')}
+                    navigateCamera={() => this.handlePushModel(item._id)}
                     navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
                   />
 
@@ -135,7 +161,7 @@ class TodayScreen extends React.Component {
             nextClass.length > 0 ? <Heading name={'NEXT'} /> : null
           }
 
-          <FlatList   
+          <FlatList
             data={nextClass}
             extraData={nextClass}
             keyExtractor={(item, index) => index.toString()}
@@ -150,7 +176,7 @@ class TodayScreen extends React.Component {
                   timeStart={formatTime(item.startTime)}
                   timeEnd={formatTime(item.endTime)}
                   students={item.studentList.length}
-                  navigateCamera={() => this.props.navigation.navigate('Camera')}
+                  navigateCamera={() => this.handlePushModel(item._id)}
                   navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
                 />
 
@@ -158,7 +184,17 @@ class TodayScreen extends React.Component {
             )}
           />
         </ScrollView>
-
+        <DialogBoxAlert
+          visible={this.state.alertToggle}
+          message={this.state.message}
+          onTouchOutside={() => {
+            if (!this.state.loading) {
+              this.setState({
+                alertToggle: false
+              })
+            }
+          }}
+        />
       </View>
     );
   }

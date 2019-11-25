@@ -14,6 +14,8 @@ import { del_class } from '../src/actions/class'
 import { connect } from 'react-redux'
 import Swipeout from 'react-native-swipeout';
 import { getDayOfWeek, formatTime } from "../src/actions/date"
+import { push_model } from '../src/actions/model'
+import DialogBoxAlert from '../components/DialogBoxAlert';
 
 class ClassListScreen extends React.Component {
   constructor(props) {
@@ -21,8 +23,12 @@ class ClassListScreen extends React.Component {
     this.state = {
       course: [],
       semesterId: '',
-      autoClose: true
+      autoClose: true,
+      alertToggle: false,
+      loading: false,
+      message: "",
     };
+    this.handlePushModel = this.handlePushModel.bind(this)
   }
   componentWillMount() {
     const { courseId, semesterId } = this.props.navigation.state.params
@@ -30,6 +36,27 @@ class ClassListScreen extends React.Component {
     this.setState({
       course: log[0],
       semesterId: semesterId,
+    })
+  }
+  handlePushModel(_id) {
+    this.setState({
+      alertToggle: true,
+      loading: true,
+      message: "Check and Loading Model"
+    })
+    push_model(_id, this.props, res => {
+      this.setState({
+        message: res.message,
+        loading: false
+      })
+      setTimeout(() => {
+        this.setState({
+          alertToggle: false
+        })
+        if (res.ok) {
+          this.props.navigation.navigate('Camera', { classId: _id, checkIn_id: res.checkIn._id })
+        }
+      }, 1000)
     })
   }
 
@@ -47,7 +74,7 @@ class ClassListScreen extends React.Component {
               />
             </TouchableOpacity>
           )}
-         
+
           rightComponent={(
             <TouchableOpacity onPress={() => this.props.navigation.navigate('AddClass', { courseId: this.state.course._id, semesterId: this.state.semesterId })}>
               <Ionicons name='ios-add'
@@ -56,48 +83,58 @@ class ClassListScreen extends React.Component {
               />
             </TouchableOpacity>
           )}
-          
+
           centerComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse', { courseId: this.state.course._id,semesterId:this.state.semesterId })}>  
-                  <Text style={styles.textCourse}>{this.state.course.name}</Text>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditCourse', { courseId: this.state.course._id, semesterId: this.state.semesterId })}>
+              <Text style={styles.textCourse}>{this.state.course.name}</Text>
             </TouchableOpacity>
           )}
           centerContainerStyle={{ flex: 9 }}
           containerStyle={styles.containerStyle}
         />
-        
-          <ScrollView>
-            <FlatList
-              data={this.props.class.filter(i => i.courseId == this.state.course._id)}
-              extraData={this.props.class}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.containerClassList}>
-                  <Swipeout left={[{
-                    text: 'Delete',
-                    backgroundColor: 'red',
-                    autoClose: this.state.autoClose,
-                    onPress: () => { del_class(item._id, this.props) }
-                  }]}
-                    style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
-                    autoClose={this.state.autoClose}
-                    backgroundColor='transparent'>
-                    <ContainerClassList
-                      group={item.group}
-                      location={item.location}
-                      day={getDayOfWeek(item.day)}
-                      startTime={formatTime(item.startTime)}
-                      endTime={formatTime(item.endTime)}
-                      students={item.studentList.length}
-                      navigateCamera={() => this.props.navigation.navigate('Camera', { classID: 'ClassId' })}
-                      navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterId })}
-                    />
-                  </Swipeout>
-                </View>
-              )}
-            />
-          </ScrollView>
-       
+
+        <ScrollView>
+          <FlatList
+            data={this.props.class.filter(i => i.courseId == this.state.course._id)}
+            extraData={this.props.class}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <View style={styles.containerClassList}>
+                <Swipeout left={[{
+                  text: 'Delete',
+                  backgroundColor: 'red',
+                  autoClose: this.state.autoClose,
+                  onPress: () => { del_class(item._id, this.props) }
+                }]}
+                  style={{ borderBottomLeftRadius: 10, borderTopLeftRadius: 10 }}
+                  autoClose={this.state.autoClose}
+                  backgroundColor='transparent'>
+                  <ContainerClassList
+                    group={item.group}
+                    location={item.location}
+                    day={getDayOfWeek(item.day)}
+                    startTime={formatTime(item.startTime)}
+                    endTime={formatTime(item.endTime)}
+                    students={item.studentList.length}
+                    navigateCamera={() => this.handlePushModel(item._id)}
+                    navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: this.state.course._id, semesterId: this.state.semesterId })}
+                  />
+                </Swipeout>
+              </View>
+            )}
+          />
+        </ScrollView>
+        <DialogBoxAlert
+          visible={this.state.alertToggle}
+          message={this.state.message}
+          onTouchOutside={() => {
+            if (!this.state.loading) {
+              this.setState({
+                alertToggle: false
+              })
+            }
+          }}
+        />
 
       </View>
     );
