@@ -91,7 +91,7 @@ class Register extends React.Component {
               style={styles.button} 
               onPress={e => this.handleRegister(e)}
               title='CREATE ACCOUNT'
-              titleStyle={{fontSize:20,fontWeight:'bold',color:'#fff'}}
+              titleStyle={{fontSize:20,fontWeight:'bold',color:'blue'}}
             />
             <Button
               type='clear'
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   button: {
     height: 50,
     marginVertical:5,
-    marginHorizontal:15
+    marginHorizontal:15,
   },
   textInput: {
     height:50,

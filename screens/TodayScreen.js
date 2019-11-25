@@ -14,7 +14,7 @@ import { currentDay, currentMonth, currentDate, currentYear } from '../src/actio
 import ContainerClass from '../components/ContainerClass';
 import HeaderToday from '../components/HeaderToday';
 import Heading from '../components/Heading';
-import { getDayOfWeek, formatTime } from '../src/actions/date'
+import { getDayOfWeek, formatTime, formatDate } from '../src/actions/date'
 import { diff, exp } from '../src/actions/durations'
 import CountDown from 'react-native-countdown-component';
 
@@ -79,26 +79,21 @@ class TodayScreen extends React.Component {
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
 
-
     nowClass = []
     nextClass = []
 
     tempClass.map(i => {
-
-      var diff = new Date(i.endTime).getTime() - currentTime
-      var startTime = new Date(i.startTime).getTime()
-      var endTime = new Date(i.endTime).getTime()
-      var currentTime = new Date().getTime()
-
-      if (startTime < currentTime & currentTime < endTime) {
-        nowClass.push(i)
-      } else if (startTime > currentTime) {
-        nextClass.push(i)
-      } 
-       
+      var start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(i.startTime).getHours(),new Date(i.startTime).getMinutes(),new Date(i.startTime).getSeconds())
+      var end = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(i.endTime).getHours(),new Date(i.endTime).getMinutes(),new Date(i.endTime).getSeconds())
+      var cur = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date().getHours(),new Date().getMinutes(),new Date().getSeconds())
       
+      if (start < cur & cur < end) {
+        nowClass.push(i)
+      } else if (start > cur) {
+        nextClass.push(i)
+      }
     })
-
+    
     return (
       <View style={styles.container}>
 

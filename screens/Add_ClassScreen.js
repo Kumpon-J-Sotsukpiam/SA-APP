@@ -37,7 +37,8 @@ class Add_ClassScreen extends React.Component {
       timepickerEnds: false,
       setTimeStarts: getTimeStarts,
       setTimeEnds: getTimeEnds,
-      test: ''
+      startTime:'',
+      endTime:'',
     };
     this.updateIndex = this.updateIndex.bind(this)
     this.setTimeStarts = this.setTimeStarts.bind(this);

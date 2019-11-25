@@ -16,7 +16,7 @@ const DialogBox = props => {
       borderColor:'#f3f3f3',
       borderWidth:1
                    }}
-    overlayBackgroundColor={'pink'}
+    overlayBackgroundColor={'#fff'}
     overlayOpacity={0.8}
     visible={props.visible}
     onTouchOutside={props.onTouchOutside} 
@@ -43,7 +43,7 @@ const DialogBox = props => {
       borderColor:'#f3f3f3',
       borderWidth:3}}>
       <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
-      <Text style={{fontSize:20}}>{/*Confirm to Reset ?*/}{props.message}</Text>
+      <Text style={{fontSize:20}}>Confirm to Reset ?</Text>
       </View>
     </DialogContent>
 </Dialog>
