@@ -171,10 +171,10 @@ export const exp = (x,y) => {
 
   if(startTime < currentTime && endTime > currentTime){
     diff = endTime - currentTime
-  } else if (startTime > currentTime){
+  } else if (startTime < currentTime){
     diff = endTime - currentTime
   } else {
-    diff = endTime - startTime
+    console.log('error')
   }
 
   var hours = Math.floor(diff / (1000 * 60 * 60))

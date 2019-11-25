@@ -39,9 +39,10 @@ class TodayScreen extends React.Component {
     clearInterval(this.interval);
   }
   handleTime(id, start, end) {
-    var currentTime = this.state.thisDate.getTime()
-    var endTime = new Date(end).getTime()
-    var startTime = new Date(start).getTime()
+
+    var startTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(start).getHours(),new Date(start).getMinutes(),new Date(start).getSeconds())
+    var endTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(end).getHours(),new Date(end).getMinutes(),new Date(end).getSeconds())
+    var currentTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date().getHours(),new Date().getMinutes(),new Date().getSeconds())
 
     
     if (startTime < currentTime && endTime > currentTime) {
@@ -134,7 +135,7 @@ class TodayScreen extends React.Component {
             nextClass.length > 0 ? <Heading name={'NEXT'} /> : null
           }
 
-          <FlatList
+          <FlatList   
             data={nextClass}
             extraData={nextClass}
             keyExtractor={(item, index) => index.toString()}

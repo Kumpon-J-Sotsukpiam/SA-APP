@@ -4,20 +4,26 @@ import {
   StyleSheet, 
   View, 
   Text, 
-  Platform, 
   TouchableOpacity,
-  TextInput,
   } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Button } from 'react-native-elements';
+import * as DocumentPicker from 'expo-document-picker';
 
 export default class ImportStudentScreen extends React.Component {
   constructor(props) {
     super(props);
 
       this.state = {
+        document:null
     };
   }
+
+  _pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+    this.setState({document : result})
+    console.log(result)
+}
 
 
  render() {
@@ -39,7 +45,14 @@ export default class ImportStudentScreen extends React.Component {
               )}
               containerStyle={styles.containerStyle}
             />
-          </View>  
+          </View>
+
+          <Button
+          title="Select Document"
+          onPress={this._pickDocument}
+        />
+
+
     </View>
   );
 }
