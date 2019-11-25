@@ -39,10 +39,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     flexDirection: 'row',
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 5,
-    padding:3,
+    marginHorizontal:10,
+    marginVertical:3,
+    paddingVertical:5,
+    paddingHorizontal:3,
     borderRadius:10,
     justifyContent:'center'
   },
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textSemester:{
-    fontSize:20,
+    fontSize:18,
     fontWeight: 'bold',
     color:'#000',
   },

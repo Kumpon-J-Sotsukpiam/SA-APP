@@ -13,9 +13,10 @@ const DialogBoxAlert = props => {
 <Dialog
         containerStyle={{
           borderColor: '#f3f3f3',
-          borderWidth: 1
+          borderWidth: 1,
+          borderRadius:10
         }}
-        overlayBackgroundColor={'pink'}
+        overlayBackgroundColor={'#fff'}
         overlayOpacity={0.8}
         visible={props.visible}
         onTouchOutside={props.onTouchOutside}
@@ -25,7 +26,7 @@ const DialogBoxAlert = props => {
           height: 100,
           width: "100%",
           borderColor: '#f3f3f3',
-          borderWidth: 3
+          borderWidth: 3,
         }}>
 
           <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>

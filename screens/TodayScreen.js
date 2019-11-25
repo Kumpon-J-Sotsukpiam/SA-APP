@@ -14,7 +14,7 @@ import { currentDay, currentMonth, currentDate, currentYear } from '../src/actio
 import ContainerClass from '../components/ContainerClass';
 import HeaderToday from '../components/HeaderToday';
 import Heading from '../components/Heading';
-import { getDayOfWeek, formatTime } from '../src/actions/date'
+import { getDayOfWeek, formatTime, formatDate } from '../src/actions/date'
 import { diff, exp } from '../src/actions/durations'
 import CountDown from 'react-native-countdown-component';
 
@@ -39,9 +39,10 @@ class TodayScreen extends React.Component {
     clearInterval(this.interval);
   }
   handleTime(id, start, end) {
-    var currentTime = this.state.thisDate.getTime()
-    var endTime = new Date(end).getTime()
-    var startTime = new Date(start).getTime()
+
+    var startTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(start).getHours(),new Date(start).getMinutes(),new Date(start).getSeconds())
+    var endTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(end).getHours(),new Date(end).getMinutes(),new Date(end).getSeconds())
+    var currentTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date().getHours(),new Date().getMinutes(),new Date().getSeconds())
 
     
     if (startTime < currentTime && endTime > currentTime) {
@@ -79,29 +80,21 @@ class TodayScreen extends React.Component {
       v.semesterId = CourseNow.filter(ii => ii._id == v.courseId)[0].semesterId
     })
 
-
     nowClass = []
     nextClass = []
 
     tempClass.map(i => {
-
-      var diff = new Date(i.endTime).getTime() - currentTime
-      var startTime = new Date(i.startTime).getTime()
-      var endTime = new Date(i.endTime).getTime()
-      var currentTime = new Date().getTime()
-
-      if (startTime < currentTime & currentTime < endTime) {
-        nowClass.push(i)
-      } else if (startTime > currentTime) {
-        nextClass.push(i)
-      } 
-       
+      var start = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(i.startTime).getHours(),new Date(i.startTime).getMinutes(),new Date(i.startTime).getSeconds())
+      var end = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(i.endTime).getHours(),new Date(i.endTime).getMinutes(),new Date(i.endTime).getSeconds())
+      var cur = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date().getHours(),new Date().getMinutes(),new Date().getSeconds())
       
+      if (start < cur & cur < end) {
+        nowClass.push(i)
+      } else if (start > cur) {
+        nextClass.push(i)
+      }
     })
-    console.log('====================================');
-    console.log(nowClass);
-    console.log(nextClass);
-    console.log('====================================');
+    
     return (
       <View style={styles.container}>
 
@@ -142,7 +135,7 @@ class TodayScreen extends React.Component {
             nextClass.length > 0 ? <Heading name={'NEXT'} /> : null
           }
 
-          <FlatList
+          <FlatList   
             data={nextClass}
             extraData={nextClass}
             keyExtractor={(item, index) => index.toString()}

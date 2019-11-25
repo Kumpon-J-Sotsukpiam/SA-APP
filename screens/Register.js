@@ -91,18 +91,18 @@ class Register extends React.Component {
               style={styles.button} 
               onPress={e => this.handleRegister(e)}
               title='CREATE ACCOUNT'
-              titleStyle={{fontSize:20,fontWeight:'bold',color:'#fff'}}
+              titleStyle={{fontSize:20,fontWeight:'bold',color:'blue'}}
             />
             <Button
               type='clear'
-              style={styles.button} 
+              style={{...styles.button,marginVertical:1}} 
               onPress={() => {
                 clearErrors(this.props).then(() => {
                   this.props.navigation.navigate('SignIn')
                 })
               }}
               title='SIGN IN'
-              titleStyle={{fontSize:20,fontWeight:'bold',color:'#fff'}}
+              titleStyle={{fontSize:18,fontWeight:'bold',color:'#fff'}}
             />
             
             </ImageBackground>
@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    marginVertical:5,
-    marginHorizontal:15
+    marginVertical:10,
+    marginHorizontal:15,
   },
   textInput: {
     height:50,
