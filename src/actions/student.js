@@ -51,7 +51,36 @@ export const get_video_student = async (id) => {
         })
     })
 }
-
+export const uploadToRead = async (data) => {
+    let formData = new FormData();
+    const { name, size, type, uri } = data
+    formData.append("file", {
+        name: name,
+        uri: uri,
+        type: 'application/vnd.ms-excel'
+    })
+    const jwtToken = await SecureStore.getItemAsync("tokenAuth")
+    console.log('====================================');
+    console.log(formData);
+    console.log('====================================');
+    try {
+        let res = await fetch(`${server_url}/stu/readExcel`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${jwtToken}`,
+            },
+            body: formData
+        });
+        res.json().then(async (data) => {
+            console.log('====================================');
+            console.log(data);
+            console.log('====================================');
+        })
+    } catch (err) {
+        console.error(err)
+    }
+}
 export const add_student = async (data, props) => {
     let formData = new FormData();
     const { dispatch } = props
@@ -60,9 +89,6 @@ export const add_student = async (data, props) => {
     formData.append("name", name)
     formData.append("major", major)
     formData.append("faculty", faculty)
-    console.log('====================================');
-    console.log(image);
-    console.log('====================================');
     if (image != null) {
         formData.append("file", {
             name: "testsendvideo.mp4",

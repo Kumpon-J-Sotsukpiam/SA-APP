@@ -9,7 +9,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { Header, Button } from 'react-native-elements';
 import * as DocumentPicker from 'expo-document-picker';
-
+import { uploadToRead } from '../src/actions/student'
 export default class ImportStudentScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +22,8 @@ export default class ImportStudentScreen extends React.Component {
   _pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
     this.setState({document : result})
-    console.log(result)
+    console.log(result);
+    uploadToRead(result)
 }
 
 
