@@ -5,9 +5,10 @@ import {
   View, 
   Text, 
   TouchableOpacity,
+  FlatList
   } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Header, Button } from 'react-native-elements';
+import { Header, Button, CheckBox, } from 'react-native-elements';
 import * as DocumentPicker from 'expo-document-picker';
 
 export default class ImportStudentScreen extends React.Component {
@@ -15,18 +16,22 @@ export default class ImportStudentScreen extends React.Component {
     super(props);
 
       this.state = {
-        document:null
+
+        testData : [{studentId:'5905100000',name:'moochamp'}]
+        
     };
   }
 
   _pickDocument = async () => {
     let result = await DocumentPicker.getDocumentAsync({});
-    this.setState({document : result})
-    console.log(result)
+    alert(result.uri);
+    console.log(result);
 }
 
 
  render() {
+
+  const {testData} = this.state
 
   return (
     <View style = {styles.container}>
@@ -50,7 +55,59 @@ export default class ImportStudentScreen extends React.Component {
           <Button
           title="Select Document"
           onPress={this._pickDocument}
-        />
+          buttonStyle={styles.button}
+          icon={
+            <Ionicons name='ios-download'
+            size={30}
+            color={'#fff'}
+            style={{marginRight:10}}
+              />
+              }
+          />
+
+
+                <View style={{ flexDirection: 'row', padding: 2, backgroundColor: '#ffff', height: 60, marginVertical:3, marginHorizontal:5}}>
+                    <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
+                      <Text style={{ fontSize: 16,fontWeight:'bold'}}>Student ID</Text>
+                    </View>
+                     <View style={{ flex: 2.5, justifyContent: 'center', alignItem: 'center' }}>
+                      <Text style={{ fontSize: 16, fontWeight:'bold'}}>Name</Text>
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                       <CheckBox
+                          iconRight
+                          title='Add' textStyle={{ fontSize: 16,color:'#000',marginLeft:-2}}
+                          containerStyle={{backgroundColor:'#fff',borderColor:'#ffff',justifyContent:'center'}}
+                        />
+                  </View>
+                </View>
+
+        <FlatList
+            data={testData}
+            extraData={testData}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => {
+              return (
+                <View>
+
+                  <View style={{ flexDirection: 'row', padding: 2, backgroundColor: '#f3f3f3', height: 60, marginVertical:3, marginHorizontal:5,borderRadius:10}}>
+                    <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
+                      <Text style={{ fontSize: 16}}>{item.studentId}</Text>
+                    </View>
+                     <View style={{ flex: 2.5, justifyContent: 'center', alignItem: 'center' }}>
+                      <Text style={{ fontSize: 16}}>{item.name}</Text>
+                    </View>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                       <CheckBox
+                          containerStyle={{backgroundColor:'#f3f3f3',borderColor:'#f3f3f3',justifyContent:'center'}}
+                      />
+                  </View>
+                </View>
+
+                </View>
+              )
+            }}
+          />
 
 
     </View>
@@ -81,5 +138,8 @@ const styles = StyleSheet.create({
   textSave: {
     fontSize: 18,
     color: '#fff'
+  },
+  button: {
+    height:60,
   },
 });
