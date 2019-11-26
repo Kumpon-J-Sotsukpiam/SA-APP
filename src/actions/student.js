@@ -60,9 +60,6 @@ export const uploadToRead = async (data) => {
         type: 'application/vnd.ms-excel'
     })
     const jwtToken = await SecureStore.getItemAsync("tokenAuth")
-    console.log('====================================');
-    console.log(formData);
-    console.log('====================================');
     try {
         let res = await fetch(`${server_url}/stu/readExcel`, {
             method: 'post',
@@ -72,13 +69,26 @@ export const uploadToRead = async (data) => {
             },
             body: formData
         });
-        res.json().then(async (data) => {
-            console.log('====================================');
-            console.log(data);
-            console.log('====================================');
+        return new Promise((resolve, reject) => {
+            res.json().then(value => {
+                resolve(value.data)
+            }).catch(err => {
+                reject(err)
+            })
         })
     } catch (err) {
         console.error(err)
+    }
+}
+export const add_many_student = async (data, props) => {
+    const { dispatch } = props
+    try {
+        let res = await api.post(`stu/many`, data)
+        await res.data.map(async (i) => {
+            await dispatch(addStudent(i))
+        })
+    } catch (err) {
+        console.error(err);
     }
 }
 export const add_student = async (data, props) => {

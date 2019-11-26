@@ -227,17 +227,24 @@ export const getSchool = x => {
     charAtfaculty = x.charAt(3) + x.charAt(4)
     charAtmajor = x.charAt(9) + x.charAt(10)
   }
-  if (charAtfaculty != undefined && charAtmajor != undefined) {
-    faculy = schoolList[charAtfaculty]['name']
-    major = schoolList[charAtfaculty]['major'][charAtmajor]
-    return{
-      faculty:faculy,
-      major:major
+  console.log('===============X=====================');
+  console.log(x);
+  console.log(charAtfaculty);
+  console.log(charAtmajor);
+  console.log('====================================');
+  unknown = 'unknows'
+  faculty = unknown
+  major = unknown
+  if ((charAtfaculty != undefined && charAtfaculty != null) && (charAtmajor != undefined && charAtmajor != null)) {
+    try {
+      faculty = schoolList[charAtfaculty]['name']
+      major = schoolList[charAtfaculty]['major'][charAtmajor]
+    } catch (err) {
+      console.log(err);
     }
-  }else{
-    return{
-      faculty:'',
-      major:''
-    }
+  }
+  return {
+    faculty: faculty || unknown,
+    major: major || unknown
   }
 }
