@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  FlatList
 } from 'react-native';
 import { connect } from 'react-redux'
 import { Ionicons } from '@expo/vector-icons';

@@ -7,12 +7,13 @@ import {
   FlatList
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Foundation } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
 import { getDayOfWeek, formatTime,formatDate } from "../src/actions/date"
 import ContainerCheckinList from '../components/ContainerCheckinList';
 import { connect } from 'react-redux'
-var getDate = new Date();
+
 class ClassDetailsScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -47,25 +48,25 @@ class ClassDetailsScreen extends React.Component {
           )}
 
           centerComponent={(
-            <View>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditClass', { classId:this.state.class._id,courseId:this.state.courseId,semesterId:this.state.semesterId })}>
               <Text style={styles.textGroup}>{group}</Text>
               <Text style={styles.textLocation}>{location}</Text>
               <Text style={styles.textDetails}>Total Student {studentList.length}</Text>
               <Text style={styles.textDetails}>{getDayOfWeek(day)} , {formatTime(startTime)} - {formatTime(endTime)}</Text>
               <Text style={styles.textDetails}>Durations : {calDurationsTime(startTime, endTime)}</Text>
-            </View>
-          )}
-          centerContainerStyle={{ flex: 8, alignItems: 'flex-start' }}
-
-          rightComponent={(
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('EditClass', { classId:this.state.class._id,courseId:this.state.courseId,semesterId:this.state.semesterId })}>
-              <Ionicons name='ios-settings'
-                size={30}
-                color={'#fff'}
-              />
             </TouchableOpacity>
           )}
+          centerContainerStyle={{ flex: 8, alignItems: 'flex-start'}}
 
+          rightComponent={(
+            
+            
+                <Foundation.Button name='page-export' backgroundColor='#fd4176' color='#fff' size={40} 
+                onPress={() => alert('Excel')}
+                />
+              
+          )}
+          rightContainerStyle={{flex:2}}
           containerStyle={styles.containerStyle}
         />
 
