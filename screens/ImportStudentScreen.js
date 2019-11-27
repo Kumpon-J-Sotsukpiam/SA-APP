@@ -119,13 +119,13 @@ class ImportStudentScreen extends React.Component {
             return (
               <View key={item[idSelected]}>
                 <View style={{ flexDirection: 'row', padding: 2, backgroundColor: '#f3f3f3', height: 60, marginVertical: 3, marginHorizontal: 5, borderRadius: 10 }}>
-                  <View style={{ flex: 2, justifyContent: 'center', alignItems: 'center' }}>
+                  <View style={{ flex: 1.5, justifyContent: 'center', alignItems: 'center' }}>
                     <Text style={{ fontSize: 16 }}>{item[idSelected]}</Text>
                   </View>
                   <View style={{ flex: 2.5, justifyContent: 'center', alignItem: 'center' }}>
                     <Text style={{ fontSize: 16 }}>{item[nameSelected]}</Text>
                   </View>
-                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
                     <CheckBox
                       checked={this.state.dataStudent.indexOf(item[idSelected]) != -1}
                       onPress={e => this.onCheckChanged(item[idSelected], this.state.dataStudent.indexOf(item[idSelected]) != -1)}
