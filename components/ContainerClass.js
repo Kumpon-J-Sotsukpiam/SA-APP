@@ -45,14 +45,12 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     borderRadius:10,
-    marginTop:3,
-    marginLeft:5,
-    marginRight:5,
-    marginBottom:2
+    marginHorizontal:5,
+    marginVertical:5,
+    padding:10
   },
   containerClass: {
     flexDirection: 'row',
-    margin:10
   },
   section1: {
     flex: 2.5,

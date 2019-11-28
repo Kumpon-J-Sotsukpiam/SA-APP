@@ -12,32 +12,20 @@ const HeaderCheckinLog = props => {
   return (
 
     <View>
-
       <Header
           leftComponent={(
-
-           
-              <TouchableOpacity onPress={props.backBtn}>
-                
-                  <Ionicons
-                    name='ios-arrow-back'
-                    size={35}
-                    color='#fff'
-                  />
-                
-              </TouchableOpacity>
-    
+                          <TouchableOpacity onPress={props.backBtn}>
+                            <Ionicons
+                              name='ios-arrow-back'
+                              size={35}
+                              color='#fff'
+                            />
+                          </TouchableOpacity>
                         )}
-
           centerComponent={({ text: props.name, style:{color: '#fff', fontSize:24, fontWeight:'bold'} })}
- 
           containerStyle={styles.containerStyle}
         />
-
-     
-
     </View>
-
    );
 
   }

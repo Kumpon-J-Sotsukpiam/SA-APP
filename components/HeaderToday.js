@@ -23,7 +23,6 @@ const HeaderToday = props => {
 
           containerStyle={styles.containerStyle}
         />
-
     </View>
 
    );

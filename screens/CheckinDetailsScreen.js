@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Header, SearchBar } from 'react-native-elements';
 import { createFilter } from 'react-native-search-filter';
 import { connect } from 'react-redux';
-import { getDayOfWeek, formatTime, formatDate } from "../src/actions/date"
+import { formatTime, formatDate } from '../src/actions/datetimeformat'
 
 const KEYS_TO_FILTERS = ['stuId', 'name', 'type'];
 class CheckinDetailsScreen extends React.Component {

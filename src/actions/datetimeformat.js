@@ -13,7 +13,6 @@ export const getDayOfWeek = (x) => {
   weekday[5] = 'Friday';
   weekday[6] = 'Saturday';
   
-
   var day = weekday[x];
 
   return day;

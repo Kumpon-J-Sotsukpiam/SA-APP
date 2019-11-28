@@ -1,13 +1,26 @@
-import Class from './ContainerClass';
-import ClassList from './ContainerClassList';
-import Course from './ContainerCourse';
-import Menu from './ContainerMenu';
-import Semester from './ContainerSemester';
+//Container
+import ContainerClass from './ContainerClass';
+import ContainerClassList from './ContainerClassList';
+import ContainerCourse from './ContainerCourse';
+import ContainerMenu from './ContainerMenu';
+import ContainerSemester from './ContainerSemester';
+
+//Header
+import HeaderToday from './HeaderToday';
+
+//Heading
+import Heading from './Heading';
+
+//Dialogbox
+import DialogBoxAlert from './DialogBoxAlert';
 
 export {
-  Class,
-  ClassList,
-  Course,
-  Semester,
-  Menu,
+  ContainerClass,
+  ContainerClassList,
+  ContainerCourse,
+  ContainerSemester,
+  ContainerMenu,
+  HeaderToday,
+  DialogBoxAlert,
+  Heading
 };

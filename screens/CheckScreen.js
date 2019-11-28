@@ -9,8 +9,8 @@ import {
 import ContainerClass from '../components/ContainerClass';
 import { connect } from 'react-redux'
 import { Header, SearchBar } from 'react-native-elements';
-import { getDayOfWeek, formatTime } from "../src/actions/date"
-import { exp, diff } from '../src/actions/durations'
+import { getDayOfWeek, formatTime } from "../src/actions/datetimeformat"
+import { calDiffCount, defaultDiff } from '../src/actions/durations'
 import { push_model } from '../src/actions/model'
 import { createFilter } from 'react-native-search-filter';
 import CountDown from 'react-native-countdown-component';
@@ -62,12 +62,12 @@ class CheckScreen extends React.Component {
 
       return (<CountDown
         id={id}
-        until={exp(startTime, endTime)}
+        until={calDiffCount(startTime, endTime)}
         size={15}
         showSeparator={true}
       />)
     } else {
-      return (<View><Text style={{ fontWeight: 'bold', fontSize: 15 }}>{diff(startTime, endTime)}</Text></View>)
+      return (<View><Text style={{ fontWeight: 'bold', fontSize: 15 }}>{defaultDiff(startTime, endTime)}</Text></View>)
     }
   }
   render() {

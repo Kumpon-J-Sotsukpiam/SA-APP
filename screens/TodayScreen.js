@@ -1,4 +1,6 @@
 import React from 'react';
+
+// Component
 import {
   ScrollView,
   StyleSheet,
@@ -7,18 +9,23 @@ import {
   Text
 } from 'react-native';
 
+import { 
+  HeaderToday, 
+  Heading,
+  ContainerClass,
+  DialogBoxAlert,
+} from '../components/';
+
+import CountDown from 'react-native-countdown-component';
+
+//Redux
 import { connect } from 'react-redux'
+
 //action
 import { currentDay, currentMonth, currentDate, currentYear } from '../src/actions/currentdate'
-// Component
-import ContainerClass from '../components/ContainerClass';
-import HeaderToday from '../components/HeaderToday';
-import Heading from '../components/Heading';
-import { getDayOfWeek, formatTime, formatDate } from '../src/actions/date'
-import { diff, exp } from '../src/actions/durations'
-import CountDown from 'react-native-countdown-component';
 import { push_model } from '../src/actions/model'
-import DialogBoxAlert from '../components/DialogBoxAlert';
+import { getDayOfWeek, formatTime } from '../src/actions/datetimeformat'
+import { calDiffCount, defaultDiff } from '../src/actions/durations'
 
 class TodayScreen extends React.Component {
   constructor(props) {
@@ -27,27 +34,31 @@ class TodayScreen extends React.Component {
       thisDate: new Date(),
       alertToggle: false,
       loading: false,
-      message: "",
+      message: '',
     }
     this.refreshScreen = this.refreshScreen.bind(this)
     this.handlePushModel = this.handlePushModel.bind(this)
   }
+
   refreshScreen() {
     this.setState({ thisDate: new Date() })
   }
+
   componentDidMount() {
     this.interval = setInterval(() => {
       this.refreshScreen()
     }, 1000);
   }
+
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+
   handlePushModel(_id) {
     this.setState({
       alertToggle: true,
       loading: true,
-      message: "Check and Loading Model"
+      message: 'Check and Loading Model'
     })
     push_model(_id, this.props, res => {
       this.setState({
@@ -64,35 +75,46 @@ class TodayScreen extends React.Component {
       }, 1000)
     })
   }
-  handleTime(id, start, end) {
+
+  handleCountDown(id, start, end) {
 
     var startTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date(start).getHours(), new Date(start).getMinutes(), new Date(start).getSeconds())
     var endTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date(end).getHours(), new Date(end).getMinutes(), new Date(end).getSeconds())
     var currentTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes(), new Date().getSeconds())
 
-
     if (startTime < currentTime && endTime > currentTime) {
-      return (<CountDown
-        id={id}
-        until={exp(startTime, endTime)}
-        size={15}
-        showSeparator={true}
-      />)
+        return (
+                  <CountDown
+                    id={id}
+                    until={calDiffCount(startTime, endTime)}
+                    size={15}
+                    showSeparator={true}
+                  />
+               )
     } else if (startTime < currentTime) {
-      return (<CountDown
-        id={id}
-        until={exp(startTime, endTime)}
-        size={15}
-        showSeparator={true}
-      />)
+        return (
+                  <CountDown
+                    id={id}
+                    until={calDiffCount(startTime, endTime)}
+                    size={15}
+                    showSeparator={true}
+                  />
+               )
     } else {
-      return (<View><Text style={{ fontWeight: 'bold', fontSize: 15 }}>{diff(startTime, endTime)}</Text></View>)
+        return (
+                  <View>
+                    <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{defaultDiff(startTime, endTime)}</Text>
+                  </View>
+               )
     }
   }
+
   render() {
     const { semester, course, Class } = this.props
-    toDay = (this.state.thisDate.getDay())
+
+    toDay = this.state.thisDate.getDay()
     toTime = this.state.thisDate.getTime()
+
     semesterNow = semester.filter(i => this.state.thisDate >= new Date(i.startDate) && this.state.thisDate <= new Date(i.endDate))
     semesterId = []
     semesterNow.map(v => semesterId.push(v._id))
@@ -115,9 +137,9 @@ class TodayScreen extends React.Component {
       var cur = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), new Date().getHours(), new Date().getMinutes(), new Date().getSeconds())
 
       if (start < cur & cur < end) {
-        nowClass.push(i)
+            nowClass.push(i)
       } else if (start > cur) {
-        nextClass.push(i)
+            nextClass.push(i)
       }
     })
 
@@ -129,34 +151,34 @@ class TodayScreen extends React.Component {
           day={currentDay()}
           date={currentDate() + ' ' + currentMonth() + ' ' + currentYear()}
         />
+
         <ScrollView>
           {
             nowClass.length > 0 ? <Heading name={'NOW'} /> : null
           }
+
           <FlatList
             data={nowClass}
             extraData={nowClass}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => {
               return (
-                <View>
-                  <ContainerClass
-                    diff={this.handleTime(item._id, item.startTime, item.endTime)}
-                    course={item.name}
-                    group={item.group}
-                    location={item.location}
-                    day={getDayOfWeek(item.day)}
-                    timeStart={formatTime(item.startTime)}
-                    timeEnd={formatTime(item.endTime)}
-                    students={item.studentList.length}
-                    navigateCamera={() => this.handlePushModel(item._id)}
-                    navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
-                  />
-
-                </View>
-              )
-            }}
+                        <ContainerClass
+                          diff={this.handleCountDown(item._id, item.startTime, item.endTime)}
+                          course={item.name}
+                          group={item.group}
+                          location={item.location}
+                          day={getDayOfWeek(item.day)}
+                          timeStart={formatTime(item.startTime)}
+                          timeEnd={formatTime(item.endTime)}
+                          students={item.studentList.length}
+                          navigateCamera={() => this.handlePushModel(item._id)}
+                          navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
+                        />
+                     )
+                                      }}
           />
+
           {
             nextClass.length > 0 ? <Heading name={'NEXT'} /> : null
           }
@@ -165,36 +187,36 @@ class TodayScreen extends React.Component {
             data={nextClass}
             extraData={nextClass}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View>
-                <ContainerClass
-                  diff={this.handleTime(item._id, item.startTime, item.endTime)}
-                  course={item.name}
-                  group={item.group}
-                  location={item.location}
-                  day={getDayOfWeek(item.day)}
-                  timeStart={formatTime(item.startTime)}
-                  timeEnd={formatTime(item.endTime)}
-                  students={item.studentList.length}
-                  navigateCamera={() => this.handlePushModel(item._id)}
-                  navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
-                />
-
-              </View>
-            )}
+            renderItem={({ item }) => {
+              return (
+                        <ContainerClass
+                          diff={this.handleCountDown(item._id, item.startTime, item.endTime)}
+                          course={item.name}
+                          group={item.group}
+                          location={item.location}
+                          day={getDayOfWeek(item.day)}
+                          timeStart={formatTime(item.startTime)}
+                          timeEnd={formatTime(item.endTime)}
+                          students={item.studentList.length}
+                          navigateCamera={() => this.handlePushModel(item._id)}
+                          navigateClassDetails={() => this.props.navigation.navigate('ClassDetails', { classId: item._id, courseId: item.courseId, semesterId: item.semesterId })}
+                        />
+                    )
+                                      }}
           />
+
         </ScrollView>
+
         <DialogBoxAlert
           visible={this.state.alertToggle}
           message={this.state.message}
           onTouchOutside={() => {
             if (!this.state.loading) {
-              this.setState({
-                alertToggle: false
-              })
+              this.setState({ alertToggle: false })
             }
-          }}
+                                }}
         />
+
       </View>
     );
   }

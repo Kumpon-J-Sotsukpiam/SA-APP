@@ -8,7 +8,6 @@ import {
   Dimensions
 } from "react-native";
 
-import { Ionicons } from '@expo/vector-icons';
 import { clearErrors } from '../src/actions/errors'
 import { connect } from "react-redux"
 import { registerUser } from "../src/actions/authentication"

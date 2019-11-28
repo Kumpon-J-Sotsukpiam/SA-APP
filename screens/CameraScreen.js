@@ -17,7 +17,7 @@ import { pull_model } from '../src/actions/model'
 import { predict_face } from '../src/actions/predict'
 import { faceDetectorSetting } from '../src/config'
 import { push_student_in_checkIn } from '../src/actions/checkIn'
-import { getDayOfWeek, formatTime, formatDate } from '../src/actions/date'
+import { formatTime } from '../src/actions/datetimeformat'
 
 
 const KEYS_TO_FILTERS = ['stuId'];

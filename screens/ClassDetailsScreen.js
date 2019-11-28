@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Header } from 'react-native-elements';
 import { calDurationsTime } from "../src/actions/durations"
-import { getDayOfWeek, formatTime,formatDate } from "../src/actions/date"
+import { getDayOfWeek, formatTime,formatDate } from "../src/actions/datetimeformat"
 import ContainerCheckinList from '../components/ContainerCheckinList';
 import { connect } from 'react-redux'
 

@@ -9,8 +9,7 @@ export default function TabBarIcon(props) {
       name={props.name}
       size={35}
       style={{ marginBottom: -7 }}
-      color={props.focused ? '#fd4176' : Colors.tabIconDefault}
-      
+      color={props.focused ? '#fd4176' : Colors.tabIconDefault}    
     />
   );
 }

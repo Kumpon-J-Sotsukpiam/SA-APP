@@ -17,7 +17,7 @@ import { TapGestureHandler, State, TouchableOpacity} from 'react-native-gesture-
 import { clearErrors } from '../src/actions/errors'
 //import library for facebook login
 import * as Facebook from 'expo-facebook';
-import { Alert } from 'react-native';
+
 
 const { width, height } = Dimensions.get('window');
 

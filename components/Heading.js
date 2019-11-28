@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
     borderBottomWidth: 2,
-    borderColor: '#e8e8e8'
+    borderColor: '#e8e8e8',
+    justifyContent:'center',
+    height:40,
   },
   textName: {
     fontWeight: 'bold',
-    marginLeft: 10,
-    marginTop: 10,
-    marginBottom: 5,
+    paddingLeft:10,
     fontSize: 20
   },
 });

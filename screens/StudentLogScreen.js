@@ -9,7 +9,7 @@ import HeaderCheckinLog from '../components/HeaderCheckinLog';
 import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux'
 import StudentDetailsCheckinLog from '../components/StudentDetailsCheckinLog';
-import { getDayOfWeek, formatTime,formatDate } from '../src/actions/date'
+import { formatTime,formatDate } from '../src/actions/datetimeformat'
 
 class StudentLogScreen extends React.Component {
   constructor(props) {

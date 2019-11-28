@@ -1,5 +1,3 @@
-import { formatTime } from '../actions/date'
-
 export const calDurationsDate = (x,y) => {
     var DateStart = new Date(x);
     var DateEnd = new Date(y);
@@ -146,7 +144,7 @@ export const calDurationsDate = (x,y) => {
 
 };
 
-export const diff = (x,y) => {
+export const defaultDiff = (x,y) => {
   var TimeStart = new Date(x);
   var TimeEnd = new Date(y);
 
@@ -162,7 +160,7 @@ return hours+':'+mins+':'+sec;
 
 };
 
-export const exp = (x,y) => {
+export const calDiffCount = (x,y) => {
 
   var startTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(x).getHours(),new Date(x).getMinutes(),new Date(x).getSeconds())
   var endTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(),new Date(y).getHours(),new Date(y).getMinutes(),new Date(y).getSeconds())

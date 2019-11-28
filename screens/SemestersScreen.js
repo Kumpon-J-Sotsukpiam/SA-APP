@@ -3,12 +3,9 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  Text,
-  Platform,
   FlatList
 } from 'react-native';
 import Swipeout from 'react-native-swipeout';
-
 
 import { Header, Icon } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';

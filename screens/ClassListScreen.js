@@ -13,7 +13,7 @@ import ContainerClassList from '../components/ContainerClassList';
 import { del_class } from '../src/actions/class'
 import { connect } from 'react-redux'
 import Swipeout from 'react-native-swipeout';
-import { getDayOfWeek, formatTime } from "../src/actions/date"
+import { getDayOfWeek, formatTime } from "../src/actions/datetimeformat"
 import { push_model } from '../src/actions/model'
 import DialogBoxAlert from '../components/DialogBoxAlert';
 

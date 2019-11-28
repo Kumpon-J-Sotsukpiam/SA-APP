@@ -5,10 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
-  TextInput,
-  FlatList,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux'
 import { push_student_in_checkIn } from '../src/actions/checkIn'
 import { Header, CheckBox, SearchBar } from 'react-native-elements';
